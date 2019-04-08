@@ -1,0 +1,108 @@
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('../fonts/HelveticaNeue.eot');
+  src: url('../fonts/HelveticaNeue.woff2') format('woff2'),
+       url('../fonts/HelveticaNeue.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueRegular';
+  src: url('../fonts/HelveticaNeueRegular.woff') format('woff'),
+       url('../fonts/HelveticaNeueRegular.ttf') format('truetype'),
+       url('../fonts/HelveticaNeueRegular.svg#HelveticaNeueRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neu Bold';
+  src: url('../fonts/Helvetica Neu Bold.eot');
+  src: url('../fonts/Helvetica Neu Bold.woff2') format('woff2'),
+       url('../fonts/Helvetica Neu Bold.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueBold';
+  src: url('../fonts/HelveticaNeueBold.woff') format('woff'),
+       url('../fonts/HelveticaNeueBold.ttf') format('truetype'),
+       url('../fonts/HelveticaNeueBold.svg#HelveticaNeueBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmericanTypewriter-Condensed';
+  src: url('../fonts/AmericanTypewriter-Condensed.woff') format('woff'),
+       url('../fonts/AmericanTypewriter-Condensed.ttf') format('truetype'),
+       url('../fonts/AmericanTypewriter-Condensed.svg#AmericanTypewriter-Condensed') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'american-typewriter-condensed';
+  src: url('../fonts/american-typewriter-condensed.eot');
+  src: url('../fonts/american-typewriter-condensed.woff2') format('woff2'),
+       url('../fonts/american-typewriter-condensed.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Hoefler Text Black';
+  src: url('../fonts/Hoefler Text Black.eot');
+  src: url('../fonts/Hoefler Text Black.woff2') format('woff2'),
+       url('../fonts/Hoefler Text Black.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HoeflerText-Black';
+  src: url('../fonts/HoeflerText-Black.woff') format('woff'),
+       url('../fonts/HoeflerText-Black.ttf') format('truetype'),
+       url('../fonts/HoeflerText-Black.svg#HoeflerText-Black') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'FreightSansBold';
+  src: url('../fonts/FreightSansBold.woff') format('woff'),
+       url('../fonts/FreightSansBold.ttf') format('truetype'),
+       url('../fonts/FreightSansBold.svg#FreightSansBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'freightsans-bold';
+  src: url('../fonts/freightsans-bold.eot');
+  src: url('../fonts/freightsans-bold.woff2') format('woff2'),
+       url('../fonts/freightsans-bold.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Plantin-Bold';
+  src: url('../fonts/Plantin-Bold.woff') format('woff'),
+       url('../fonts/Plantin-Bold.ttf') format('truetype'),
+       url('../fonts/Plantin-Bold.svg#Plantin-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plantin-bold';
+  src: url('../fonts/plantin-bold.eot');
+  src: url('../fonts/plantin-bold.woff2') format('woff2'),
+       url('../fonts/plantin-bold.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+

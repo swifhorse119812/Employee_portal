@@ -1,0 +1,52 @@
+.type-icon img {
+    width: 80px;
+    border-radius: 40px;
+}
+
+.type-icon {
+    margin: 10px;
+    display: inline-block;
+}
+
+.respon-padding {
+    padding: 50px;
+}
+
+@media (max-width: 400px) {
+    .respon-div img {
+        width: 80px !important;
+        display: block;
+        float: left;
+    }
+    .respon-div span {
+        display: block;
+        margin-top: 15px;
+    }
+    .respon-div1 span {
+        display: block;
+        margin-top: 30px;
+        float: left;
+    }
+    .respon-div1 p {
+        margin: 0px;
+        padding: 0px;
+        text-align: center !important;
+    }
+    .respon-div1 img {
+        width: 80px !important;
+        display: block;
+        float: right;
+    }
+    .respon-padding {
+        padding: 0px !important;
+    }
+}
+.review div{
+    font-size: 20px;
+    margin-top: 20px;
+    color: #3d9be9;
+}
+.phone-caption{
+    font-weght:bold;
+    color:#4286f4;
+}
