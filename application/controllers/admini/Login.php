@@ -34,8 +34,6 @@ class Login extends CI_Controller {
 		
 		if(!$row) $row = array();
 		if(count($row)>0) {
-			// var_dump($row);
-			// echo $img; exit;
 			$this->session->set_userdata("email",$email);
 			$this->session->set_userdata("roll",$row['roll'] );
 			$this->session->set_userdata("admin_id",$row['id'] );

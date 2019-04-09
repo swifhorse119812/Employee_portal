@@ -289,7 +289,8 @@ Header Section Start
                             <ul>
                                 <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                                 <!-- <li><a href="<?php echo site_url("/account/card_info"); ?>">Card Info</a></li> -->
-                                <li><a href="<?php echo site_url("/account/order"); ?>">Order</a></li>
+                                <li><a href="<?php echo site_url("/account/order"); ?>">Creat Order</a></li>
+                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List</a></li>
                                 <!-- <li><a href="<?php echo site_url("/account/register_product"); ?>">Products</a></li>
                                 <li><a href="<?php echo site_url("/account/transaction_history"); ?>">Transaction History</a></li>
                                 <li><a href="<?php echo site_url("/account/withdraw_money"); ?>">Withdraw Money</a></li>
@@ -310,7 +311,7 @@ Header Section Start
                         </div>
                     </li> -->
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
-                    <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
+                    <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li>
                     
                 </ul>
             </div>

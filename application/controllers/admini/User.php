@@ -23,6 +23,7 @@ class User extends MY_Admin_Controller {
 	public function createuser(){
 		$insertData = array();
 		$insertData = $this->input->post();
+		var_dump($insertData);exit;
 		$insertData['password'] = md5($insertData['password']);
 		$insertData['date']=date("y-m-d ").date("h:i:s") ;
 		

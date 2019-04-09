@@ -56,39 +56,39 @@
                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>account/createorder" method="post" enctype="multipart/form-data">
                         <div id="step-1">
                           <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">Item Name <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itname">Item Name <span class="required">*</span>
                                 </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="firstname" name="firstname" required="required"  class="form-control col-md-7 col-xs-12">
+                                <input type="text" id="itname" name="itname" required="required"  class="form-control col-md-7 col-xs-12">
                             </div>
                           </div>
                           <div class="form-group">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Item Price <span class="required">*</span>
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itprice">Item Price <span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="lastname" name="lastname" required="required"  class="form-control col-md-7 col-xs-12">
+                                <input type="text" id="itprice" name="itprice" required="required"  class="form-control col-md-7 col-xs-12">
                               </div>
                           </div>
                           <div class="item form-group">
-                            <label for="password" class="control-label col-md-3">Item Size</label>
+                            <label for="itsize" class="control-label col-md-3">Item Size</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="password" name="password" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
+                              <input id="itsize" name="itsize" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
                             </div>
                           </div>
                          
 
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Item Color <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itcolor">Item Color <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                          <input id="itcolor" name="itcolor" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Customer <span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itcustom">Customer <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select  id="gender" name="gender" required="required"  class="select2_single form-control col-md-7 col-xs-12">
+                              <select  id="itcustom" name="itcustom" required="required"  class="select2_single form-control col-md-7 col-xs-12">
                                 <option value="2"></option>  
                                 <option value="1">Customer1</option>
                                 <option value="0">Customer2</option>
@@ -98,13 +98,13 @@
                         </div>
                       
                       <div class="item form-group">
-                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee</label>
+                        <label for="itshippingfee" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="password2"  data-validate-linked="password" class="form-control col-md-7 col-xs-12" required="required">
+                          <input id="itshippingfee"  data-validate-linked="itshippingfee" class="form-control col-md-7 col-xs-12" required="required">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Uplod Image<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Image<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div id="image-preview">

@@ -67,13 +67,15 @@ class Account extends MY_Controller
     public function order(){
         $this->load->view("order");
     }
+    public function order_list(){
+        $this->load->view("order_list");
+    }
 
     public function createorder(){
 		$insertData = array();
 		$insertData = $this->input->post();
 		//$insertData['password'] = md5($insertData['password']);
-		$insertData['date']=date("y-m-d ").date("h:i:s") ;
-		
+        $insertData['date']=date("y-m-d ").date("h:i:s") ;
             
         //generate unique file name
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
@@ -90,7 +92,7 @@ class Account extends MY_Controller
             if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
                 $insertData['photo'] = $fileName;
                 $this->common_model->createData("orders",$insertData);
-                redirect(site_url()."home");
+                redirect(site_url()."account/order_list");
             }else{
                 $error = 'err';
             }

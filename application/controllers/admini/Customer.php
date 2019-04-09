@@ -25,14 +25,14 @@ class Customer extends MY_Admin_Controller {
 		$insertData = $this->input->post();
 		$insertData['password'] = md5($insertData['password']);
 		$insertData['date']=date("Y-m-d H:i:s") ;
+		//------ edit info --------------
 		$insertData['status']= 1 ;
-		$insertData['balance']=23535 ;
-		$insertData['bank_account']= "1. Bank Name : MIZUHO BANK,LTD" ;
-		$insertData['card_number']=456456467;
-		$insertData['expiry_date']="12/2019";
-		$insertData['cvv']=1331;
-		$insertData['approve_status']=1331;
-		
+		$insertData['balance']=0 ;
+		$insertData['bank_account']= "" ;
+		$insertData['card_number']=0;
+		$insertData['expiry_date']="00/0000";
+		$insertData['cvv']=0;
+		$insertData['approve_status']=0;
  
         $this->common_model->createData("member",$insertData);
         redirect(site_url()."admini/customer");

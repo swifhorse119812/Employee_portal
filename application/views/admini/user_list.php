@@ -267,6 +267,9 @@
             $("#image-preview").css("background","url('"+BASE_URL+"assets/uploads/"+res.data.photo+"')");
             $("#image-upload").val(res.data.photo);
             $("option[value='"+res.data.roll+"']").prop("selected","selected");
+            // $("#oldpassword").val(res.data.firstname);
+            // $("#newpassord").val(res.data.firstname);
+            // $("#confirmnewpwd").val(res.data.firstname);
             
           }
         })
