@@ -34,6 +34,9 @@
         <!-- template main css file -->
         <link rel="stylesheet" href="<?php echo base_url('assets/client_assets/css/style.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/client_assets/css/jquery.dataTables.css'); ?>">
+        
+        <link href="<?php echo base_url(); ?>assets/css/mycustom.css" rel="stylesheet">  <!--------------- Image size....-->
+
         <style type="text/css">
             .navbar-nav li{
                 cursor: pointer;
@@ -282,23 +285,41 @@ Header Section Start
                    
                     <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
                          
-                    
+                    <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders <span class="caret"></span></a>
                         <div class="dropdown-menu">
                             <ul>
-                                <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
-                                <!-- <li><a href="<?php echo site_url("/account/card_info"); ?>">Card Info</a></li> -->
-                                <li><a href="<?php echo site_url("/account/order"); ?>">Creat Order</a></li>
                                 <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List</a></li>
-                                <!-- <li><a href="<?php echo site_url("/account/register_product"); ?>">Products</a></li>
-                                <li><a href="<?php echo site_url("/account/transaction_history"); ?>">Transaction History</a></li>
-                                <li><a href="<?php echo site_url("/account/withdraw_money"); ?>">Withdraw Money</a></li>
-                                <li><a href="<?php echo site_url("/account/inbox"); ?>">Inbox</a></li> -->
-                                
+                                <li><a href="<?php echo site_url("/account/order"); ?>">Add Order</a></li>
                             </ul>
                         </div>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li><a href="<?php echo site_url("/account/realcustomer_list"); ?>">Customer List</a></li>
+                                <li><a href="<?php echo site_url("/account/realcustomer_add"); ?>">Add Customer</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
+                                <li><a href="<?php echo site_url("/account/card_info"); ?>">Card Info</a></li>
+                                <li><a href="<?php echo site_url("/account/order"); ?>">Creat Order</a></li>
+                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List</a></li>
+                                <li><a href="<?php echo site_url("/account/register_product"); ?>">Products</a></li>
+                                <li><a href="<?php echo site_url("/account/transaction_history"); ?>">Transaction History</a></li>
+                                <li><a href="<?php echo site_url("/account/withdraw_money"); ?>">Withdraw Money</a></li>
+                                <li><a href="<?php echo site_url("/account/inbox"); ?>">Inbox</a></li>
+                                
+                            </ul>
+                        </div>
+                    </li> -->
                     <!-- <li><a href="<?php echo site_url("contact"); ?>">Contact Us</a></li> -->
 
                     <!-- <li class="dropdown">
@@ -311,7 +332,7 @@ Header Section Start
                         </div>
                     </li> -->
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
-                    <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li>
+                    <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
                     
                 </ul>
             </div>
@@ -353,8 +374,8 @@ Header Section Start
         if($this->session->userdata("approve_status") != 2){
     ?>
     <p class="error-title">Your account is pending to live mode.</p>
-    <p class="error-note">You can't do anything on this portal before accept it. Please Accept Merchant Processing Terms To Continue.</p>
-    <p class="error-title"><a href="<?php echo base_url("AcceptTerms"); ?>">View Merchant Processing Agreement</a></p>
+    <p class="error-note">You can't do anything on this portal before accept it. Please Accept Employee Processing Terms To Continue.</p>
+    <!-- <p class="error-title"><a href="<?php echo base_url("AcceptTerms"); ?>">View Employee Processing Agreement</a></p> -->
     <?php }
     ?>
 </div>

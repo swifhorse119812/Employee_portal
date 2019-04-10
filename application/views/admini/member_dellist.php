@@ -49,9 +49,7 @@
                             <th class="column-title">Last Name</th>
                             <th class="column-title">Email </th>
                             <th class="column-title">Phone Number</th>
-                            <!-- <th class="column-title">Balance</th> -->
                             <th class="column-title">Created Date</th>
-                            <th class="column-title">Pemission</th>
                             <th style="text-align: right;" class="column-title">Action </th>
                             </th>
                           </tr>
@@ -89,13 +87,6 @@
                               <?php echo $member['date']; ?>
                             </td>
 
-                            <td>
-                              <?php 
-                                if($member['approve_status'] == 1) echo "<span style='color:green;'>Waiting</span>";
-                                if($member['approve_status'] == 2) echo "<span style='color:red;'>Active</span>";
-                              ?>
-                            </td>
-
                             <td style="text-align: right;" >
                              <?php
                                 if($member['approve_status'] == 1) {
@@ -115,9 +106,9 @@
                                <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default member-edit">
                                       <i class="fa fa-edit blue"></i> Edit
                                </a>
-                               <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default member-delete">
+                               <!-- <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default member-delete">
                                       <i class="fa fa-remove red"></i> Delete
-                               </a>
+                               </a> -->
                               
                                <a href="<?php echo base_url("admini/user/fast_login/".$member["id"]); ?> " class="btn btn-round btn-default" target="_blank">
                                       <i class="fa fa-user blue"></i> Fast Login

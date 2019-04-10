@@ -64,47 +64,81 @@ class Account extends MY_Controller
     public function register_product(){
         $this->load->view("product");
     }
+
     public function order(){
         $this->load->view("order");
     }
     public function order_list(){
         $this->load->view("order_list");
     }
+    public function realcustomer_list(){
+        $this->load->view("realcustomer_list");
+    }
+    public function realcustomer_add(){
+        $this->load->view("createrealcustomer");
+    }
+
+    public function createrealcustomer(){
+		//$insertData = array();
+		$insertData = $this->input->post();
+        $insertData['en_date']=date("y-m-d ").date("h:i:s");
+        $insertData['employee_id'] = $this->session->userdata("member_id");
+        $this->common_model->createData("customer",$insertData);
+        redirect(site_url("account/realcustomer_list"));
+         //render response data in JSON format
+	}
 
     public function createorder(){
-		$insertData = array();
+		//$insertData = array();
 		$insertData = $this->input->post();
-		//$insertData['password'] = md5($insertData['password']);
-        $insertData['date']=date("y-m-d ").date("h:i:s") ;
-            
-        //generate unique file name
+		$insertData['date']=date("y-m-d ").date("h:i:s") ;
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
         //file upload path
         $targetDir = "assets/uploads/";
         $targetFilePath = $targetDir . $fileName;
-        
         //allow certain file formats
         $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-        $allowTypes = array('jpg','png','jpeg','gif');
-        
+        $allowTypes = array('jpg','png','jpeg','gif');    
         if(in_array(strtolower($fileType), $allowTypes)){
             //upload file to server
             if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
                 $insertData['photo'] = $fileName;
-                $this->common_model->createData("orders",$insertData);
-                redirect(site_url()."account/order_list");
-            }else{
-                $error = 'err';
             }
-        }else{
-            $error = 'type_err';
         }
-        
-            //render response data in JSON format
-
+        $this->common_model->createData("orders",$insertData);
+        redirect(site_url("account/order_list"));
+         //render response data in JSON format
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public function register_customer(){
+        $this->load->view("customer_list");
+    }
+    public function update_customer(){
+        $data = $this->input->post();
+        //die($data['id']);
+        $id = isset($data['id'])?$data['id']:'';
+        unset($data['id']);
+        if($id!=''){
+            $this->common_model->updateData("customers",$data,array("id"=>$id));
+            $this->session->set_userdata("success","Successfully Updated!");
 
-
+        } else {
+            $this->common_model->createData("customers",$data);
+            $this->session->set_userdata("success","Successfully registered.");
+        }
+        redirect(site_url("account/register_customer"));
+    }
+    public function get_customer(){
+        $id = $this->input->post("id");
+        $row = get_row("customers",array("id"=>$id));
+        echo json_encode(array("data"=>$row));
+    }
+    public function remove_customer(){
+        $this->common_model->deleteData("customers",array("id"=>$this->input->post("id")));
+        $this->session->set_userdata("success","Successfully removed");
+        redirect(site_url("account/customer_list"));
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function update_product(){
         $data = $this->input->post();
         $id = isset($data['id'])?$data['id']:'';
@@ -157,6 +191,10 @@ class Account extends MY_Controller
 
     public function withdraw_money(){
         $this->load->view("withdraw_money");
+    }
+
+    public function customer_list(){
+        $this->load->view("customer_list");
     }
 
     public function update_bank(){

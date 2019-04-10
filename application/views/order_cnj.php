@@ -1,14 +1,14 @@
 <?php
 	$this->load->view('header.php');
 ?>
-    
+<!DOCTYPE html>
+
+    <body>
                   <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h3>Orders</h3>
-              </div>
+              
 
               <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -56,52 +56,67 @@
                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>account/createorder" method="post" enctype="multipart/form-data">
                         <div id="step-1">
                           <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itname">Item Name <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Number <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="itnumber" name="itnumber" required="required"  class="form-control col-md-7 col-xs-12">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Name <span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="itname" name="itname" required="required"  class="form-control col-md-7 col-xs-12">
                             </div>
                           </div>
                           <div class="form-group">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itprice">Item Price <span class="required">*</span>
-                              </label>
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Price <span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="itprice" name="itprice" required="required"  class="form-control col-md-7 col-xs-12">
                               </div>
                           </div>
                           <div class="item form-group">
-                            <label for="itsize" class="control-label col-md-3">Item Size</label>
+                            <label for="password" class="control-label col-md-3" for="name">Item Size</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="itsize" name="itsize" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
+                              <input type="text" id="itsize" name="itsize" required="required" class="form-control col-md-7 col-xs-12" >
                             </div>
                           </div>
-                         
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itcolor">Item Color <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="itcolor" name="itcolor" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itcustom">Customer <span class="required">*</span>
-                            </label>
+                          <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Color <span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <textarea  id="itcustom" name="itcustom" required="required"  class="select2_single form-control col-md-7 col-xs-12">
-                              </textarea>
-
+                              <input id="itcolor" name="itcolor" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
-                        </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Customer <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <select  id="itcustom" name="itcustom" required="required"  class="select2_single form-control col-md-7 col-xs-12">
+                                <?php
+                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                  $customers = get_rows("customers");
+                                  foreach ($customers as $key => $customer) {
+                                    echo '<option data-id='.$customer['id'].'>'.$customer['first_name'].' '.$customer['last_name'].' '.$customer['phone_number'].' '.$customer['address'].'</option>';
+                                    //echo '<td>'.$customer['last_name'].'</td>';
+                                    //echo "<tr data-id='".$customer['id']."'>";
+                                    //echo '<td>'.$customer['id'].'</td>';
+                                    //echo '<td>'.$customer['first_name'].'</td>';
+                                    //echo '<td>'.$customer['last_name'].'</td>';
+                                    //echo '<td>'.$customer['phone_number'].'</td>';
+                                    //echo '<td>'.$customer['address'].'</td>';
+                                    //echo "</tr>";
+                                }
+                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                ?>
+                              </select>
+                            </div>
+                          </div>
                       
                       <div class="item form-group">
-                        <label for="itshippingfee" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Shipping fee</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="itshippingfee"  data-validate-linked="itshippingfee" class="form-control col-md-7 col-xs-12" required="required">
+                          <input id="itshippingfee"  name="itshippingfee" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Image<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Uplod Image<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div id="image-preview">
@@ -113,31 +128,30 @@
                       </div>
                      <br/>
                      <br/>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <label>
-                              <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
-                                <option value="0">Customer</option>
-                                <option value="1">Employee</option>
-                                <option value="2">Admin</option>
-                              </select>
-                            </label>
+                          </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <label>
+                                  <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
+                                    <option value="2"></option>  
+                                    <option value="1">Customer1</option>
+                                    <option value="0">Customer2</option>
+                                  </select>
+                                </label>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-              </div>
-                        <div id="step-2">
-
-                        
+                      <div id="step-2"> -->
                       <div class="item form-group">
                        <div class="ln_solid"></div>
                          <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success">Save</button>
-                         </div>
+                          <button type="submit" class="btn btn-success">Complete</button>
+                          <button class="btn btn-success">Cancel</button>
                          </div>
                         </div>
+                      </div>
 
                   </form>
                     </div>
@@ -152,26 +166,16 @@
             </div>
           </div>
         </div>
-</body>
-
-        
-           
-
-
-       
-        
+<!-- </body> -->
         <!-- /page content -->
     
         <!-- /page content -->
-
-
 <?php
 	$this->load->view('common/footer.php');
 ?>
  
 <script type="text/javascript">
 $(document).ready(function() {
-
   $(".stepContainer").css("height","0px")
   $.uploadPreview({
     input_field: "#image-upload",   // Default: .image-upload
@@ -181,7 +185,5 @@ $(document).ready(function() {
     label_selected: "Change File",  // Default: Change File
     no_label: false                 // Default: false
   });
- 
- 
 });
 </script>

@@ -34,18 +34,14 @@ class Customer extends MY_Admin_Controller {
 		$insertData['expiry_date']="00/0000";
 		$insertData['cvv']=0;
 		$insertData['approve_status']=0;
-		// $insertData['country']='';
-		// $insertData['city']='';
-		// $insertData['address']='';
+		$insertData['country']='';
+		$insertData['city']='';
+		$insertData['address']='';
  
         $this->common_model->createData("member",$insertData);
         redirect(site_url()."admini/customer");
-	}
-	public function del_customer()
-	{
-		$status = 0;
-		$members = $this->common_model->readDatas("member",array("approve_status"=>$status));
-		$this->load->view('admini/member_dellist.php', array("members"=>$members));
+       
+
 	}
  	
  	public function deletemember(){
@@ -73,12 +69,7 @@ class Customer extends MY_Admin_Controller {
 
 	public function deletememberData(){
 		$id = $this->input->post("id");
-		$this->db->set('approve_status', 0);
-		$this->db->where('id', $id);
-		$this->db->update('member');
-		//$query = $this->$db->get_where('member',array('id'=>$id));
-        //$this->common_model->updateData("member",$updateData,array("id"=>$id));
-		// $this->common_model->deleteData("member",array("id"=>$id));
+		$this->common_model->deleteData("member",array("id"=>$id));
 		echo json_encode(array("data"=>"OK"));
 	}
 

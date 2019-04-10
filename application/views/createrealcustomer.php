@@ -1,14 +1,14 @@
 <?php
-	$this->load->view('common/header.php');
+	$this->load->view('header.php');
 ?>
-    
+<!DOCTYPE html>
+
+    <body>
                   <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h3>Create Administrator</h3>
-              </div>
+              
 
               <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -28,7 +28,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Create Administrator</h2>
+                    <h2>Create Order</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -50,12 +50,11 @@
 
 
                     <!-- Smart Wizard -->
-                    <div id="" class="">
-
-                   <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>admini/user/createuser" method="post" enctype="multipart/form-data">
+                  <div id="" class="">
+                   <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>/account/createrealcustomer" method="post" enctype="multipart/form-data">
                         <div id="step-1">
                           <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">Firstname <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">First Name <span class="required">*</span>
                                 </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="firstname" name="firstname" required="required"  class="form-control col-md-7 col-xs-12">
@@ -65,23 +64,40 @@
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Last Name <span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="lastname" name="lastname" required="required"  class="form-control col-md-7 col-xs-12">
+                                <input type="text" id="itprice" name="lastname" required="lastname"  class="form-control col-md-7 col-xs-12">
                               </div>
                           </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">I am <span class="required">*</span>
-                            </label>
+                          <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country">Country <span class="required">*</span>
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select  id="gender" name="gender" required="required"  class="select2_single form-control col-md-7 col-xs-12">
-                            <option value="1">Male</option>
-                            <option value="0">Female</option>
-                          </select>
-
-                          </div>
+                           <select class="form-control" name="country" required="">
+                                <option value="United States of America">United States of America</option>
+                                <?php
+                                    $countries = get_rows("countries");
+                                    foreach ($countries as $key => $country) {
+                                        if($country['long_name'] == "United States of America") continue;
+                                        echo '<option value="'.$country['long_name'].'">'.$country['long_name'].'</option>';
+                                    }
+                                ?>
+                            </select>
                         </div>
-                         
+                      </div>
+                       <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city">City <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="city" name="city" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
 
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="address" name="address" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                         </label>
@@ -90,56 +106,24 @@
                         </div>
                       </div>
 
-
                       <div class="item form-group">
-                        <label for="password" class="control-label col-md-3">Password</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="password" type="password" name="password" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="password2" type="password"  data-validate-linked="password" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload file<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone_number">Phone Number <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="image-preview">
-                            <label for="image-upload" id="image-label">Choose Image</label>
-                            <input type="file" name="photo" id="image-upload" />
-                          </div>
+                          <input type="text" id="phone_number" name="phone_number" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
-
                       </div>
                      <br/>
                      <br/>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <label>
-                              <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
-                                <option value="0">Inactive</option>
-                                <!-- <option value="1">Super Admin</option> -->
-                                <option value="2">Admin</option>
-                              </select>
-                            </label>
-                        </div>
-                      </div>
-              </div>
+                    </div>
                         <div id="step-2">
-
-                        
-                      <div class="item form-group">
-                       <div class="ln_solid"></div>
-                         <div class="form-group">
-                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success">Save</button>
-                         </div>
-                         </div>
+                          <div class="item form-group">
+                          <div class="ln_solid"></div>
+                            <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                              <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                          </div>
                         </div>
 
                   </form>
@@ -154,15 +138,15 @@
               </div>
             </div>
           </div>
-
-
+        </div>
+</body>
 
         
            
 
 
        
-        </div>
+        
         <!-- /page content -->
     
         <!-- /page content -->

@@ -126,10 +126,17 @@
                   <li><a><i class="fa fa-users"></i> Employees <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?php echo base_url()?>admini/customer">Employee List</a></li>
+                      <li><a href="<?php echo base_url()?>admini/customer/del_customer">Deleted List</a></li>
                       <li><a href="<?php echo base_url()?>admini/customer/Add">Add new Employee</a></li>
                     </ul>
                   </li>
-                  
+                  <!-- <li><a><i class="fa fa-users"></i> Customers <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="<?php echo base_url()?>admini/realcustomer">Customer List</a></li>
+                      <li><a href="<?php echo base_url()?>admini/realcustomer/Add">Add new Customer</a></li>
+                    </ul>
+                  </li> -->
+                   
                   <!-- <li><a><i class="fa fa-dollar"></i> Finance <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?php  echo base_url("admini/payment"); ?>">Paid Payment History</a></li>

@@ -23,7 +23,6 @@ class User extends MY_Admin_Controller {
 	public function createuser(){
 		$insertData = array();
 		$insertData = $this->input->post();
-		var_dump($insertData);exit;
 		$insertData['password'] = md5($insertData['password']);
 		$insertData['date']=date("y-m-d ").date("h:i:s") ;
 		
@@ -61,18 +60,10 @@ class User extends MY_Admin_Controller {
  		redirect(site_url()."admini/user");
  	}
 
-
-
  	public function updateuser(){
- 		// var_dump($_REQUEST);
- 		// exit;
 		$updateData = $this->input->post();
-
 		$user_data = $this->common_model->readData("user",array("id"=>$updateData['id']));
-		 
-
 		$id = $updateData['id'];
-
         if($_FILES["photo"]["name"]){
 	        //generate unique file name
 	        $fileName = time().'_'.basename($_FILES["photo"]["name"]);
@@ -108,6 +99,23 @@ class User extends MY_Admin_Controller {
             //render response data in JSON format
 
 	}
+	public function update_password(){
+		$data = $this->input->post();
+        if($data['new_password']!=$data['repeat_new_password']){
+            $this->session->set_userdata('warning', "Don't same new password and new repeat password! Please try again.");
+            redirect(site_url("account/dashboard"));
+            return;
+        }
+		$res = get_row("user",array("id"=>$this->session->userdata("admin_id"),"password"=>md5($data['old_password'])));
+        if(!$res){
+            $this->session->set_userdata('warning', "Incorrect old password! Please try again.");
+            redirect(site_url("account/dashboard"));
+            return;
+        }
+        $this->common_model->updateData("user",array("password"=>md5($data['new_password'])),array("id"=>$this->session->userdata("admin_id")));
+        $this->session->set_userdata("success","Successfully Updated!");
+        redirect(site_url("admini/user"));
+    }
 
 	public function getuserData(){
 		$id = $this->input->post("id");

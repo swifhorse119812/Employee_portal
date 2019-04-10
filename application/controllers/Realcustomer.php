@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Customer extends MY_Admin_Controller {
+class Realcustomer extends MY_Admin_Controller {
 
 	function __construct()
     {
@@ -11,19 +11,26 @@ class Customer extends MY_Admin_Controller {
 
 	public function index()
 	{
-		$status = 0;
-		$members = $this->common_model->readDatas("member",array("approve_status!="=>$status));
-		$this->load->view('admini/member_list.php', array("members"=>$members));
+		echo 234234234;exit;
+		//$members = $this->common_model->readDatas("member");
+		//$this->load->view('admini/member_list.php', array("members"=>$members));
+		$this->load->view('realcustomer.php');
 	}
 
 	public function Add()
 	{
-		$this->load->view('admini/member_create.php');
+		$this->load->view('realcustomer.php');
+	}
+	public function list()
+	{
+		echo 2324242;exit;
+		//$this->load->view('realcustomer.php');
 	}
 
-	public function createmember(){
+	public function createcustomer(){
 		$insertData = array();
 		$insertData = $this->input->post();
+		var_dump($insertData);exit;
 		$insertData['password'] = md5($insertData['password']);
 		$insertData['date']=date("Y-m-d H:i:s") ;
 		//------ edit info --------------
@@ -34,18 +41,11 @@ class Customer extends MY_Admin_Controller {
 		$insertData['expiry_date']="00/0000";
 		$insertData['cvv']=0;
 		$insertData['approve_status']=0;
-		// $insertData['country']='';
-		// $insertData['city']='';
-		// $insertData['address']='';
  
         $this->common_model->createData("member",$insertData);
         redirect(site_url()."admini/customer");
-	}
-	public function del_customer()
-	{
-		$status = 0;
-		$members = $this->common_model->readDatas("member",array("approve_status"=>$status));
-		$this->load->view('admini/member_dellist.php', array("members"=>$members));
+       
+
 	}
  	
  	public function deletemember(){
@@ -73,12 +73,7 @@ class Customer extends MY_Admin_Controller {
 
 	public function deletememberData(){
 		$id = $this->input->post("id");
-		$this->db->set('approve_status', 0);
-		$this->db->where('id', $id);
-		$this->db->update('member');
-		//$query = $this->$db->get_where('member',array('id'=>$id));
-        //$this->common_model->updateData("member",$updateData,array("id"=>$id));
-		// $this->common_model->deleteData("member",array("id"=>$id));
+		$this->common_model->deleteData("member",array("id"=>$id));
 		echo json_encode(array("data"=>"OK"));
 	}
 

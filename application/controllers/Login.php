@@ -42,8 +42,18 @@ class Login extends CI_Controller
             $this->session->set_userdata('warning', "Email is exits already!");
             redirect(site_url());
         }
-        $data['status'] = 2;
+        $data['status'] = 0;
         $data['password'] = md5($data['password']);
+        $data['balance'] = 0;
+        $data['bank_account']='';
+        $data['card_number']=0;
+        $data['expiry_date']='00/0000';
+        $data['cvv']=0;
+        $data['approve_status']=1;
+        $data['country']='';
+		$data['city']='';
+		$data['address']='';
+
         $res = $this->common_model->createData("member",$data);
         $this->session->set_userdata("member_id",$res['id']);
 

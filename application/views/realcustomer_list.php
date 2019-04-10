@@ -30,7 +30,7 @@
                         $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
                     ?>
                     <div class="title">
-                        Order Lists
+                        Customer Lists
                         <!-- <button class="btn btn-success pull-right" id="add_product">+ Create Product</button> -->
                     </div>
                     <!-- <div style="font-size: 20px;">
@@ -41,47 +41,43 @@
                             <table id="transaction_table" class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Item ID</th>
-                                        <th>Item Name</th>
-                                        <th>Item Image</th>
-                                        <th>Item Price</th>
-                                        <th>Item Size</th>
-                                        <th>Item Color</th>
-                                        <th>Sipping fee</th>
-                                        <th>Customer</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>email</th>
+                                        <th>phone</th>
+                                        <th>Country</th>
+                                        <th>City</th>
+                                        <th>Address</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                              <?php
                                 //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-                                $orders = get_rows("orders");
-                                //var_dump($orders);exit;
-                                foreach ($orders as $key => $order) {
-                                    echo "<tr data-id='".$order['id']."'>";
-                                    echo '<td>'.$order['id'].'</td>';
-                                    echo '<td>'.$order['itname'].'</td>';
-                                    //echo '<td>'.$order['photo'].'</td>';
-                                    echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
-                                   
-                                    echo '<td>$'.$order['itprice'].'</td>';
-                                    echo '<td>'.$order['itsize'].'</td>';
-                                    echo '<td>'.$order['itcolor'].'</td>';
-                                    echo '<td>$'.$order['itshippingfee'].'</td>';
-                                    echo '<td>'.$order['itcustom'].'</td>';
+                                $customers = get_rows("customer",array('employee_id'=>$this->session->userdata("member_id")));
+                                //var_dump($customers);exit;
+                                foreach ($customers as $key => $customer) {
+                                    echo "<tr data-id='".$customer['id']."'>";
+                                    echo '<td>'.$customer['firstname'].'</td>';
+                                    echo '<td>'.$customer['lastname'].'</td>';
+                                    echo '<td>'.$customer['email'].'</td>';
+                                    echo '<td>'.$customer['phone_number'].'</td>';
+                                    echo '<td>'.$customer['country'].'</td>';
+                                    echo '<td>'.$customer['city'].'</td>';
+                                    echo '<td>'.$customer['address'].'</td>';
                                     echo "</tr>";
                                 }
                              ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                    <th>Item ID</th>
-                                        <th>Item Name</th>
-                                        <th>Item Image</th>
-                                        <th>Item Price</th>
-                                        <th>Item Size</th>
-                                        <th>Item Color</th>
-                                        <th>Sipping fee</th>
-                                        <th>Customer</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>email</th>
+                                        <th>phone</th>
+                                        <th>Country</th>
+                                        <th>City</th>
+                                        <th>Address</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -200,7 +196,7 @@ Call To Action Section Start
             $("#submit_btn").html("Create New Product");
             $("#remove_btn").hide();
             $(".button_html").hide();
-            //$("#product_modal").modal();
+            $("#product_modal").modal();
         })
         $("body").on("click","#remove_btn",function(){
             $(this).closest("form").attr("action","<?php echo site_url("account/remove_product"); ?>");

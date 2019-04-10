@@ -134,7 +134,7 @@
 
          <!--  <img id="userimage" src=""/> -->
               <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>admini/user/updateuser" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="id" id="id">
                         <div id="step-1">
                           <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">Firstname <span class="required">*</span>
@@ -172,9 +172,8 @@
                         </div>
                       </div>
 
-
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Uplod file<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload file<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div id="image-preview">
@@ -193,7 +192,7 @@
                           <label>
                               <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
                                 <option value="0">Inactive</option>
-                                <option value="1">Super Admin</option>
+                                <!-- <option value="1">Super Admin</option> -->
                                 <option value="2">Admin</option>
                               </select>
                             </label>
@@ -201,7 +200,6 @@
                       </div>
                         
                       <div class="item form-group">
-                       <div class="ln_solid"></div>
                          <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                             <button class="btn btn-primary" id="editcancel" type="button">Cancel</button>
@@ -211,8 +209,38 @@
                          </div>
                        </div>
                   </form>
+                  <div class="ln_solid"></div>
+                  <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo base_url(); ?>admini/user/update_password" method="post" enctype="multipart/form-data">
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="old_password">Old Password <span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="password" id="old_password" name="old_password" required="required"  class="form-control col-md-7 col-xs-12">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="new_password">New Password <span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="password" id="new_password" name="new_password" required="required"  class="form-control col-md-7 col-xs-12">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="repeat_new_password">Repeat New Password <span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="password" id="repeat_new_password" name="repeat_new_password" required="required"  class="form-control col-md-7 col-xs-12">
+                              </div>
+                          </div>
+                          <div class="item form-group">
+                            <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                              <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                            </div>
+                          </div>
+                      </form>
                 </div>
-
                     
         </div>
     </div>
@@ -267,9 +295,9 @@
             $("#image-preview").css("background","url('"+BASE_URL+"assets/uploads/"+res.data.photo+"')");
             $("#image-upload").val(res.data.photo);
             $("option[value='"+res.data.roll+"']").prop("selected","selected");
-            // $("#oldpassword").val(res.data.firstname);
-            // $("#newpassord").val(res.data.firstname);
-            // $("#confirmnewpwd").val(res.data.firstname);
+            $("#oldpassword").val(res.data.firstname);
+            $("#newpassord").val(res.data.firstname);
+            $("#confirmnewpwd").val(res.data.firstname);
             
           }
         })

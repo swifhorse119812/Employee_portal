@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="icon" href="favicon.ico">
-        <title>Employee virsympay</title>
+        <title>Employee Login</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="author" content="">
