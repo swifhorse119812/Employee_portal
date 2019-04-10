@@ -257,7 +257,7 @@
 ==================================================
 Header Section Start
 ================================================== -->
-<header id="top-bar" class="navbar-fixed-top animated-header">
+<header id="top-bar" class="">
     <div class="container">
         <div class="navbar-header">
             <!-- responsive nav button -->
@@ -287,15 +287,6 @@ Header Section Start
                          
                     <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders <span class="caret"></span></a>
-                        <div class="dropdown-menu">
-                            <ul>
-                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List</a></li>
-                                <li><a href="<?php echo site_url("/account/order"); ?>">Add Order</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
                         <div class="dropdown-menu">
                             <ul>
@@ -304,6 +295,17 @@ Header Section Start
                             </ul>
                         </div>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders <span class="caret"></span></a>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List All</a></li>
+                                <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
+                                <li><a href="<?php echo site_url("/account/order"); ?>">Add Order</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
                         <div class="dropdown-menu">

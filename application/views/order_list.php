@@ -49,6 +49,7 @@
                                         <th>Item Color</th>
                                         <th>Sipping fee</th>
                                         <th>Customer</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,6 +69,8 @@
                                     echo '<td>'.$order['itcolor'].'</td>';
                                     echo '<td>$'.$order['itshippingfee'].'</td>';
                                     echo '<td>'.$order['itcustom'].'</td>';
+                                    $status = get_rows("order_status_list",array('id'=>$order['state']));
+                                    echo '<td>'.$status[0]["title"].'</td>';
                                     echo "</tr>";
                                 }
                              ?>
@@ -82,6 +85,7 @@
                                         <th>Item Color</th>
                                         <th>Sipping fee</th>
                                         <th>Customer</th>
+                                        <th>Status</th>
                                     </tr>
                                 </tfoot>
                             </table>

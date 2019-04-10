@@ -71,6 +71,12 @@ class Account extends MY_Controller
     public function order_list(){
         $this->load->view("order_list");
     }
+    public function order_status_list($tag_id=""){
+        $this->load->view("order_status_list",array("tag_id"=>$tag_id));
+    }
+    // public function order_status_list(){
+    //     $this->load->view("order_status_list");
+    // }
     public function realcustomer_list(){
         $this->load->view("realcustomer_list");
     }
@@ -90,7 +96,8 @@ class Account extends MY_Controller
 
     public function createorder(){
 		//$insertData = array();
-		$insertData = $this->input->post();
+        $insertData = $this->input->post();
+        $insertData['state']=1;
 		$insertData['date']=date("y-m-d ").date("h:i:s") ;
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
         //file upload path
