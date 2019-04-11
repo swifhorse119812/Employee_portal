@@ -33,7 +33,7 @@ class Customer extends MY_Admin_Controller {
 		$insertData['card_number']=0;
 		$insertData['expiry_date']="00/0000";
 		$insertData['cvv']=0;
-		$insertData['approve_status']=0;
+		$insertData['approve_status']=2;
 		// $insertData['country']='';
 		// $insertData['city']='';
 		// $insertData['address']='';
@@ -73,7 +73,7 @@ class Customer extends MY_Admin_Controller {
 
 	public function deletememberData(){
 		$id = $this->input->post("id");
-		$this->db->set('approve_status', 0);
+		$this->db->set('approve_status', 1);
 		$this->db->where('id', $id);
 		$this->db->update('member');
 		//$query = $this->$db->get_where('member',array('id'=>$id));

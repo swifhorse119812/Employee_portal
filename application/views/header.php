@@ -213,7 +213,7 @@
     </head>
     <body>
 
-<?php
+<?php 
 
     if($this->session->userdata("warning")!=""){
 ?>
@@ -244,6 +244,17 @@
     $this->session->unset_userdata("success");
     }
 ?>
+<?php 
+    $user_id = $this->session->userdata("member_id");
+    $rows=get_rows('orders',array('employee_id'=>$user_id));
+    $balance = 0;
+    foreach($rows as $row){
+        if($row['employee_id']==$user_id)
+            $balance += $row['itprice'];
+    }
+    $default_balance = get_row('balance',array('id'=>1));
+    $balance = $default_balance['balance']-$balance;
+?>
 
 <style type="text/css">
     @media(max-width: 600px){
@@ -253,6 +264,7 @@
 
     }
 </style>
+
 <!--
 ==================================================
 Header Section Start
@@ -278,13 +290,14 @@ Header Section Start
             <!-- /logo -->
         </div>
         <!-- main menu -->
+        
         <nav class="collapse navbar-collapse navbar-right" role="navigation">
             <div class="main-menu">
                 <ul class="nav navbar-nav navbar-right">
                   
                    
                     <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
-                         
+                        
                     <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
@@ -334,6 +347,7 @@ Header Section Start
                         </div>
                     </li> -->
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
+                    <li><a >Balance : <?php echo $balance; ?>$</a></li>
                     <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
                     
                 </ul>

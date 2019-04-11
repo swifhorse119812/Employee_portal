@@ -1,10 +1,7 @@
 <?php
 	$this->load->view('header.php');
 ?>
-<?php 
-    $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-    $emp_level = $member['emp_level'];
-?>
+
     
     
 <link href="<?php echo base_url(); ?>assets/css/mycustom.css" rel="stylesheet">
@@ -56,31 +53,25 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-2" style="padding: 0px 20px;">
+              <div class="col-md-3" style="padding: 0px 20px;">
                 <div style="width: 100%; height: 50px;">
-                  <!-- <button class="btn btn-info pull-right" id="add_tag_btn">Add Tag</button> -->
+                  <button class="btn btn-info pull-right" id="add_tag_btn">Add Tag</button>
                 </div>
                 <div style="border: 1px solid #ccc; min-height: 500px; padding: 40px;">
                   <ul class="sider-menu">
                     <?php
-                      $temp=0;
+
                       $tags = get_rows("order_status_list");
                       foreach ($tags as $key => $tag) {
-                        $temp++;
                         if($tag_id == "") $tag_id = $tag['id'];
-                        if($emp_level==0)
-                          if($temp==2 || $temp==3 || $temp==4 || $temp==5)
-                            continue;
-                        if($emp_level==1)
-                          if($temp==3 || $temp==4|| $temp==5)
-                            continue;
-                        if($emp_level==2)
-                          if($temp==1 || $temp==2)
-                            continue;
-                        
                     ?>
                     <li data-id="<?php echo $tag['id']; ?>" class="<?php if($tag_id == $tag['id']) echo "li-active"; ?>">
                       <a class="click-tag"><?php echo $tag['title']; ?></a>
+                      <span class="pull-right" style="margin-right: 20px;">
+                        <a class="edit-tag" style="color: #0f8602;"><i class="fa fa-edit"></i> Edit</a>
+                        &nbsp;| &nbsp;
+                        <a class="remove-tag" style="color: #ff6000;"><i class="fa fa-trash"></i> Remove</a>
+                      </span>
                     </li>
                     <?php
                       }
@@ -88,10 +79,13 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-md-10" style="padding: 0px 20px;">
-                     
+              <div class="col-md-8" style="padding: 0px 20px;">
+                      <?php
+                        $status = get_rows('order_status_list',array('id'=>$tag_id+1));
+                        $btn_str = $status[0]['title'];
+                      ?>
                 <div style="width: 100%; height: 50px;">
-                  <!-- <button class="btn btn-warning pull-right" id="add_ticket_btn">Save</button> -->
+                  <button class="btn btn-warning pull-right" id="add_ticket_btn">Save</button>
                 </div>
 
                 <div style="border: 1px solid #ccc; min-height: 500px;">
@@ -249,40 +243,6 @@
 
           $("#tag_modal").modal();
         })
-        $("body").on("click","#push_btn",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
-            $.ajax({
-                url: ajax_url + "account/update_order_state",
-                data:{id:id,order_id:order_id},
-                type:"post",
-                dataType:"json",
-                success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
-                }
-            })
-          
-        })
-        $("body").on("click","#push_cancel",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
-            $.ajax({
-                url: ajax_url + "account/update_order_state_cancel",
-                data:{id:id,order_id:order_id},
-                type:"post",
-                dataType:"json",
-                success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
-                }
-            })
-          
-        })
         // $("body").on("click","#add_ticket_btn",function(){
         //     $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
         //     CKEDITOR.replace( 'content' );
@@ -294,75 +254,75 @@
           
         // })
 
-        // $("body").on("click",".edit-tag",function(){
-        //     var id = $(this).closest("li").data("id");
-        //     //console.log(id);
-        //     $.ajax({
-        //         url: ajax_url + "help/get_tag",
-        //         data:{id:id},
-        //         type:"post",
-        //         dataType:"json",
-        //         success: function(res){
-        //             $("#tag_create")[0].reset();
-        //             $("#tag_title").val(res.data.title);
-        //             $("#tag_id").attr('value',res.data.id);
-        //             //$("#tag_id").val(res.data.id);
-        //             $("#tag_modal").modal();
+        $("body").on("click",".edit-tag",function(){
+            var id = $(this).closest("li").data("id");
+            //console.log(id);
+            $.ajax({
+                url: ajax_url + "help/get_tag",
+                data:{id:id},
+                type:"post",
+                dataType:"json",
+                success: function(res){
+                    $("#tag_create")[0].reset();
+                    $("#tag_title").val(res.data.title);
+                    $("#tag_id").attr('value',res.data.id);
+                    //$("#tag_id").val(res.data.id);
+                    $("#tag_modal").modal();
 
-        //         }
-        //     })
-        // })
+                }
+            })
+        })
 
-        // $("body").on("click",".remove-tag",function(){
-        //     var id = $(this).closest("li").data("id");
-        //     $.ajax({
-        //         url: ajax_url + "help/remove_tag",
-        //         data:{id:id},
-        //         type:"post",
-        //         dataType:"json",
-        //         success: function(res){
-        //           document.location.replace(ajax_url+"help/get_support");
-        //         }
-        //     })
-        // })
+        $("body").on("click",".remove-tag",function(){
+            var id = $(this).closest("li").data("id");
+            $.ajax({
+                url: ajax_url + "help/remove_tag",
+                data:{id:id},
+                type:"post",
+                dataType:"json",
+                success: function(res){
+                  document.location.replace(ajax_url+"help/get_support");
+                }
+            })
+        })
 
 
-        // $("body").on("click",".edit-ticket",function(){
-        //     var id = $(this).closest("tr").data("id");
-        //     $.ajax({
-        //         url: ajax_url + "admini/help/get_ticket",
-        //         data:{id:id},
-        //         type:"post",
-        //         dataType:"json",
-        //         success: function(res){
-        //             $("#create_ticket")[0].reset();
-        //             $("#ticket_title").val(res.data.title);
-        //             $("#ticket_id").val(res.data.id);
-        //             $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
-        //             CKEDITOR.replace( 'content' );
-        //             CKEDITOR.instances.content.setData(res.data.content);
+        $("body").on("click",".edit-ticket",function(){
+            var id = $(this).closest("tr").data("id");
+            $.ajax({
+                url: ajax_url + "admini/help/get_ticket",
+                data:{id:id},
+                type:"post",
+                dataType:"json",
+                success: function(res){
+                    $("#create_ticket")[0].reset();
+                    $("#ticket_title").val(res.data.title);
+                    $("#ticket_id").val(res.data.id);
+                    $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
+                    CKEDITOR.replace( 'content' );
+                    CKEDITOR.instances.content.setData(res.data.content);
 
-        //             $("#ticket_modal").modal();
+                    $("#ticket_modal").modal();
 
-        //         }
-        //     })
-        // })
+                }
+            })
+        })
 
-        // $("body").on("click",".remove-ticket",function(){
-        //     if(confirm("Are you sure remove this ticket?")){
-        //         var id = $(this).closest("tr").data("id");
-        //         $.ajax({
-        //             url: ajax_url + "admini/help/remove_ticket",
-        //             data:{id:id},
-        //             type:"post",
-        //             dataType:"json",
-        //             success: function(res){
-        //                document.location.reload();
-        //             }
-        //         })
+        $("body").on("click",".remove-ticket",function(){
+            if(confirm("Are you sure remove this ticket?")){
+                var id = $(this).closest("tr").data("id");
+                $.ajax({
+                    url: ajax_url + "admini/help/remove_ticket",
+                    data:{id:id},
+                    type:"post",
+                    dataType:"json",
+                    success: function(res){
+                       document.location.reload();
+                    }
+                })
 
-        //     }
-        // })
+            }
+        })
         // $("body").on("click","#submit_btn",function(){
         //     if($("#ticket_title").val() == "") {
         //         alert("Please enter title!");
@@ -376,7 +336,7 @@
         $("body").on("click",".sider-menu li",function(){
           $(".li-active").removeClass("li-active");
           $(this).addClass("li-active");
-          //$("#add_ticket_btn").val("asdfasfa");
+          $("#add_ticket_btn").val("asdfasfa");
           $("#tag_id").val($(this).data("id"));
           viewTicketTable();
 

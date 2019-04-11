@@ -51,7 +51,8 @@
                             <th class="column-title">Phone Number</th>
                             <!-- <th class="column-title">Balance</th> -->
                             <th class="column-title">Created Date</th>
-                            <th class="column-title">Pemission</th>
+                            <th class="column-title">Status</th>
+                            <th class="column-title">Emp Level</th>
                             <th style="text-align: right;" class="column-title">Action </th>
                             </th>
                           </tr>
@@ -93,6 +94,13 @@
                               <?php 
                                 if($member['approve_status'] == 1) echo "<span style='color:green;'>Waiting</span>";
                                 if($member['approve_status'] == 2) echo "<span style='color:red;'>Active</span>";
+                              ?>
+                            </td>
+                            <td>
+                              <?php 
+                                if($member['emp_level'] == 0) echo "<span style='color:green;'>Employee1</span>";
+                                if($member['emp_level'] == 1) echo "<span style='color:blue;'>Employee2</span>";
+                                if($member['emp_level'] == 2) echo "<span style='color:red;'>Employee3</span>";
                               ?>
                             </td>
 
@@ -224,6 +232,19 @@
                                 <!-- <option value="0">Delete</option> -->
                                 <option value="1">Waiting</option>
                                 <option value="2">Active</option>
+                              </select>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Employee Level</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <label>
+                              <select class="select2_single form-control col-md-7 col-xs-12" name="emp_level" id="emp_level">
+                                <option value="0">Employee1</option>
+                                <option value="1">Employee2</option>
+                                <option value="2">Employee3</option>
                               </select>
                             </label>
                         </div>
@@ -420,6 +441,8 @@
             $("#address").val(res.data.address);
             $("#phone_number").val(res.data.phone_number);
             $("#email").val(res.data.email);
+            $("option[value='"+res.data.approve_status+"']").prop("selected",true);
+            $("option[value='"+res.data.emp_level+"']").prop("selected",true);
           }
         })
     });

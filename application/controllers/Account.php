@@ -38,6 +38,9 @@ class Account extends MY_Controller
     }
     public function update_profile(){
         $data = $this->input->post();
+		$this->db->set('status', $data['id']+1);
+		$this->db->where('id', $id);
+		$this->db->update('order');
         $this->common_model->updateData("member",$data,array("id"=>$this->session->userdata("member_id")));
         $this->session->set_userdata("success","Successfully Updated!");
         redirect(site_url("account/dashboard"));
@@ -74,9 +77,27 @@ class Account extends MY_Controller
     public function order_status_list($tag_id=""){
         $this->load->view("order_status_list",array("tag_id"=>$tag_id));
     }
-    // public function order_status_list(){
-    //     $this->load->view("order_status_list");
-    // }
+    public function update_order_state(){
+        $data = $this->input->post();
+        $this->db->set('state', $data['id']+1);
+		$this->db->where('id', $data['order_id']);
+        $this->db->update('orders');
+        $data['names']="A";
+        //$this->session->set_userdata("success","Successfully saved card info");
+        //redirect(base_url("account/order_status_list/".$data['id']+1));
+        echo json_encode(array("data"=>$data));
+    }
+    public function update_order_state_cancel(){
+        $data = $this->input->post();
+        $this->db->set('state',6);
+		$this->db->where('id', $data['order_id']);
+        $this->db->update('orders');
+        $data['names']="A";
+        //$this->session->set_userdata("success","Successfully saved card info");
+        //redirect(base_url("account/order_status_list/".$data['id']+1));
+        echo json_encode(array("data"=>$data));
+    }
+    
     public function realcustomer_list(){
         $this->load->view("realcustomer_list");
     }
@@ -97,8 +118,25 @@ class Account extends MY_Controller
     public function createorder(){
 		//$insertData = array();
         $insertData = $this->input->post();
+        //var_dump($insertData);exit;
         $insertData['state']=1;
-		$insertData['date']=date("y-m-d ").date("h:i:s") ;
+        $insertData['date']=date("y-m-d ").date("h:i:s") ;
+        $insertData['employee_id'] = $this->session->userdata("member_id");
+
+        $user_id = $this->session->userdata("member_id");
+        $rows=get_rows('orders',array('employee_id'=>$user_id));
+        $balance = 0;
+        foreach($rows as $row){
+            if($row['employee_id']==$user_id)
+                $balance += $row['itprice'];
+        }
+        $toatal_balance = $balance + $insertData['itprice'];
+        $default_balance = get_row('balance',array('id'=>1));
+        if($toatal_balance>$default_balance['balance']){
+            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+            redirect(site_url("home"));
+        }
+
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
         //file upload path
         $targetDir = "assets/uploads/";

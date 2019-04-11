@@ -1,10 +1,7 @@
 <?php
-	$this->load->view('header.php');
+	$this->load->view('common/header.php');
 ?>
-<?php 
-    $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-    $emp_level = $member['emp_level'];
-?>
+
     
     
 <link href="<?php echo base_url(); ?>assets/css/mycustom.css" rel="stylesheet">
@@ -56,31 +53,25 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-2" style="padding: 0px 20px;">
+              <div class="col-md-3" style="padding: 0px 20px;">
                 <div style="width: 100%; height: 50px;">
-                  <!-- <button class="btn btn-info pull-right" id="add_tag_btn">Add Tag</button> -->
+                  <button class="btn btn-info pull-right" id="add_tag_btn">Add Tag</button>
                 </div>
                 <div style="border: 1px solid #ccc; min-height: 500px; padding: 40px;">
                   <ul class="sider-menu">
                     <?php
-                      $temp=0;
+
                       $tags = get_rows("order_status_list");
                       foreach ($tags as $key => $tag) {
-                        $temp++;
                         if($tag_id == "") $tag_id = $tag['id'];
-                        if($emp_level==0)
-                          if($temp==2 || $temp==3 || $temp==4 || $temp==5)
-                            continue;
-                        if($emp_level==1)
-                          if($temp==3 || $temp==4|| $temp==5)
-                            continue;
-                        if($emp_level==2)
-                          if($temp==1 || $temp==2)
-                            continue;
-                        
                     ?>
                     <li data-id="<?php echo $tag['id']; ?>" class="<?php if($tag_id == $tag['id']) echo "li-active"; ?>">
                       <a class="click-tag"><?php echo $tag['title']; ?></a>
+                      <span class="pull-right" style="margin-right: 20px;">
+                        <a class="edit-tag" style="color: #0f8602;"><i class="fa fa-edit"></i> Edit</a>
+                        &nbsp;| &nbsp;
+                        <a class="remove-tag" style="color: #ff6000;"><i class="fa fa-trash"></i> Remove</a>
+                      </span>
                     </li>
                     <?php
                       }
@@ -88,20 +79,8 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-md-10" style="padding: 0px 20px;">
-                     
-                <div style="width: 100%; height: 50px;">
-                  <!-- <button class="btn btn-warning pull-right" id="add_ticket_btn">Save</button> -->
-                </div>
-
-                <div style="border: 1px solid #ccc; min-height: 500px;">
-                <div class="row" style="padding: 40px;">
-                <div class="col-md-12" style="margin-bottom: 20px;">
-                  <!-- <button class="btn btn-warning pull-right" id="question_btn">Ask Question</button> -->
-              </div>
-              <div class="col-md-12" style="min-height: 350px;" id="ticket_table_view">
-                  
-              </div>
+              
+              
             </div>
           </div>
               </div>
@@ -110,7 +89,6 @@
           </div>
         </div>
 
-<!-- <input type="hidden" name="" id="tag_id" value="<?php echo $tag_id; ?>"> -->
 <?php
 	$this->load->view('common/footer.php');
 ?>
@@ -126,7 +104,7 @@
         </div>
         <div class="modal-body" style="padding: 10px 0px;">
          <!--  <img id="featureimage" src=""/> -->
-              <form id="tag_create" name="tag_create" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("help/tag_create"); ?>" method="post" enctype="multipart/form-data">
+              <form id="tag_create" name="tag_create" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("admini/setting/tag_create"); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
                         <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Title <span class="required">*</span>
                         </label>
@@ -154,7 +132,7 @@
 </div>
 
 
-<div class="modal fade in" id="ticket_modal" aria-hidden="false" style="display: none;">
+<!-- <div class="modal fade in" id="ticket_modal" aria-hidden="false" style="display: none;">
   <div class="modal-dialog" style="width: 700px;">
     <div class="modal-content">
         <div class="modal-header">
@@ -162,7 +140,7 @@
             <h3 class="modal-title">Help Ticket</h3>
         </div>
         <div class="modal-body" style="padding: 10px 0px;">
-         <!--  <img id="featureimage" src=""/> -->
+         <!--  <img id="featureimage" src=""/>
               <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("admini/help/create_ticket"); ?>" method="post" enctype="multipart/form-data">
                     
                     <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
@@ -195,7 +173,7 @@
                     </div>  
                     
                     <input type="hidden" name="id" id="ticket_id">
-                    <!-- <input type="hidden" name="content" id="content"> -->
+                     <input type="hidden" name="content" id="content">
 
                     <div class="form-group">
                         <div class="" style="text-align: center;">
@@ -203,7 +181,7 @@
                           <button type="button" class="btn btn-warning" id="remove_btn" style=" margin-left: 20px;" data-dismiss="modal">Cancel</button>
 
                         </div>
-                    </div>
+                    </div> 
                     
               <div class="ln_solid"></div>
             </form>
@@ -213,7 +191,7 @@
         </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 
@@ -229,102 +207,68 @@
         "ordering": false
     } );
 
-    function viewTicketTable(){
-      tag_id = $("#tag_id").val();
-      $.ajax({
-          url: ajax_url + "help/get_tag_table",
-          data:{tag_id:tag_id},
-          type:"post",
-          dataType:"html",
-          success: function(res){
-            $("#ticket_table_view").html(res);
-            $('#ticket_table').DataTable();
-          }
-      })
-    }
+    // function viewTicketTable(){
+    //   tag_id = $("#tag_id").val();
+    //   $.ajax({
+    //       url: ajax_url + "admini/help/get_tag_table",
+    //       data:{tag_id:tag_id},
+    //       type:"post",
+    //       dataType:"html",
+    //       success: function(res){
+    //         $("#ticket_table_view").html(res);
+    //         $('#ticket_table').DataTable();
+    //       }
+    //   })
+    // }
     $(function(){
-        viewTicketTable();
+        //viewTicketTable();
         $("body").on("click","#add_tag_btn",function(){
                 $("#tag_create")[0].reset();
 
           $("#tag_modal").modal();
         })
-        $("body").on("click","#push_btn",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
+        $("body").on("click","#add_ticket_btn",function(){
+            $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
+            CKEDITOR.replace( 'content' );
+            $("#question_modal").modal();
+            $("#create_ticket")[0].reset();
+            tag_id = $("#tag_id").val();
+            $("#ticket_tag_id option[value='"+tag_id+"']").prop("selected",true);
+            $("#ticket_modal").modal();
+          
+        })
+
+        $("body").on("click",".edit-tag",function(){
+            var id = $(this).closest("li").data("id");
+            //console.log(id);
             $.ajax({
-                url: ajax_url + "account/update_order_state",
-                data:{id:id,order_id:order_id},
+                url: ajax_url + "admini/setting/get_tag",
+                data:{id:id},
                 type:"post",
                 dataType:"json",
                 success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
+                    $("#tag_create")[0].reset();
+                    $("#tag_title").val(res.data.title);
+                    //$("#tag_id").attr('value',res.data.id);
+                    $("#tag_id").val(res.data.id);
+                    $("#tag_modal").modal();
+
                 }
             })
-          
         })
-        $("body").on("click","#push_cancel",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
+
+        $("body").on("click",".remove-tag",function(){
+            var id = $(this).closest("li").data("id");
             $.ajax({
-                url: ajax_url + "account/update_order_state_cancel",
-                data:{id:id,order_id:order_id},
+                url: ajax_url + "admini/setting/remove_tag",
+                data:{id:id},
                 type:"post",
                 dataType:"json",
                 success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
+                  document.location.replace(ajax_url+"admini/setting/statussetting");
                 }
             })
-          
         })
-        // $("body").on("click","#add_ticket_btn",function(){
-        //     $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
-        //     CKEDITOR.replace( 'content' );
-        //     $("#question_modal").modal();
-        //     $("#create_ticket")[0].reset();
-        //     tag_id = $("#tag_id").val();
-        //     $("#ticket_tag_id option[value='"+tag_id+"']").prop("selected",true);
-        //     $("#ticket_modal").modal();
-          
-        // })
-
-        // $("body").on("click",".edit-tag",function(){
-        //     var id = $(this).closest("li").data("id");
-        //     //console.log(id);
-        //     $.ajax({
-        //         url: ajax_url + "help/get_tag",
-        //         data:{id:id},
-        //         type:"post",
-        //         dataType:"json",
-        //         success: function(res){
-        //             $("#tag_create")[0].reset();
-        //             $("#tag_title").val(res.data.title);
-        //             $("#tag_id").attr('value',res.data.id);
-        //             //$("#tag_id").val(res.data.id);
-        //             $("#tag_modal").modal();
-
-        //         }
-        //     })
-        // })
-
-        // $("body").on("click",".remove-tag",function(){
-        //     var id = $(this).closest("li").data("id");
-        //     $.ajax({
-        //         url: ajax_url + "help/remove_tag",
-        //         data:{id:id},
-        //         type:"post",
-        //         dataType:"json",
-        //         success: function(res){
-        //           document.location.replace(ajax_url+"help/get_support");
-        //         }
-        //     })
-        // })
 
 
         // $("body").on("click",".edit-ticket",function(){
@@ -373,14 +317,14 @@
         //     document.create_ticket.submit();
         // })
         
-        $("body").on("click",".sider-menu li",function(){
-          $(".li-active").removeClass("li-active");
-          $(this).addClass("li-active");
-          //$("#add_ticket_btn").val("asdfasfa");
-          $("#tag_id").val($(this).data("id"));
-          viewTicketTable();
+        // $("body").on("click",".sider-menu li",function(){
+        //   $(".li-active").removeClass("li-active");
+        //   $(this).addClass("li-active");
+        //   $("#add_ticket_btn").val("asdfasfa");
+        //   $("#tag_id").val($(this).data("id"));
+        //   viewTicketTable();
 
-        })
+        // })
 
     })
 

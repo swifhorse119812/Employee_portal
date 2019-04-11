@@ -31,8 +31,8 @@
                     <a href=" <?php echo base_url()?>admini/user/Add  " class="btn btn-round btn-danger navbar-right">
                                       <i class="fa fa-plus"></i> Add New
                                      </a>
-                    <div class="clearfix"></div>
-                  </div>
+                  <div class="clearfix"></div>
+                </div>
 
                   <div class="x_content">
 

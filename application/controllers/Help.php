@@ -66,6 +66,7 @@ class Help extends MY_Controller
 
     public function get_tag_table(){
         $tag_id = $this->input->post("tag_id");
+        $employee_id = $this->input->post("employee_id");
         if($tag_id=="")$tag_id=1;
     ?>
     	<table id="ticket_table" class="display" style="width:100%">
@@ -80,12 +81,14 @@ class Help extends MY_Controller
                     <th>Sipping fee</th>
                     <th>Customer</th>
                     <th>Status</th>
+                    <th>Cancel</th>
                 </tr>
             </thead>
             <tbody>
             <?php
             //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-            $orders = get_rows("orders",array('state'=>$tag_id));
+            $employee_id = $this->session->userdata("member_id");
+            $orders = get_rows("orders",array('state'=>$tag_id,'employee_id'=>$employee_id));
             //var_dump($orders);exit;
             foreach ($orders as $key => $order) {
                 echo "<tr data-id='".$order['id']."'>";
@@ -99,8 +102,22 @@ class Help extends MY_Controller
                 echo '<td>'.$order['itcolor'].'</td>';
                 echo '<td>$'.$order['itshippingfee'].'</td>';
                 echo '<td>'.$order['itcustom'].'</td>';
-                $status = get_rows("order_status_list",array('id'=>$tag_id));
-                echo '<td>'.$status[0]["title"].'</td>';
+                // if($tag_id==4)
+                //     $status = get_rows("order_status_list",array('id'=>$tag_id));
+                // elseif($tag_id==5)
+                //     $status = "";
+                // else
+                     $status = get_rows("order_status_list",array('id'=>$tag_id+1));
+                //echo '<td>'.$status[0]["title"].'</td>';
+                if($tag_id==1){
+                    echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$status[0]["title"].'</button></td>';
+                    echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Cancel</button></td>';
+                }elseif($tag_id==6)
+                echo '<td>Canceled</td>';
+                elseif($tag_id==5)
+                    echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Finished</button></td>';
+                else
+                    echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$status[0]["title"].'</button></td>';
                 echo "</tr>";
             }
             ?>
@@ -116,6 +133,7 @@ class Help extends MY_Controller
                     <th>Sipping fee</th>
                     <th>Customer</th>
                     <th>Status</th>
+                    <th>Cancel</th>
                 </tr>
             </tfoot>
         </table>

@@ -55,7 +55,7 @@
                                 <tbody>
                              <?php
                                 //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-                                $orders = get_rows("orders");
+                                $orders = get_rows("orders",array("employee_id"=>$this->session->userdata("member_id")));
                                 //var_dump($orders);exit;
                                 foreach ($orders as $key => $order) {
                                     echo "<tr data-id='".$order['id']."'>";

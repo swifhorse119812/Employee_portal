@@ -30,7 +30,7 @@ class Home extends MY_Controller
         $this->load->helper('url');
     }
 
-    public function index(){   
+    public function index(){
         $this->load->view("home");
     }
     public function get_pipe_transction_data(){

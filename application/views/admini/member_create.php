@@ -122,21 +122,34 @@
                           <input type="text" id="password" type="password" data-validate-linked="password" name="password"  class="form-control col-md-7 col-xs-12" required="">
                         </div>
                       </div>
-                      <!-- <br/>
+                      <br/>
                      <br/>
-                      <div class="form-group">
+                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <label>
-                              <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
-                                <option value="0">Inactive</option>
-                                <option value="1">Super Admin</option>
-                                <option value="2">Admin</option>
+                              <select class="select2_single form-control col-md-7 col-xs-12" name="approve_status" id="apporve_status">
+                                <!-- <option value="0">Delete</option> -->
+                                <option value="1">Waiting</option>
+                                <option value="2">Active</option>
                               </select>
                             </label>
                         </div>
-                      </div> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Employee Level</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <label>
+                              <select class="select2_single form-control col-md-7 col-xs-12" name="emp_level" id="emp_level">
+                                <option value="0">Employee1</option>
+                                <option value="1">Employee2</option>
+                                <option value="2">Employee3</option>
+                              </select>
+                            </label>
+                        </div>
+                      </div>
                       <div class="item form-group">
                        <div class="ln_solid"></div>
                          <div class="form-group">

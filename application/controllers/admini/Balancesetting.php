@@ -14,6 +14,19 @@ class Balancesetting extends MY_Admin_Controller {
 		//$setting = $this->common_model->readData("setting",array('id'=>1));
 		$this->load->view('admini/balancesetting.php');
 	}
+	public function addbalance()
+	{
+		$insert_data = $this->input->post();
+		$insert_data['id']=1;
+		$balancesetting = $this->common_model->readData("balance",array("id"=>1));
+		if($balancesetting) {
+			$this->common_model->updateData("balance",$insert_data);
+		} else {
+			$insert_data['id'] = 1;
+		 	$this->common_model->createData("balance",$insert_data);
+		}
+		redirect(site_url("admini/balancesetting"));
+	}
 
 	public function Add()
 	{
