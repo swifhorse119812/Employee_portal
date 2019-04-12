@@ -81,7 +81,7 @@
                                 </div>
                           </div> -->
                           <div class="item form-group">
-                            <label for="itcustom" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee</label>
+                            <label for="itcustom" class="control-label col-md-3 col-sm-3 col-xs-12">Customer<span class="required">*</span></label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
                               <select class="form-control col-md-7 col-xs-12" name="itcustom" id="itcustom" required="">
                                 <?php
@@ -89,6 +89,7 @@
                                     $customers = get_rows("customer",array('employee_id'=>$user_id));
                                     foreach ($customers as $key => $customer) {
                                        $fullname = $customer['firstname'];
+                                       $fullname .= " "; 
                                        $fullname .= $customer['lastname'];
                                         echo '<option value="'.$fullname.'">'.$fullname.'</option>';
                                     }
@@ -98,7 +99,7 @@
                           </div>
                           
                           <div class="item form-group">
-                            <label for="itshippingfee" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee</label>
+                            <label for="itshippingfee" class="control-label col-md-3 col-sm-3 col-xs-12">Shipping fee<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input id="itshippingfee"  name="itshippingfee" class="form-control col-md-7 col-xs-12" required="required">
                             </div>

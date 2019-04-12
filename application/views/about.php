@@ -222,7 +222,7 @@
             ==================================================
             Call To Action Section Start
             ================================================== -->
-            <section id="call-to-action">
+            <!-- <section id="call-to-action">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -235,7 +235,7 @@
                         
                     </div>
                 </div>
-            </section>
+            </section> -->
 <?php 
     $this->load->view("footer");
 ?> 

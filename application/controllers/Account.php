@@ -69,40 +69,91 @@ class Account extends MY_Controller
     }
 
     public function order(){
-        $this->load->view("order");
+        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        $emp_level = $member['emp_level'];
+        if($emp_level!=2)
+            $this->load->view("order");
+        else
+            $this->load->view("home");
     }
     public function order_list(){
         $this->load->view("order_list");
     }
-    public function order_status_list($tag_id=""){
+    public function order_status_list($tag_id=""){ 
+        $tag_id = 1;
         $this->load->view("order_status_list",array("tag_id"=>$tag_id));
     }
     public function update_order_state(){
         $data = $this->input->post();
-        $this->db->set('state', $data['id']+1);
-		$this->db->where('id', $data['order_id']);
+        $row_datas = get_row('orders',array('id'=>$data['order_id']));
+
+        $bal_datas = get_rows('balance_history');
+        $default_balance = get_rows('balance');
+        $remain_bal =  $default_balance[0]['balance'];
+        foreach ($bal_datas as $key => $bal_data) {
+            $remain_bal -= $bal_data['balance']; 
+        }
+        if($row_datas['itprice']>$remain_bal){
+            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+            redirect(site_url("home"));
+        }
+        else{
+            $this->db->set('state', $data['id']+1);
+            $this->db->where('id', $data['order_id']);
+            $this->db->update('orders');
+            /////////////////////////////////inserted the purchaged order's info to balance_histroy
+            $rows = get_row('orders',array('id'=>$data['order_id']));
+            if($rows['state']==2){
+                $insert_data['balance']=$rows['itprice'];
+                $insert_data['customer']=$rows['itcustom'];
+                $insert_data['reference_num']=$rows['reference_num'];
+                $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+                $insert_data['order_id']=$rows['id'];
+                $this->common_model->createData("balance_history",$insert_data);
+            }
+            /////////////////////////////////
+            $data['names']="A";
+            echo json_encode(array("data"=>$data));
+        }
+    }
+    public function insert_referencenum(){
+        $data = $this->input->post();
+        $this->db->set('reference_num', $data['reference_num']);
+		$this->db->where('id', $data['id']);
         $this->db->update('orders');
-        $data['names']="A";
-        //$this->session->set_userdata("success","Successfully saved card info");
-        //redirect(base_url("account/order_status_list/".$data['id']+1));
-        echo json_encode(array("data"=>$data));
+        $this->session->set_userdata("success","Successfully saved order reference number");
+        redirect(base_url("account/order_status_list/".$data['sel_order_id']));
     }
     public function update_order_state_cancel(){
         $data = $this->input->post();
-        $this->db->set('state',6);
-		$this->db->where('id', $data['order_id']);
+        $this->db->set('state',5);
+        $this->db->set('cancel_reason',$data['cancel_reason']);
+		$this->db->where('id', $data['id']);
         $this->db->update('orders');
         $data['names']="A";
-        //$this->session->set_userdata("success","Successfully saved card info");
-        //redirect(base_url("account/order_status_list/".$data['id']+1));
-        echo json_encode(array("data"=>$data));
+        $this->session->set_userdata("success","Successfully canceled order info");
+        redirect(base_url("account/order_status_list/"));
     }
     
     public function realcustomer_list(){
-        $this->load->view("realcustomer_list");
+        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        $emp_level = $member['emp_level'];
+        if($emp_level==1)
+            $customers = get_rows("customer");
+        else
+            $customers = get_rows("customer",array('employee_id'=>$this->session->userdata("member_id")));
+        if($emp_level==2)
+            $this->load->view("home");
+        else
+            $this->load->view("realcustomer_list",array('customers'=>$customers));
     }
     public function realcustomer_add(){
-        $this->load->view("createrealcustomer");
+        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        $emp_level = $member['emp_level'];
+        if($emp_level!=2)
+            $this->load->view("createrealcustomer");
+        else
+            $this->load->view("home");
     }
 
     public function createrealcustomer(){
@@ -116,23 +167,22 @@ class Account extends MY_Controller
 	}
 
     public function createorder(){
-		//$insertData = array();
         $insertData = $this->input->post();
-        //var_dump($insertData);exit;
         $insertData['state']=1;
         $insertData['date']=date("y-m-d ").date("h:i:s") ;
+        $insertData['reference_num']=0;
         $insertData['employee_id'] = $this->session->userdata("member_id");
 
         $user_id = $this->session->userdata("member_id");
         $rows=get_rows('orders',array('employee_id'=>$user_id));
-        $balance = 0;
-        foreach($rows as $row){
-            if($row['employee_id']==$user_id)
-                $balance += $row['itprice'];
+        
+        $datas = get_rows('balance_history');
+        $default_balance = get_rows('balance');
+        $remain_bal =  $default_balance[0]['balance'];
+        foreach ($datas as $key => $data) {
+            $remain_bal -= $data['balance']; 
         }
-        $toatal_balance = $balance + $insertData['itprice'];
-        $default_balance = get_row('balance',array('id'=>1));
-        if($toatal_balance>$default_balance['balance']){
+        if($insertData['itprice']>$remain_bal){
             $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
             redirect(site_url("home"));
         }

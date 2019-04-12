@@ -51,7 +51,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Show Status Orders</h3>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show Status Orders</h3>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -63,20 +63,21 @@
                 <div style="border: 1px solid #ccc; min-height: 500px; padding: 40px;">
                   <ul class="sider-menu">
                     <?php
-                      $temp=0;
+                      //$temp=0;
                       $tags = get_rows("order_status_list");
                       foreach ($tags as $key => $tag) {
-                        $temp++;
-                        if($tag_id == "") $tag_id = $tag['id'];
-                        if($emp_level==0)
-                          if($temp==2 || $temp==3 || $temp==4 || $temp==5)
-                            continue;
-                        if($emp_level==1)
-                          if($temp==3 || $temp==4|| $temp==5)
-                            continue;
-                        if($emp_level==2)
-                          if($temp==1 || $temp==2)
-                            continue;
+                        // $temp++;
+                         if($tag_id == "") $tag_id = $tag['id'];
+                         //if($tag_id == "") $tag_id = 1;
+                        // if($emp_level==0)
+                        //   if($temp==2 || $temp==3 || $temp==4 || $temp==5)
+                        //     continue;
+                        // if($emp_level==1)
+                        //   if($temp==3 || $temp==4|| $temp==5)
+                        //     continue;
+                        // if($emp_level==2)
+                        //   if($temp==1 || $temp==2)
+                        //     continue;
                         
                     ?>
                     <li data-id="<?php echo $tag['id']; ?>" class="<?php if($tag_id == $tag['id']) echo "li-active"; ?>">
@@ -110,7 +111,6 @@
           </div>
         </div>
 
-<!-- <input type="hidden" name="" id="tag_id" value="<?php echo $tag_id; ?>"> -->
 <?php
 	$this->load->view('common/footer.php');
 ?>
@@ -159,43 +159,61 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-            <h3 class="modal-title">Help Ticket</h3>
+            <h3 class="modal-title">Insert Reference Number</h3>
         </div>
         <div class="modal-body" style="padding: 10px 0px;">
          <!--  <img id="featureimage" src=""/> -->
-              <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("admini/help/create_ticket"); ?>" method="post" enctype="multipart/form-data">
+              <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/insert_referencenum"); ?>" method="post" enctype="multipart/form-data">
                     
+                   
                     <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="ticket_tag_id" style="text-align: left;">Tag <span class="required">*</span>
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Reference Number<span class="required">*</span>
                         </label>
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                          <select type="text" name="tag_id" id="ticket_tag_id" required="required"  class="form-control col-md-12 col-xs-12">
-                          <?php
-                            foreach ($tags as $key => $tag) {
-                              echo "<option value='".$tag['id']."'>".$tag['title']."</option>";
-                            }
-                          ?>
-                          </select>
-                        </div>
-                    </div> 
-                    <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Title <span class="required">*</span>
-                        </label>
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                          <input type="text" name="title" id="ticket_title" required="required"  class="form-control col-md-12 col-xs-12">
-                        </div>
-                    </div>  
-                    <div class="form-group" style="padding: 20px; padding-top: 10px;">
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Content <span class="required">*</span>
-                        </label>
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                          <div id="edit_wrap" style="width: 100%;">
-                          </div>
+                          <input type="text" name="reference_num" id="reference_num" required="required"  class="form-control col-md-12 col-xs-12">
                         </div>
                     </div>  
                     
-                    <input type="hidden" name="id" id="ticket_id">
-                    <!-- <input type="hidden" name="content" id="content"> -->
+                    <input type="hidden" name="id" id="sel_order_id">
+
+                    <div class="form-group">
+                        <div class="" style="text-align: center;">
+                          <button type="submit" class="btn btn-info" id="submit_btn" style="">Save</button>
+                          <button type="button" class="btn btn-warning" id="remove_btn" style=" margin-left: 20px;" data-dismiss="modal">Cancel</button>
+
+                        </div>
+                    </div>
+                    
+              <div class="ln_solid"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade in" id="cancel_modal" aria-hidden="false" style="display: none;">
+  <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h3 class="modal-title">Insert Cancel Reason</h3>
+        </div>
+        <div class="modal-body" style="padding: 10px 0px;">
+         <!--  <img id="featureimage" src=""/> -->
+              <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/update_order_state_cancel"); ?>" method="post" enctype="multipart/form-data">
+                    
+                   
+                    <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="cancel_reason" style="text-align: left;">Cancel Reason<span class="required">*</span>
+                        </label>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <input type="text" name="cancel_reason" id="cancel_reason" required="required"  class="form-control col-md-12 col-xs-12">
+                        </div>
+                    </div>  
+                    
+                    <input type="hidden" name="id" id="cancel_orderid">
 
                     <div class="form-group">
                         <div class="" style="text-align: center;">
@@ -249,6 +267,7 @@
 
           $("#tag_modal").modal();
         })
+
         $("body").on("click","#push_btn",function(){
             var order_id = $(this).closest("tr").data("id");
             //alert(order_id)
@@ -266,33 +285,18 @@
             })
           
         })
+
         $("body").on("click","#push_cancel",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
-            $.ajax({
-                url: ajax_url + "account/update_order_state_cancel",
-                data:{id:id,order_id:order_id},
-                type:"post",
-                dataType:"json",
-                success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
-                }
-            })
-          
+            var cancel_order_id = $(this).closest("tr").data("id");
+            $("#cancel_orderid").val(cancel_order_id);
+            $("#cancel_modal").modal();
         })
-        // $("body").on("click","#add_ticket_btn",function(){
-        //     $("#edit_wrap").html('<textarea name="content" id="content"></textarea>');
-        //     CKEDITOR.replace( 'content' );
-        //     $("#question_modal").modal();
-        //     $("#create_ticket")[0].reset();
-        //     tag_id = $("#tag_id").val();
-        //     $("#ticket_tag_id option[value='"+tag_id+"']").prop("selected",true);
-        //     $("#ticket_modal").modal();
-          
-        // })
+
+        $("body").on("click","#edit_btn",function(){
+            var selorder_id = $(this).closest("tr").data("id");
+            $("#sel_order_id").val(selorder_id);
+            $("#ticket_modal").modal();
+        })
 
         // $("body").on("click",".edit-tag",function(){
         //     var id = $(this).closest("li").data("id");

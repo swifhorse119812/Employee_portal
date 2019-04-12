@@ -214,7 +214,15 @@
     <body>
 
 <?php 
-
+    ////////////////////////////////////////// get balance
+    $datas = get_rows('balance_history');
+    $default_balance = get_rows('balance');
+    $remain_bal =  $default_balance[0]['balance'];
+    foreach ($datas as $key => $data) {
+        $remain_bal -= $data['balance']; 
+    }
+    //echo $remain_bal;
+    //////////////////////////////////////////
     if($this->session->userdata("warning")!=""){
 ?>
     <div id="alert_error_wrap" class="float-alert animated fadeInRight col-xs-11 col-sm-4 alert alert-danger" style="z-index: 10000; float: right; margin-top: 10px;">
@@ -245,15 +253,15 @@
     }
 ?>
 <?php 
-    $user_id = $this->session->userdata("member_id");
-    $rows=get_rows('orders',array('employee_id'=>$user_id));
-    $balance = 0;
-    foreach($rows as $row){
-        if($row['employee_id']==$user_id)
-            $balance += $row['itprice'];
-    }
-    $default_balance = get_row('balance',array('id'=>1));
-    $balance = $default_balance['balance']-$balance;
+    // $user_id = $this->session->userdata("member_id");
+    // $rows=get_rows('orders',array('employee_id'=>$user_id));
+    // $balance = 0;
+    // foreach($rows as $row){
+    //     if($row['employee_id']==$user_id)
+    //         $balance += $row['itprice'];
+    // }
+    // $default_balance = get_row('balance',array('id'=>1));
+    // $balance = $default_balance['balance']-$balance;
 ?>
 
 <style type="text/css">
@@ -295,7 +303,7 @@ Header Section Start
             <div class="main-menu">
                 <ul class="nav navbar-nav navbar-right">
                   
-                   
+                    <li><a>Ballance : $<?php echo $remain_bal;?></a></li>
                     <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
                         
                     <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
@@ -312,12 +320,12 @@ Header Section Start
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders <span class="caret"></span></a>
                         <div class="dropdown-menu">
                             <ul>
-                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List All</a></li>
                                 <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
                                 <li><a href="<?php echo site_url("/account/order"); ?>">Add Order</a></li>
                             </ul>
                         </div>
                     </li>
+                    <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
                     
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
@@ -334,10 +342,10 @@ Header Section Start
                                 
                             </ul>
                         </div>
-                    </li> -->
-                    <!-- <li><a href="<?php echo site_url("contact"); ?>">Contact Us</a></li> -->
+                    </li>
+                    <li><a href="<?php echo site_url("contact"); ?>">Contact Us</a></li>
 
-                    <!-- <li class="dropdown">
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></a>
                         <div class="dropdown-menu">
                             <ul>
@@ -347,7 +355,7 @@ Header Section Start
                         </div>
                     </li> -->
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
-                    <li><a >Balance : <?php echo $balance; ?>$</a></li>
+                    <!-- <li><a >Balance : <?php echo $balance; ?>$</a></li> -->
                     <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
                     
                 </ul>

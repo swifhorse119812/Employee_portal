@@ -30,12 +30,10 @@
                         $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
                     ?>
                     <div class="title">
-                        Order Lists
+                        Tracking Orders
                         <!-- <button class="btn btn-success pull-right" id="add_product">+ Create Product</button> -->
                     </div>
-                    <!-- <div style="font-size: 20px;">
-                        Balance : $<?php echo 1110; ?>USD
-                    </div> -->
+                    
                     <div class="row">
                          <div class="col-md-12" style="margin-top: 20px;">
                             <table id="transaction_table" class="display" style="width:100%">
@@ -44,19 +42,26 @@
                                         <th>Item ID</th>
                                         <th>Item Name</th>
                                         <th>Item Image</th>
-                                        <th>Item Price</th>
+                                        <!-- <th>Item Price</th>
                                         <th>Item Size</th>
                                         <th>Item Color</th>
                                         <th>Sipping fee</th>
-                                        <th>Customer</th>
+                                        <th>Customer</th> -->
+                                        <th>Reference Number</th>
                                         <th>Status</th>
                                     </tr>
+                                        <!-- <tr role="search" class="tablesorter-filter-row tablesorter-ignoreRow">
+                                            <td data-column="1"><input type="search" placeholder="Item ID" class="tablesorter-filter" data-column="2" aria-label="Filter &quot;City&quot; column by..." data-lastsearchtime="1555070084726"></td>                                            
+                                            <td data-column="2"><input type="search" placeholder="Item Name" class="tablesorter-filter" data-column="2" aria-label="Filter &quot;City&quot; column by..." data-lastsearchtime="1555070084726"></td>
+                                            <td></td>
+                                            <td data-column="3"><input type="search" placeholder="Reference Number" class="tablesorter-filter" data-column="3" aria-label="Filter &quot;Age&quot; column by..." data-lastsearchtime="1555070084726"></td>
+                                            <td data-column="4"><input type="search" placeholder="Status" class="tablesorter-filter" data-column="4" aria-label="Filter &quot;Total&quot; column by..." data-lastsearchtime="1555070084726"></td>
+                                        </tr> -->
                                 </thead>
                                 <tbody>
                              <?php
                                 //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-                                $orders = get_rows("orders",array("employee_id"=>$this->session->userdata("member_id")));
-                                //var_dump($orders);exit;
+                                $orders = get_rows("orders");
                                 foreach ($orders as $key => $order) {
                                     echo "<tr data-id='".$order['id']."'>";
                                     echo '<td>'.$order['id'].'</td>';
@@ -64,11 +69,12 @@
                                     //echo '<td>'.$order['photo'].'</td>';
                                     echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
                                    
-                                    echo '<td>$'.$order['itprice'].'</td>';
-                                    echo '<td>'.$order['itsize'].'</td>';
-                                    echo '<td>'.$order['itcolor'].'</td>';
-                                    echo '<td>$'.$order['itshippingfee'].'</td>';
-                                    echo '<td>'.$order['itcustom'].'</td>';
+                                    // echo '<td>$'.$order['itprice'].'</td>';
+                                    // echo '<td>'.$order['itsize'].'</td>';
+                                    // echo '<td>'.$order['itcolor'].'</td>';
+                                    // echo '<td>$'.$order['itshippingfee'].'</td>';
+                                    //echo '<td>'.$order['itcustom'].'</td>';
+                                    echo '<td>'.$order['reference_num'].'</td>';
                                     $status = get_rows("order_status_list",array('id'=>$order['state']));
                                     echo '<td>'.$status[0]["title"].'</td>';
                                     echo "</tr>";
@@ -80,11 +86,12 @@
                                     <th>Item ID</th>
                                         <th>Item Name</th>
                                         <th>Item Image</th>
-                                        <th>Item Price</th>
+                                        <!-- <th>Item Price</th>
                                         <th>Item Size</th>
                                         <th>Item Color</th>
                                         <th>Sipping fee</th>
-                                        <th>Customer</th>
+                                        <th>Customer</th> -->
+                                        <th>Reference Number</th>
                                         <th>Status</th>
                                     </tr>
                                 </tfoot>

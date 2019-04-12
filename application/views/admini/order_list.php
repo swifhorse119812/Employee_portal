@@ -42,8 +42,11 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
-              <div class="title_left">
+              <!-- <div class="title_left"> -->
+              <div class="">
                 <h3>Oders List </h3>
+                <!-- <a class="btn btn-round btn-danger navbar-right" id="btn_print"> Print </a> -->
+                <button class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
               </div>
             </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -140,9 +143,9 @@ Call To Action Section Start
         <div class="row">
             <div class="col-md-12">
                 <div class="block">
-                    <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">SO WHAT YOU THINK ?</h1>
+                    <!-- <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">SO WHAT YOU THINK ?</h1>
                     <p class="wow fadeInDown" data-wow-delay=".5s" data-wow-duration="500ms">All purchases with Virsympay are purchases of the Virsymcoin Cryptocurrency,<br/> we convert all purchases to the currency of your choice.</p>
-                    <a href="<?php echo site_url("contact"); ?>" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Contact With Me</a>
+                    <a href="<?php echo site_url("contact"); ?>" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Contact With Me</a> -->
                 </div>
             </div>
             
@@ -219,7 +222,7 @@ Call To Action Section Start
 
 
 <?php 
-    $this->load->view("common/footer");
+   // $this->load->view("common/footer");
 ?> 
 <script type="text/javascript">
     $.extend( true, $.fn.dataTable.defaults, {
@@ -228,6 +231,18 @@ Call To Action Section Start
     } );
 
     $(function(){
+      $('button[type="submit"]').click(function () {
+            var pageTitle = 'Page Title'
+                stylesheet = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css'
+                win = window.open('', 'Print', 'width=500,height=300');
+            win.document.write('<html><head><title>' + pageTitle + '</title>' +
+                '<link rel="stylesheet" href="' + stylesheet + '">' +
+                '</head><body>' + $('.table')[0].outerHTML + '</body></html>');
+            win.document.close();
+            win.print();
+            win.close();
+            return false;
+         })
         $('#transaction_table').DataTable({responsive: true});
         $("#add_product").click(function(){
             $("#create_product")[0].reset();

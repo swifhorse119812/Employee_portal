@@ -14,6 +14,17 @@ class Balancesetting extends MY_Admin_Controller {
 		//$setting = $this->common_model->readData("setting",array('id'=>1));
 		$this->load->view('admini/balancesetting.php');
 	}
+	public function bal_setting()
+	{
+		$this->load->view('admini/balancesetting.php');
+	}
+	public function report_ballance()
+	{
+		//$setting = $this->common_model->readData("setting",array('id'=>1));
+		$datas = get_rows('balance_history');
+		$default_balance = get_rows('balance');
+		$this->load->view('admini/report_ballance.php',array("datas"=>$datas,"default_balance"=>$default_balance));
+	}
 	public function addbalance()
 	{
 		$insert_data = $this->input->post();
@@ -25,6 +36,7 @@ class Balancesetting extends MY_Admin_Controller {
 			$insert_data['id'] = 1;
 		 	$this->common_model->createData("balance",$insert_data);
 		}
+		$this->common_model->deleteData("balance_history",array("balance_id"=>1));
 		redirect(site_url("admini/balancesetting"));
 	}
 

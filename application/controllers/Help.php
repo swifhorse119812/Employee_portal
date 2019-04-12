@@ -68,6 +68,8 @@ class Help extends MY_Controller
         $tag_id = $this->input->post("tag_id");
         $employee_id = $this->input->post("employee_id");
         if($tag_id=="")$tag_id=1;
+        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        $emp_level = $member['emp_level'];
     ?>
     	<table id="ticket_table" class="display" style="width:100%">
             <thead>
@@ -75,65 +77,121 @@ class Help extends MY_Controller
                     <th>Item ID</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
-                    <th>Item Price</th>
-                    <th>Item Size</th>
-                    <th>Item Color</th>
-                    <th>Sipping fee</th>
-                    <th>Customer</th>
+                    <?php
+                        if($emp_level!=2){
+                            echo '<th>Item Price</th>';
+                            echo '<th>Item Size</th>';
+                            echo '<th>Item Color</th>';
+                            echo '<th>Sipping fee</th>';
+                            echo '<th>Customer</th>';
+                        }
+                    ?>
+                    <th>ReferenceNum</th>
                     <th>Status</th>
-                    <th>Cancel</th>
+                    <?php
+                        if($tag_id==1 && $emp_level==1){
+                            echo '<th>Edit</th>';
+                        }
+                        if($tag_id==1 && $emp_level!=2){
+                            echo '<th>Cancel</th>';
+                        }
+                        if($tag_id==5)
+                            echo '<th>Cancel Reason</th>';
+                        else
+                            echo '<th>Goto Next</th>';
+                    ?>
                 </tr>
             </thead>
             <tbody>
-            <?php
-            //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-            $employee_id = $this->session->userdata("member_id");
-            $orders = get_rows("orders",array('state'=>$tag_id,'employee_id'=>$employee_id));
-            //var_dump($orders);exit;
-            foreach ($orders as $key => $order) {
-                echo "<tr data-id='".$order['id']."'>";
-                echo '<td>'.$order['id'].'</td>';
-                echo '<td>'.$order['itname'].'</td>';
-                //echo '<td>'.$order['photo'].'</td>';
-                echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
-                
-                echo '<td>$'.$order['itprice'].'</td>';
-                echo '<td>'.$order['itsize'].'</td>';
-                echo '<td>'.$order['itcolor'].'</td>';
-                echo '<td>$'.$order['itshippingfee'].'</td>';
-                echo '<td>'.$order['itcustom'].'</td>';
-                // if($tag_id==4)
-                //     $status = get_rows("order_status_list",array('id'=>$tag_id));
-                // elseif($tag_id==5)
-                //     $status = "";
-                // else
-                     $status = get_rows("order_status_list",array('id'=>$tag_id+1));
-                //echo '<td>'.$status[0]["title"].'</td>';
-                if($tag_id==1){
-                    echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$status[0]["title"].'</button></td>';
-                    echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Cancel</button></td>';
-                }elseif($tag_id==6)
-                echo '<td>Canceled</td>';
-                elseif($tag_id==5)
-                    echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Finished</button></td>';
-                else
-                    echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$status[0]["title"].'</button></td>';
-                echo "</tr>";
-            }
-            ?>
+                <?php
+                    $employee_id = $this->session->userdata("member_id");
+                    if($emp_level==0)
+                        $orders = get_rows("orders",array('state'=>$tag_id,'employee_id'=>$employee_id));
+                    else
+                        $orders = get_rows("orders",array('state'=>$tag_id));
+                    foreach ($orders as $key => $order) {
+                        echo "<tr data-id='".$order['id']."'>";
+                        //echo '<td><input class="j9ixv80" type="checkbox" data-indeterminate="false" value=""></td>';
+                        echo '<td>'.$order['id'].'</td>';
+                        echo '<td>'.$order['itname'].'</td>';
+                        echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
+                        if($emp_level!=2){
+                            echo '<td>$'.$order['itprice'].'</td>';
+                            echo '<td>'.$order['itsize'].'</td>';
+                            echo '<td>'.$order['itcolor'].'</td>';
+                            echo '<td>$'.$order['itshippingfee'].'</td>';
+                            echo '<td>'.$order['itcustom'].'</td>';
+                        }
+                        echo '<td>'.$order['reference_num'].'</td>';
+                    
+                        $current_state = get_rows("order_status_list",array('id'=>$tag_id));
+                        if($tag_id<4)
+                            $next_status = get_rows("order_status_list",array('id'=>$tag_id+1));
+
+                        echo '<td>'.$current_state[0]["title"].'</td>';
+                    
+                        if($tag_id==1&&$emp_level==1){
+                            echo '<td><button class="btn btn-warning pull-center" id="edit_btn" >Edit</button></td>';
+                        }
+                        if($tag_id==1&&$emp_level!=2){
+                            echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Cancel</button></td>';
+                        }
+                        
+                        if($tag_id==1){
+                            if($emp_level==1)
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            else
+                                echo '<td></td>';
+                        }
+                        elseif($tag_id==2){
+                            if($emp_level==2)
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            else
+                                echo '<td></td>';
+                        }
+                        elseif($tag_id==3){
+                            if($emp_level==0)
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            else
+                                echo '<td></td>';
+                        }
+                        elseif($tag_id==4){
+                            echo '<td></td>';
+                        }
+                        elseif($tag_id==5)
+                            echo '<td>'.$order["cancel_reason"].'</td>';
+                        
+                    }
+                    ?>
             </tbody>
             <tfoot>
                 <tr>
                 <th>Item ID</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
-                    <th>Item Price</th>
-                    <th>Item Size</th>
-                    <th>Item Color</th>
-                    <th>Sipping fee</th>
-                    <th>Customer</th>
+                    <?php
+                        if($emp_level!=2){
+                            echo '<th>Item Price</th>';
+                            echo '<th>Item Size</th>';
+                            echo '<th>Item Color</th>';
+                            echo '<th>Sipping fee</th>';
+                            echo '<th>Customer</th>';
+                        }
+                    ?>
+                    <th>ReferenceNum</th>
                     <th>Status</th>
-                    <th>Cancel</th>
+                    <?php
+                        if($tag_id==1 && $emp_level==1){
+                            echo '<th>Edit</th>';
+                        }
+                        if($tag_id==1 && $emp_level!=2){
+                            echo '<th>Cancel</th>';
+                        }
+                        if($tag_id==5)
+                            echo '<th>Cancel Reason</th>';
+                        else
+                            echo '<th>Goto Next</th>';
+                    ?>
                 </tr>
             </tfoot>
         </table>

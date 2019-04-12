@@ -132,7 +132,12 @@
                   </li>
                   <li><a  href="<?php echo base_url()?>admini/orders/order_list"><i class="fa fa-gear"></i> All Orders List </a>
                   <li><a  href="<?php echo base_url()?>admini/setting/statussetting"><i class="fa fa-gear"></i> Status Setting </a>
-                  <li><a  href="<?php echo base_url()?>admini/balancesetting"><i class="fa fa-gear"></i> Balance Setting </a>
+                  <li><a><i class="fa fa-users"></i> Balance <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a  href="<?php echo base_url()?>admini/balancesetting/report_ballance"><i class="fa fa-gear"></i> Balance Report </a>
+                        <li><a  href="<?php echo base_url()?>admini/balancesetting/bal_setting"><i class="fa fa-gear"></i> Balance Setting </a>
+                    </ul>
+                  </li>
                   <!-- <li><a><i class="fa fa-users"></i> Customers <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?php echo base_url()?>admini/realcustomer">Customer List</a></li>

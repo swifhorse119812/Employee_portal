@@ -28,9 +28,9 @@
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul> -->
-                    <a href=" <?php echo base_url()?>admini/customer/Add  " class="btn btn-round btn-danger navbar-right">
+                    <!-- <a href=" <?php echo base_url()?>admini/customer/Add  " class="btn btn-round btn-danger navbar-right">
                                       <i class="fa fa-plus"></i> Add New
-                                     </a>
+                                     </a> -->
                     <div class="clearfix"></div>
                   </div>
 
