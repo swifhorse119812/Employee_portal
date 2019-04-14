@@ -67,17 +67,18 @@
                         ?>
                                 
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Balance &nbsp;: &nbsp;$ 
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Add Balance &nbsp;: &nbsp;$ 
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text"  name="balance" id="balance" required="required" value="<?php echo $balance['balance']; ?>"  class="form-control col-md-7 col-xs-12">
+                            <input type="text"  name="balance" id="balance" required="required" value=""  class="form-control col-md-7 col-xs-12">
+                            <!-- <input type="text"  name="balance" id="balance" required="required" value="<?php echo $balance['balance']; ?>"  class="form-control col-md-7 col-xs-12"> -->
                           </div>
                         </div> 
                         <div class="item form-group">
                           <div class="ln_solid"></div>
                             <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-success" >Save</button>
+                            <button type="submit" class="btn btn-success" >Add Ballance</button>
                             </div>
                             </div>
                           </div>
@@ -86,6 +87,95 @@
                   <div class="col-md-4">
                   </div>
               </form>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+
+                    
+
+                    <div class="table-responsive">
+                      <table id="example" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings" style="background-color:#24652e">
+                            <th class="column-title">No</th>
+                            <th class="column-title">Date </th>
+                            <th class="column-title">Add Balance History </th>
+                            <!-- <th class="column-title">Already </th>
+                            <th class="column-title">Price </th>
+                            <th class="column-title">Balance </th> -->
+                            <!-- <th class="column-title">Date </th>
+                            <th class="column-title">Action </th> -->
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                            // $i=0;
+                            // $default_balance = get_rows('balance');
+                            // $balance=$default_balance[0]['balance'];
+                            // $datas = get_rows('balance_history');
+                             $datas = get_rows('add_bal_history');
+                            //var_dump($default_balance);exit;
+                            foreach ($datas as $key => $data) {
+                            //   $balance1=$balance;
+                            //   $balance=$balance1-$data['balance'];
+                            // $i++;
+                         ?>
+
+                          <tr >
+                            <td>
+                              <?php echo $data['id']?>
+                            </td>
+                            <td>
+                            <?php echo $data['add_date']; ?>
+                            </td>
+                            <td>
+                            <?php echo $data['add_bal']; ?>
+                            </td>
+                            <!-- <td>$
+                             <?php echo $balance1; ?>
+                            </td>
+                            <td>$
+                            <?php echo $data['balance']; ?>
+                            </td>
+                            <td>$
+                             <?php echo $balance; ?>
+                            </td> -->
+                            
+                            <!-- <td>
+                              <img src="<?php echo base_url()."assets/uploads/".$user['photo']; ?>" style="width: 50px; height:50px  "/>
+                             
+                            </td>
+                            <td>
+                                <?php 
+                                  if($user['roll'] == 1) echo "Super Admin";
+                                  else if($user['roll'] == 2) echo "Admin";
+                                  else echo "Inactive";
+                                ?>
+                            </td>
+                            <td>
+                              <?php echo $user['date']; ?>
+                            </td>
+                            <td >
+                            
+                              <a data-id=" <?php echo $user["id"]?> " class="btn btn-round btn-default user-edit">
+                                      <i class="fa fa-edit blue"></i> Edit
+                                     </a>
+                              <a data-id="<?php echo $user["id"]?>" class="btn btn-round btn-default user-delete">
+                      <i class="fa fa-remove red"></i> delete
+                    </a>
+                            </td> -->
+                          </tr>
+                        <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                  </div>
+            
+                </div>
             </div>
         </div>
     </div>         

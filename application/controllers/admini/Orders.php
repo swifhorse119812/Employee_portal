@@ -69,8 +69,11 @@ class Orders extends MY_Controller
     public function order(){
         $this->load->view("admini/order");
     }
-    public function order_list(){
+    public function order_list(){ 
         $this->load->view("admini/order_list");
+    }
+    public function shipping_list(){ 
+        $this->load->view("admini/order_shipping_list");
     }
     public function order_status_list($tag_id=""){
         $this->load->view("order_status_list",array("tag_id"=>$tag_id));

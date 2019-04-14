@@ -13,7 +13,7 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <!-- <h2>Balance Report </h2> -->
-                    <h2>&nbsp;&nbsp;&nbsp;Default Balance : $<?php echo $default_balance[0]['balance']?></h2>
+                    <h2>&nbsp;&nbsp;&nbsp;All Balance : $<?php echo $default_balance[0]['balance']?></h2>
                     <h2>&nbsp;&nbsp;&nbsp;Remaining Balance : $<?php
                       $remain_bal =  $default_balance[0]['balance'];
                       foreach ($datas as $key => $data) {
@@ -23,7 +23,7 @@
                     ?> </h2>
                     
                   <div class="clearfix"></div>
-                </div>
+                  </div>
 
                   <div class="x_content">
 
@@ -36,6 +36,7 @@
                             <th class="column-title">No</th>
                             <th class="column-title">Date </th>
                             <th class="column-title">Customer </th>
+                            <th class="column-title">Before </th>
                             <th class="column-title">Price </th>
                             <th class="column-title">Balance </th>
                             <!-- <th class="column-title">Date </th>
@@ -49,6 +50,7 @@
                             $balance=$default_balance[0]['balance'];
                             //var_dump($default_balance);exit;
                             foreach ($datas as $key => $data) {
+                              $balance1=$balance;
                               $balance=$balance-$data['balance'];
                             $i++;
                          ?>
@@ -62,6 +64,9 @@
                             </td>
                             <td>
                             <?php echo $data['customer']; ?>
+                            </td>
+                            <td>$
+                             <?php echo $balance1; ?>
                             </td>
                             <td>$
                             <?php echo $data['balance']; ?>

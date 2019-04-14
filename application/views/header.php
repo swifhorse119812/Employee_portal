@@ -221,6 +221,8 @@
     foreach ($datas as $key => $data) {
         $remain_bal -= $data['balance']; 
     }
+    $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+    $emp_level = $member['emp_level'];
     //echo $remain_bal;
     //////////////////////////////////////////
     if($this->session->userdata("warning")!=""){
@@ -287,25 +289,15 @@ Header Section Start
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <!-- /responsive nav button -->
-            
-            <!-- logo -->
-            <!-- <div class="navbar-brand">
-                <a href="<?php echo base_url("home"); ?>" >
-                    <img src="<?php echo base_url('assets/client_assets/images/logo.png'); ?>" alt="" style="height: 50px;">
-                </a>
-            </div> -->
-            <!-- /logo -->
-        </div>
-        <!-- main menu -->
-        
+          
         <nav class="collapse navbar-collapse navbar-right" role="navigation">
             <div class="main-menu">
                 <ul class="nav navbar-nav navbar-right">
-                  
+                <?php
+                    if($emp_level!=2){
+                ?>
                     <li><a>Ballance : $<?php echo $remain_bal;?></a></li>
                     <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
-                        
                     <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
@@ -326,38 +318,21 @@ Header Section Start
                         </div>
                     </li>
                     <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
-                    
-                    <!-- <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
-                        <div class="dropdown-menu">
-                            <ul>
-                                <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
-                                <li><a href="<?php echo site_url("/account/card_info"); ?>">Card Info</a></li>
-                                <li><a href="<?php echo site_url("/account/order"); ?>">Creat Order</a></li>
-                                <li><a href="<?php echo site_url("/account/order_list"); ?>">Order List</a></li>
-                                <li><a href="<?php echo site_url("/account/register_product"); ?>">Products</a></li>
-                                <li><a href="<?php echo site_url("/account/transaction_history"); ?>">Transaction History</a></li>
-                                <li><a href="<?php echo site_url("/account/withdraw_money"); ?>">Withdraw Money</a></li>
-                                <li><a href="<?php echo site_url("/account/inbox"); ?>">Inbox</a></li>
-                                
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="<?php echo site_url("contact"); ?>">Contact Us</a></li>
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></a>
-                        <div class="dropdown-menu">
-                            <ul>
-                                <li><a href="<?php echo site_url("help/get_support"); ?>">Get Support</a></li>
-                                <li><a href="<?php echo site_url("help/faq"); ?>">Merchant Ticket Support</a></li>
-                            </ul>
-                        </div>
-                    </li> -->
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
                     <!-- <li><a >Balance : <?php echo $balance; ?>$</a></li> -->
                     <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
-                    
+                    <?php
+                        }
+                        else{
+                    ?>
+                            <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
+                            <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
+                            <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
+                            <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
+                            <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
+                    <?php
+                        }                        
+                    ?>
                 </ul>
             </div>
         </nav>

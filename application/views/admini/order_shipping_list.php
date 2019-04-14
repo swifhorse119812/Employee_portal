@@ -44,7 +44,7 @@
             <div class="page-title">
               <!-- <div class="title_left"> -->
               <div class="">
-                <h3>Oders List </h3>
+                <h3>Shipping List </h3>
                 <!-- <a class="btn btn-round btn-danger navbar-right" id="btn_print"> Print </a> -->
                 <button class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
               </div>
@@ -52,7 +52,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Orders List </h2>
+                            <h2>Shipping List </h2>
                         <div class="clearfix"></div>
                     </div>
 
@@ -65,7 +65,19 @@
                                         <div class="account-panel">
                                             <?php 
                                                 $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+                                                $orders = get_rows("orders");
+                                                $temp=0;
+                                                $total=0;
+                                                foreach($orders as $order){
+                                                  if($order['state']>3){
+                                                    $temp++;
+                                                    $total+=$order['itshippingfee'];
+                                                  }                                                                                                      
+                                                }
                                             ?>
+                                            <div>
+                                            <h2> <?php echo $temp; ?>&nbsp;&nbsp;Orders &nbsp;&nbsp; Shipping $<?php echo $total; ?></h2>
+                                            </div>
                                             
                                             <div class="row">
                                                 <div class="col-md-12" style="margin-top: 20px;">
@@ -86,9 +98,11 @@
                                                         <tbody>
                                                     <?php
                                                         //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
-                                                        $orders = get_rows("orders");
+                                                        //$orders = get_rows("orders");
                                                         //var_dump($orders);exit;
                                                         foreach ($orders as $key => $order) {
+                                                            if($order['state']<4)
+                                                                continue;
                                                             echo "<tr data-id='".$order['id']."'>";
                                                             echo '<td>'.$order['id'].'</td>';
                                                             echo '<td>'.$order['itname'].'</td>';

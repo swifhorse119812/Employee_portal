@@ -45,6 +45,95 @@
         background: #e0e0e0;
       }
 </style>
+<!-- <style>
+  body {font-family: Arial, Helvetica, sans-serif;}
+
+  #myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #myImg:hover {opacity: 0.7;}
+
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  }
+
+  /* Modal Content (image) */
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+
+  /* Caption of Modal Image */
+  #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+
+  /* Add Animation */
+  .modal-content, #caption {  
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+  }
+
+  @-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+  }
+
+  @keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+  }
+
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 100% Image Width on Smaller Screens */
+  @media only screen and (max-width: 700px){
+    .modal-content {
+      width: 100%;
+    }
+}
+</style> -->
 
                   <!-- page content -->
         <div class="right_col" role="main">
@@ -63,21 +152,21 @@
                 <div style="border: 1px solid #ccc; min-height: 500px; padding: 40px;">
                   <ul class="sider-menu">
                     <?php
-                      //$temp=0;
+                      $temp=0;
                       $tags = get_rows("order_status_list");
                       foreach ($tags as $key => $tag) {
-                        // $temp++;
-                         if($tag_id == "") $tag_id = $tag['id'];
-                         //if($tag_id == "") $tag_id = 1;
+                        $temp++;
+                        //  if($tag_id == "") $tag_id = $tag['id'];
+                        //  if($tag_id == "") $tag_id = 1;
                         // if($emp_level==0)
                         //   if($temp==2 || $temp==3 || $temp==4 || $temp==5)
                         //     continue;
                         // if($emp_level==1)
                         //   if($temp==3 || $temp==4|| $temp==5)
                         //     continue;
-                        // if($emp_level==2)
-                        //   if($temp==1 || $temp==2)
-                        //     continue;
+                        if($emp_level==2)
+                          if($temp==1 || $temp==5 || $temp==6)
+                            continue;
                         
                     ?>
                     <li data-id="<?php echo $tag['id']; ?>" class="<?php if($tag_id == $tag['id']) echo "li-active"; ?>">
@@ -92,7 +181,13 @@
               <div class="col-md-10" style="padding: 0px 20px;">
                      
                 <div style="width: 100%; height: 50px;">
-                  <!-- <button class="btn btn-warning pull-right" id="add_ticket_btn">Save</button> -->
+                <?php
+                  if($emp_level==2){
+                ?>
+                  <button class="btn btn-warning pull-right" id="push_shipped_btn">Shipped</button>
+                  <?php
+                  }
+                ?>
                 </div>
 
                 <div style="border: 1px solid #ccc; min-height: 500px;">
@@ -298,6 +393,33 @@
             $("#ticket_modal").modal();
         })
 
+        // $('#push_shipped_btn').click(function(){
+        //   var getID = $('#ticket_table_view input[type="checkbox"]:checked').closest("tr").val();
+        //     alert(getID);
+        // });
+        
+        $("#push_shipped_btn").on("click", function () {
+          var id = $('#ticket_table_view input[type="checkbox"]:checked').map(function () {
+              return $(this).val();
+          }).get();
+          $.ajax({
+                url: ajax_url + "account/update_shipped_state",
+                data:{id:id},
+                type:"post",
+                dataType:"json",
+                success: function(res){
+                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
+                  document.location.replace(ajax_url+"account/order_status_list/");
+                }
+            })
+        });
+
+
+        // $("body").on("hover",".compress",function(){
+        //   $(".image").show();
+
+        // })
+
         // $("body").on("click",".edit-tag",function(){
         //     var id = $(this).closest("li").data("id");
         //     //console.log(id);
@@ -389,5 +511,27 @@
     })
 
 </script>
+<script>
+// Get the modal
+// var modal = document.getElementById('myModal');
+
+// // Get the image and insert it inside the modal - use its "alt" text as a caption
+// var img = document.getElementById('myImg');
+// var modalImg = document.getElementById("img01");
+// var captionText = document.getElementById("caption");
+// img.onclick = function(){ alert(123123)
+//   modal.style.display = "block";
+//   modalImg.src = this.src;
+//   captionText.innerHTML = this.alt;
+// }
+
+// // Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("close")[0];
+
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() { 
+//   modal.style.display = "none";
+// }
+// </script>
 
             

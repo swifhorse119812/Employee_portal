@@ -53,7 +53,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-md-3" style="padding: 0px 20px;">
+              <div class="col-md-4" style="padding: 0px 20px;">
                 <div style="width: 100%; height: 50px;">
                   <button class="btn btn-info pull-right" id="add_tag_btn">Add Tag</button>
                 </div>

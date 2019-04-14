@@ -74,6 +74,13 @@ class Help extends MY_Controller
     	<table id="ticket_table" class="display" style="width:100%">
             <thead>
                 <tr>
+                    <?php 
+                        if($tag_id==3){
+                    ?>
+                    <th></th>
+                    <?php 
+                        }
+                    ?>
                     <th>Item ID</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
@@ -95,7 +102,7 @@ class Help extends MY_Controller
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==5)
+                        if($tag_id==6)
                             echo '<th>Cancel Reason</th>';
                         else
                             echo '<th>Goto Next</th>';
@@ -111,10 +118,14 @@ class Help extends MY_Controller
                         $orders = get_rows("orders",array('state'=>$tag_id));
                     foreach ($orders as $key => $order) {
                         echo "<tr data-id='".$order['id']."'>";
-                        //echo '<td><input class="j9ixv80" type="checkbox" data-indeterminate="false" value=""></td>';
+                        if($tag_id==3)
+                            echo '<td><input type="checkbox" id="chbox" name="chbox" value="'.$order['id'].'"></td>';
+
                         echo '<td>'.$order['id'].'</td>';
                         echo '<td>'.$order['itname'].'</td>';
-                        echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
+                        // echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "></td>';
+                        echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" width="50" height="50" onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50"></td>';
+                        //echo '<td> <img id="myImg" src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "></td>';
                         if($emp_level!=2){
                             echo '<td>$'.$order['itprice'].'</td>';
                             echo '<td>'.$order['itsize'].'</td>';
@@ -125,7 +136,7 @@ class Help extends MY_Controller
                         echo '<td>'.$order['reference_num'].'</td>';
                     
                         $current_state = get_rows("order_status_list",array('id'=>$tag_id));
-                        if($tag_id<4)
+                        if($tag_id<5)
                             $next_status = get_rows("order_status_list",array('id'=>$tag_id+1));
 
                         echo '<td>'.$current_state[0]["title"].'</td>';
@@ -150,15 +161,21 @@ class Help extends MY_Controller
                                 echo '<td></td>';
                         }
                         elseif($tag_id==3){
-                            if($emp_level==0)
+                            if($emp_level==2)
                                 echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
                             else
                                 echo '<td></td>';
                         }
                         elseif($tag_id==4){
+                            if($emp_level==0)
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            else
+                                echo '<td></td>';
+                        }
+                        elseif($tag_id==5){
                             echo '<td></td>';
                         }
-                        elseif($tag_id==5)
+                        elseif($tag_id==6)
                             echo '<td>'.$order["cancel_reason"].'</td>';
                         
                     }
@@ -166,7 +183,14 @@ class Help extends MY_Controller
             </tbody>
             <tfoot>
                 <tr>
-                <th>Item ID</th>
+                    <?php 
+                        if($tag_id==3){
+                    ?>
+                    <th></th>
+                    <?php 
+                        }
+                    ?>
+                    <th>Item ID</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
                     <?php
@@ -187,7 +211,7 @@ class Help extends MY_Controller
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==5)
+                        if($tag_id==6)
                             echo '<th>Cancel Reason</th>';
                         else
                             echo '<th>Goto Next</th>';

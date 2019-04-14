@@ -130,8 +130,13 @@
                       <li><a href="<?php echo base_url()?>admini/customer/Add">Add new Employee</a></li>
                     </ul>
                   </li>
-                  <li><a  href="<?php echo base_url()?>admini/orders/order_list"><i class="fa fa-gear"></i> All Orders List </a>
-                  <li><a  href="<?php echo base_url()?>admini/setting/statussetting"><i class="fa fa-gear"></i> Status Setting </a>
+                  <li><a><i class="fa fa-users"></i> Orders <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a  href="<?php echo base_url()?>admini/orders/order_list"><i class="fa fa-gear"></i> All Orders List </a>
+                      <li><a  href="<?php echo base_url()?>admini/orders/shipping_list"><i class="fa fa-gear"></i> All Sipping List </a>
+                      <li><a  href="<?php echo base_url()?>admini/setting/statussetting"><i class="fa fa-gear"></i>Orders Status Setting </a>
+                    </ul>
+                  </li>
                   <li><a><i class="fa fa-users"></i> Balance <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a  href="<?php echo base_url()?>admini/balancesetting/report_ballance"><i class="fa fa-gear"></i> Balance Report </a>

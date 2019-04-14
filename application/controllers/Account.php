@@ -38,9 +38,6 @@ class Account extends MY_Controller
     }
     public function update_profile(){
         $data = $this->input->post();
-		$this->db->set('status', $data['id']+1);
-		$this->db->where('id', $id);
-		$this->db->update('order');
         $this->common_model->updateData("member",$data,array("id"=>$this->session->userdata("member_id")));
         $this->session->set_userdata("success","Successfully Updated!");
         redirect(site_url("account/dashboard"));
@@ -116,6 +113,42 @@ class Account extends MY_Controller
             echo json_encode(array("data"=>$data));
         }
     }
+    public function update_shipped_state(){
+        $data = $this->input->post();
+
+        for($i=0;$i<sizeof($data['id']);$i++){  
+        $row_datas = get_row('orders',array('id'=>$data['id'][$i]));
+
+        $bal_datas = get_rows('balance_history');
+        $default_balance = get_rows('balance');
+        $remain_bal =  $default_balance[0]['balance'];
+        foreach ($bal_datas as $key => $bal_data) {
+            $remain_bal -= $bal_data['balance']; 
+        }
+        if($row_datas['itprice']>$remain_bal){
+            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+            redirect(site_url("home"));
+        }
+        else{
+            $this->db->set('state', 4);
+            $this->db->where('id', $data['id'][$i]);
+            $this->db->update('orders');
+            /////////////////////////////////inserted the purchaged order's info to balance_histroy
+            //$rows = get_row('orders',array('id'=>$data['order_id']));
+            // if($rows['state']==2){
+            //     $insert_data['balance']=$rows['itprice'];
+            //     $insert_data['customer']=$rows['itcustom'];
+            //     $insert_data['reference_num']=$rows['reference_num'];
+            //     $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+            //     $insert_data['order_id']=$rows['id'];
+            //     $this->common_model->createData("balance_history",$insert_data);
+            // }
+            /////////////////////////////////
+            $data['names']="A";
+            echo json_encode(array("data"=>$data));
+        }
+    }
+    }
     public function insert_referencenum(){
         $data = $this->input->post();
         $this->db->set('reference_num', $data['reference_num']);
@@ -126,7 +159,7 @@ class Account extends MY_Controller
     }
     public function update_order_state_cancel(){
         $data = $this->input->post();
-        $this->db->set('state',5);
+        $this->db->set('state',6);
         $this->db->set('cancel_reason',$data['cancel_reason']);
 		$this->db->where('id', $data['id']);
         $this->db->update('orders');
