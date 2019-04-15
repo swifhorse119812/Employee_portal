@@ -133,4 +133,14 @@ class Setting extends MY_Admin_Controller {
 	 <?php
 
     }
+
+    public function order(){
+        $this->load->view("admini/order");
+    }
+    public function order_list(){
+        $this->load->view("admini/order_lists");
+    }
+    public function shipping_list(){ 
+        $this->load->view("admini/order_shipping_list");
+    }
 }

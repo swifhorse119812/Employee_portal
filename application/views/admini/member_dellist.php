@@ -6,31 +6,13 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Employees List </h3>
+                <h3>Deleted Employees List </h3>
               </div>
             </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Employees List </h2>
-                    <!-- <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul> -->
-                    <!-- <a href=" <?php echo base_url()?>admini/customer/Add  " class="btn btn-round btn-danger navbar-right">
-                                      <i class="fa fa-plus"></i> Add New
-                                     </a> -->
+                    <h2>Deleted Employees List </h2>
                     <div class="clearfix"></div>
                   </div>
 
@@ -49,8 +31,7 @@
                             <th class="column-title">Last Name</th>
                             <th class="column-title">Email </th>
                             <th class="column-title">Phone Number</th>
-                            <th class="column-title">Created Date</th>
-                            <th style="text-align: right;" class="column-title">Action </th>
+                            <th class="column-title">Deleted Date</th>
                             </th>
                           </tr>
                         </thead>
@@ -85,34 +66,6 @@
                             
                             <td>
                               <?php echo $member['date']; ?>
-                            </td>
-
-                            <td style="text-align: right;" >
-                             <?php
-                                if($member['approve_status'] == 1) {
-                               ?>
-                              <!-- <a data-status="0" data-id="<?php echo $member["id"]?>" class="btn btn-round btn-default suspend-btn">
-                                <i class="fa fa-remove red"></i> Active -->
-                              </a>
-                              <?php } ?>
-                               <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default card-info">
-                                      <i class="fa fa-credit-card blue"></i> Card Info
-                               </a>
-
-                               <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default bank-info">
-                                      <i class="fa fa-home blue"></i> Bank Info
-                               </a>
-
-                               <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default member-edit">
-                                      <i class="fa fa-edit blue"></i> Edit
-                               </a>
-                               <!-- <a data-id=" <?php echo $member["id"]?> " class="btn btn-round btn-default member-delete">
-                                      <i class="fa fa-remove red"></i> Delete
-                               </a> -->
-                              
-                               <a href="<?php echo base_url("admini/user/fast_login/".$member["id"]); ?> " class="btn btn-round btn-default" target="_blank">
-                                      <i class="fa fa-user blue"></i> Fast Login
-                               </a>
                             </td>
                           </tr>
                         <?php } ?>

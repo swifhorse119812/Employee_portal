@@ -38,19 +38,26 @@
          ul .li-active{
            background: #e0e0e0;
          }
-   </style>
+
+         button {
+          background: transparent;
+          border: none !important;
+          font-size:0;
+        }
+  </style>
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
+              <div class="title_left">
               <div class="">
-                <h3>Shipping List </h3>
-                <button class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
+                <h3>Oders List </h3>
+                <button class="btn btn-sm pull-right btn-default" type="submit"></button>
               </div>
             </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Shipping List </h2>
+                            <h2>Orders List </h2>
                         <div class="clearfix"></div>
                     </div>
 
@@ -63,45 +70,44 @@
                                         <div class="account-panel">
                                             <?php 
                                                 $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-                                                $shipped_datas = get_rows("shipping_history");
-                                                $temp=0;
-                                                $total=0;
-                                                foreach($shipped_datas as $shipped_data){
-                                                    $temp++;
-                                                    $total+=$shipped_data['shipping_fee'];
-                                                }
                                             ?>
-                                            <div>
-                                            <h2> <?php echo $temp; ?>&nbsp;&nbsp;Orders &nbsp;&nbsp; Shipping $<?php echo $total; ?></h2>
-                                            </div>
                                             
                                             <div class="row">
-                                                <div class="col-md-12" style="margin-top: 20px;">
+                                                <div class="col-md-12 table-responsive" style="margin-top: 20px;">
                                                     <table id="transaction_table" class="table table-striped jambo_table bulk_action" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th>Shipped Date</th>
                                                                 <th>Order ID</th>
-                                                                <th>Customer</th>
+                                                                <th>Item Name</th>
+                                                                <th>Item Image</th>
+                                                                <th>Item Price</th>
+                                                                <th>Item Size</th>
+                                                                <th>Item Color</th>
                                                                 <th>Sipping fee</th>
+                                                                <th>Customer</th>
+                                                                <th>Status</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                     <?php
-                                                        $num = 0;
-                                                        foreach ($shipped_datas as $key => $shipped_data) {
-                                                            $num++;
-                                                            echo "<tr data-id='".$shipped_data['id']."'>";
-                                                            echo '<td>'.$shipped_data['bal_date'].'</td>';
-                                                            echo '<td>'.$shipped_data['order_id'].'</td>';
-                                                            echo '<td>'.$shipped_data['customer'].'</td>';
-                                                            echo '<td>$'.$shipped_data['shipping_fee'].'</td>';
+                                                        $orders = get_rows("orders");
+                                                        foreach ($orders as $key => $order) {
+                                                            echo "<tr data-id='".$order['id']."'>";
+                                                            echo '<td>'.$order['id'].'</td>';
+                                                            echo '<td>'.$order['itname'].'</td>';
+                                                            echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
+                                                            echo '<td>$'.$order['itprice'].'</td>';
+                                                            echo '<td>'.$order['itsize'].'</td>';
+                                                            echo '<td>'.$order['itcolor'].'</td>';
+                                                            echo '<td>$'.$order['itshippingfee'].'</td>';
+                                                            echo '<td>'.$order['itcustom'].'</td>';
+                                                            $status = get_rows("order_status_list",array('id'=>$order['state']));
+                                                            echo '<td>'.$status[0]["title"].'</td>';
                                                             echo "</tr>";
                                                         }
                                                     ?>
                                                         </tbody>
                                                     </table>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -113,6 +119,76 @@
                 </div>
         </div>
     </div>
+  
+
+
+
+
+<div class="modal fade in" id="product_modal" aria-hidden="false" style="display: none;">
+  <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h3 class="modal-title">Create New Product</h3>
+        </div>
+        <div class="modal-body" style="padding: 10px 0px;">
+              <form id="create_product" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/update_product"); ?>" method="post" enctype="multipart/form-data">
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Title <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="title" id="title" required="required"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Price <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text"  name="price" id="price" required="required"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div> 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Redirect Url <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text"  name="redirect_url" id="redirect_url" required="required"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>   
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Description
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea style="width: 100%; resize: none;height: 100px; " name="description" id="description"></textarea>
+                        </div>
+                      </div>    
+                      <div class="form-group button_html">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Pay Now Button 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <code id="button_html">
+                          </code>
+                        </div>
+                      </div>   
+
+                    <input type="hidden" name="id" id="id">
+
+                    <div class="form-group">
+                        <div class="" style="text-align: center;">
+                          <button type="submit" class="btn btn-info" id="submit_btn" style="">Create New Product</button>
+                          <button type="button" class="btn btn-warning" id="remove_btn" style=" margin-left: 20px; display: none;">Remove Product</button>
+
+                        </div>
+                    </div>
+                    
+              <div class="ln_solid"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            
+        </div>
+    </div>
+  </div>
+</div>
 
 
 <?php 

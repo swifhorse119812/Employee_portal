@@ -157,7 +157,7 @@
                       foreach ($tags as $key => $tag) {
                         $temp++;
                         //  if($tag_id == "") $tag_id = $tag['id'];
-                        //  if($tag_id == "") $tag_id = 1;
+                          if($tag_id == "") $tag_id = 1;
                         // if($emp_level==0)
                         //   if($temp==2 || $temp==3 || $temp==4 || $temp==5)
                         //     continue;
@@ -165,8 +165,10 @@
                         //   if($temp==3 || $temp==4|| $temp==5)
                         //     continue;
                         if($emp_level==2)
-                          if($temp==1 || $temp==5 || $temp==6)
+                          if($temp==1 || $temp==5 || $temp==6){
                             continue;
+                            if($tag_id == "") $tag_id = 2;
+                          }
                         
                     ?>
                     <li data-id="<?php echo $tag['id']; ?>" class="<?php if($tag_id == $tag['id']) echo "li-active"; ?>">
@@ -184,7 +186,7 @@
                 <?php
                   if($emp_level==2){
                 ?>
-                  <button class="btn btn-warning pull-right" id="push_shipped_btn">Shipped</button>
+                  <button class="btn btn-warning pull-right" id="push_shipped_btn">Checking Shipped</button>
                   <?php
                   }
                 ?>
@@ -409,7 +411,7 @@
                 dataType:"json",
                 success: function(res){
                   //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/");
+                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
                 }
             })
         });

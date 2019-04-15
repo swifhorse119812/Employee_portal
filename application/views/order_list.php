@@ -8,22 +8,16 @@
     tr{
         cursor: pointer;
     }
+    .demo {
+        position: relative;
+        clear: both;
+        *zoom: 1;
+        zoom: 1;
+    }
 </style>
 <section id="about">
     <div class="container">
         <div class="row">
-            <!-- <div class="col-md-3"  style="padding: 0px 10px 0px 0px;">
-                <ul class="account-siderbar">
-                    <li><a href="<?php echo site_url("/account/dashboard"); ?>"><i class="ion-ios-contact"></i> My Profile</a></li>
-                    <li><a href="<?php echo site_url("/account/card_info"); ?>"><i class="icon ion-card"></i> Credit Card Info</a></li>
-                    
-                    <li class="active"><a href="<?php echo site_url("/account/register_product"); ?>"><i class="ion-ios-medkit"></i>  Products</a></li>
-                    <li><a href="<?php echo site_url("/account/transaction_history"); ?>"><i class="ion-ios-paper"></i> Transaction History</a></li>
-                    <li><a href="<?php echo site_url("/account/withdraw_money"); ?>"><i class="ion-merge"></i> Withdraw Money</a></li>
-                    <li class=""><a href="<?php echo site_url("/account/inbox"); ?>"><i class="ion-email"></i> Inbox  <span class="message-count-box" style="display: none;"></span></a></li>
-                    
-                </ul>
-            </div> -->
             <div class="col-md-12" style="padding: 0px 0px 0px 10px;">
                 <div class="account-panel">
                     <?php 
@@ -36,27 +30,17 @@
                     
                     <div class="row">
                          <div class="col-md-12" style="margin-top: 20px;">
-                            <table id="transaction_table" class="display" style="width:100%">
+                            <!-- <table id="transaction_table" class="display" style="width:100%"> -->
+                            <!-- <table id="" class="display table table-striped bulk_action" style="width:100%"> -->
+                            <table id="transaction_table"  class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Item ID</th>
+                                        <th>Order ID</th>
+                                        <th>Created Date</th>
                                         <th>Item Name</th>
-                                        <th>Item Image</th>
-                                        <!-- <th>Item Price</th>
-                                        <th>Item Size</th>
-                                        <th>Item Color</th>
-                                        <th>Sipping fee</th>
-                                        <th>Customer</th> -->
                                         <th>Reference Number</th>
                                         <th>Status</th>
                                     </tr>
-                                        <!-- <tr role="search" class="tablesorter-filter-row tablesorter-ignoreRow">
-                                            <td data-column="1"><input type="search" placeholder="Item ID" class="tablesorter-filter" data-column="2" aria-label="Filter &quot;City&quot; column by..." data-lastsearchtime="1555070084726"></td>                                            
-                                            <td data-column="2"><input type="search" placeholder="Item Name" class="tablesorter-filter" data-column="2" aria-label="Filter &quot;City&quot; column by..." data-lastsearchtime="1555070084726"></td>
-                                            <td></td>
-                                            <td data-column="3"><input type="search" placeholder="Reference Number" class="tablesorter-filter" data-column="3" aria-label="Filter &quot;Age&quot; column by..." data-lastsearchtime="1555070084726"></td>
-                                            <td data-column="4"><input type="search" placeholder="Status" class="tablesorter-filter" data-column="4" aria-label="Filter &quot;Total&quot; column by..." data-lastsearchtime="1555070084726"></td>
-                                        </tr> -->
                                 </thead>
                                 <tbody>
                              <?php
@@ -65,15 +49,8 @@
                                 foreach ($orders as $key => $order) {
                                     echo "<tr data-id='".$order['id']."'>";
                                     echo '<td>'.$order['id'].'</td>';
+                                    echo '<td>'.$order['date'].'</td>';
                                     echo '<td>'.$order['itname'].'</td>';
-                                    //echo '<td>'.$order['photo'].'</td>';
-                                    echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
-                                   
-                                    // echo '<td>$'.$order['itprice'].'</td>';
-                                    // echo '<td>'.$order['itsize'].'</td>';
-                                    // echo '<td>'.$order['itcolor'].'</td>';
-                                    // echo '<td>$'.$order['itshippingfee'].'</td>';
-                                    //echo '<td>'.$order['itcustom'].'</td>';
                                     echo '<td>'.$order['reference_num'].'</td>';
                                     $status = get_rows("order_status_list",array('id'=>$order['state']));
                                     echo '<td>'.$status[0]["title"].'</td>';
@@ -81,22 +58,7 @@
                                 }
                              ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                    <th>Item ID</th>
-                                        <th>Item Name</th>
-                                        <th>Item Image</th>
-                                        <!-- <th>Item Price</th>
-                                        <th>Item Size</th>
-                                        <th>Item Color</th>
-                                        <th>Sipping fee</th>
-                                        <th>Customer</th> -->
-                                        <th>Reference Number</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </tfoot>
                             </table>
-
                          </div>
                     </div>
                 </div>
@@ -105,28 +67,7 @@
     </div>
 </section> <!-- /#about -->
 
- 
-
-<!--
-==================================================
-Call To Action Section Start
-================================================== -->
-<section id="call-to-action">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block">
-                    <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">SO WHAT YOU THINK ?</h1>
-                    <p class="wow fadeInDown" data-wow-delay=".5s" data-wow-duration="500ms">All purchases with Virsympay are purchases of the Virsymcoin Cryptocurrency,<br/> we convert all purchases to the currency of your choice.</p>
-                    <a href="<?php echo site_url("contact"); ?>" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Contact With Me</a>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
-
-
+<!-- 
 <div class="modal fade in" id="product_modal" aria-hidden="false" style="display: none;">
   <div class="modal-dialog" style="width: 700px;">
     <div class="modal-content">
@@ -135,7 +76,6 @@ Call To Action Section Start
             <h3 class="modal-title">Create New Product</h3>
         </div>
         <div class="modal-body" style="padding: 10px 0px;">
-         <!--  <img id="featureimage" src=""/> -->
               <form id="create_product" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/update_product"); ?>" method="post" enctype="multipart/form-data">
                        <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Title <span class="required">*</span>
@@ -192,7 +132,7 @@ Call To Action Section Start
         </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <?php 
@@ -217,32 +157,52 @@ Call To Action Section Start
             $(this).closest("form").attr("action","<?php echo site_url("account/remove_product"); ?>");
             $(this).closest("form").submit();
         })
-        $("body").on("click","#transaction_table tbody tr",function(){
-            $("#create_product")[0].reset();
-            $("#remove_btn").show();
-            var id = $(this).data("id");
-            $.ajax({
-                url: "<?php echo site_url("account/get_product"); ?>",
-                data:{id:id},
-                dataType:"json",
-                type:"post",
-                success: function(res){
-                    $("#title").val(res.data.title);
-                    $("#price").val(res.data.price);
-                    $("#description").val(res.data.description);
-                    $("#redirect_url").val(res.data.redirect_url);
-                    $("#id").val(res.data.id);
-                    $(".button_html").show();
-                    // https://merchant.virsympay.com/defaultsite
-                    $("#button_html").text('<a href="<?php echo site_url("checkout"); ?>/?publish_key='+res.data.publish_key+'">Pay Now</a>');
-                    // $("#button_html").text('<a href="http://localhost/merchant_virsympay/checkout/?publish_key='+res.data.publish_key+'">Pay Now</a>');
+        // $("body").on("click","#transaction_table tbody tr",function(){
+        //     $("#create_product")[0].reset();
+        //     $("#remove_btn").show();
+        //     var id = $(this).data("id");
+        //     $.ajax({
+        //         url: "<?php echo site_url("account/get_product"); ?>",
+        //         data:{id:id},
+        //         dataType:"json",
+        //         type:"post",
+        //         success: function(res){
+        //             $("#title").val(res.data.title);
+        //             $("#price").val(res.data.price);
+        //             $("#description").val(res.data.description);
+        //             $("#redirect_url").val(res.data.redirect_url);
+        //             $("#id").val(res.data.id);
+        //             $(".button_html").show();
+        //             // https://merchant.virsympay.com/defaultsite
+        //             $("#button_html").text('<a href="<?php echo site_url("checkout"); ?>/?publish_key='+res.data.publish_key+'">Pay Now</a>');
+        //             // $("#button_html").text('<a href="http://localhost/merchant_virsympay/checkout/?publish_key='+res.data.publish_key+'">Pay Now</a>');
 
-                    $("#submit_btn").html("Update");
-                    $("#product_modal").modal();
-                }
-            })
+        //             $("#submit_btn").html("Update");
+        //             $("#product_modal").modal();
+        //         }
+        //     })
            
-        })
+        // })
     })
 </script>
+<script src="<?php echo base_url('assets/js/tablefilter.js'); ?>"></script>
+<!-- <script src="tablefilter/tablefilter.js"></script> -->
+
+<script data-config="">
+ var filtersConfig = {
+  base_path: 'base_url/',
+  auto_filter: {
+                    delay: 110 //milliseconds
+              },
+              filters_row_index: 1,
+              state: true,
+              alternate_rows: true,
+              rows_counter: true,
+              btn_reset: true,
+              status_bar: true,
+              msg_filter: 'Filtering...'
+            };
+            var tf = new TableFilter('transaction_table', filtersConfig);
+            tf.init();
+          </script>
             

@@ -82,7 +82,9 @@ class Login extends CI_Controller
             $working_status = "yes";
             if($res['approve_status'] == 0 || $res['status']!=1) $working_status = "no";
             $this->session->set_userdata("working_status",$working_status);
-            redirect(site_url("home"));
+            //redirect(site_url("home"));
+            $tag_id=1;
+            $this->load->view("order_status_list",array("tag_id"=>$tag_id));
         } else {
             $this->session->set_userdata('warning', "Invalid email or password!");
             redirect(site_url());

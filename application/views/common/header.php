@@ -88,7 +88,7 @@
                 <?php  
                     $user = $this->common_model->readData("user",array("id"=>$this->session->userdata('admin_id')));
                 ?>
-                <img style="width: 70px; height: 70px;" src='<?php echo base_url("/assets/client_assets/images/logo.png");?>' alt="..." class="profile_img">
+                <!-- <img style="width: 70px; height: 70px;" src='<?php //echo base_url("/assets/client_assets/images/logo.png");?>' alt="..." class="profile_img"> -->
               </div>
               <div class="profile_info">
                 <span>Welcome</span>
@@ -107,7 +107,7 @@
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
              <!--  <div class="menu_section">
                 <ul class="nav side-menu">
-                  <li><a href="<?php echo base_url("admini/dashboard"); ?>"><i class="fa fa-home"></i> Dashboard <span class="fa "></span></a>
+                  <li><a href="<?php //echo base_url("admini/dashboard"); ?>"><i class="fa fa-home"></i> Dashboard <span class="fa "></span></a>
                     
                   </li>
               </ul>
@@ -132,8 +132,8 @@
                   </li>
                   <li><a><i class="fa fa-users"></i> Orders <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a  href="<?php echo base_url()?>admini/orders/order_list"><i class="fa fa-gear"></i> All Orders List </a>
-                      <li><a  href="<?php echo base_url()?>admini/orders/shipping_list"><i class="fa fa-gear"></i> All Sipping List </a>
+                      <li><a  href="<?php echo base_url()?>admini/setting/order_list"><i class="fa fa-gear"></i> All Orders List </a>
+                      <li><a  href="<?php echo base_url()?>admini/setting/shipping_list"><i class="fa fa-gear"></i> All Sipping List </a>
                       <li><a  href="<?php echo base_url()?>admini/setting/statussetting"><i class="fa fa-gear"></i>Orders Status Setting </a>
                     </ul>
                   </li>
@@ -143,42 +143,6 @@
                         <li><a  href="<?php echo base_url()?>admini/balancesetting/bal_setting"><i class="fa fa-gear"></i> Balance Setting </a>
                     </ul>
                   </li>
-                  <!-- <li><a><i class="fa fa-users"></i> Customers <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?php echo base_url()?>admini/realcustomer">Customer List</a></li>
-                      <li><a href="<?php echo base_url()?>admini/realcustomer/Add">Add new Customer</a></li>
-                    </ul>
-                  </li>
-                   
-                  <li><a><i class="fa fa-dollar"></i> Finance <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?php  echo base_url("admini/payment"); ?>">Paid Payment History</a></li>
-                      <li><a href="<?php  echo base_url("admini/payment/withdraw"); ?>">Requested Withdraw</a></li>
-                      <li><a href="<?php  echo base_url("admini/payment/request_refund"); ?>">Requested Refund</a></li>
-                    </ul>
-                  </li>
-
-                  <li><a><i class="fa fa-question-circle"></i> Help <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?php echo base_url()?>admini/help/get_support">Get Support</a></li>
-                      <li><a href="<?php echo base_url()?>admini/help/faq">Merchant Ticket Support</a></li>
-                    </ul>
-                  </li>
-
-                  <li><a><i class="fa fa-envelope-o"></i>  Email <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="<?php echo base_url("admini/setting/email_template"); ?>">Email Templates</a>
-                      <li><a href="<?php echo base_url("admini/message"); ?>">Inbox <span class="message-count-box" style="display: none ;">100</span></a>
-                      <li><a href="<?php echo base_url("admini/message/sent"); ?>">Sent</a>
-                      <li><a href="<?php echo base_url("admini/message/compose"); ?>">Compose</a>
-
-                    </ul>
-                  </li>
-                  </li>
-
-                  <li><a href="<?php  echo base_url("admini/payment/paymentSetting"); ?>"><i class="fa fa-cog"></i> Site Setting</a></li>
-                  <li><a  href="<?php echo base_url()?>admini/setting"><i class="fa fa-gear"></i> Site Setting </a>
-                  </li> -->
                 </ul>
               </div>
              

@@ -66,12 +66,12 @@ class Account extends MY_Controller
     }
 
     public function order(){
-        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-        $emp_level = $member['emp_level'];
-        if($emp_level!=2)
+        // $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        // $emp_level = $member['emp_level'];
+        // if($emp_level!=2)
             $this->load->view("order");
-        else
-            $this->load->view("home");
+        // else
+            // $this->load->view("home");
     }
     public function order_list(){
         $this->load->view("order_list");
@@ -100,13 +100,17 @@ class Account extends MY_Controller
             $this->db->update('orders');
             /////////////////////////////////inserted the purchaged order's info to balance_histroy
             $rows = get_row('orders',array('id'=>$data['order_id']));
+            
+            $insert_data['balance']=$rows['itprice'];
+            $insert_data['shipping_fee']=$rows['itshippingfee'];
+            $insert_data['customer']=$rows['itcustom'];
+            $insert_data['reference_num']=$rows['reference_num'];
+            $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+            $insert_data['order_id']=$rows['id'];
             if($rows['state']==2){
-                $insert_data['balance']=$rows['itprice'];
-                $insert_data['customer']=$rows['itcustom'];
-                $insert_data['reference_num']=$rows['reference_num'];
-                $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
-                $insert_data['order_id']=$rows['id'];
                 $this->common_model->createData("balance_history",$insert_data);
+            }elseif($rows['state']==4){
+                $this->common_model->createData("shipping_history",$insert_data);
             }
             /////////////////////////////////
             $data['names']="A";
@@ -117,37 +121,43 @@ class Account extends MY_Controller
         $data = $this->input->post();
 
         for($i=0;$i<sizeof($data['id']);$i++){  
-        $row_datas = get_row('orders',array('id'=>$data['id'][$i]));
+            $order_id = $data['id'][$i];
+            $row_datas = get_row('orders',array('id'=>$order_id));
 
-        $bal_datas = get_rows('balance_history');
-        $default_balance = get_rows('balance');
-        $remain_bal =  $default_balance[0]['balance'];
-        foreach ($bal_datas as $key => $bal_data) {
-            $remain_bal -= $bal_data['balance']; 
+            $bal_datas = get_rows('balance_history');
+            $default_balance = get_rows('balance');
+            $remain_bal =  $default_balance[0]['balance'];
+            foreach ($bal_datas as $key => $bal_data) {
+                $remain_bal -= $bal_data['balance']; 
+            }
+            if($row_datas['itprice']>$remain_bal){
+                //$this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+                redirect(site_url("home"));
+            }
+            else{
+                $this->db->set('state', 4);
+                $this->db->where('id', $order_id);
+                $this->db->update('orders');
+                ///////////////////////////////inserted the purchaged order's info to balance_histroy
+                $rows = get_row('orders',array('id'=>$order_id));
+                
+                $insert_data['balance']=$rows['itprice'];
+                $insert_data['shipping_fee']=$rows['itshippingfee'];
+                $insert_data['customer']=$rows['itcustom'];
+                $insert_data['reference_num']=$rows['reference_num'];
+                $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+                $insert_data['order_id']=$rows['id'];
+                if($rows['state']==2){
+                    $this->common_model->createData("balance_history",$insert_data);
+                }elseif($rows['state']==4){
+                    $this->common_model->createData("shipping_history",$insert_data);
+                }
+                ///////////////////////////////
+                $return_data['names']="A";
+                $return_data['id']=4;
+                echo json_encode(array("data"=>$return_data));
+            }
         }
-        if($row_datas['itprice']>$remain_bal){
-            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
-            redirect(site_url("home"));
-        }
-        else{
-            $this->db->set('state', 4);
-            $this->db->where('id', $data['id'][$i]);
-            $this->db->update('orders');
-            /////////////////////////////////inserted the purchaged order's info to balance_histroy
-            //$rows = get_row('orders',array('id'=>$data['order_id']));
-            // if($rows['state']==2){
-            //     $insert_data['balance']=$rows['itprice'];
-            //     $insert_data['customer']=$rows['itcustom'];
-            //     $insert_data['reference_num']=$rows['reference_num'];
-            //     $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
-            //     $insert_data['order_id']=$rows['id'];
-            //     $this->common_model->createData("balance_history",$insert_data);
-            // }
-            /////////////////////////////////
-            $data['names']="A";
-            echo json_encode(array("data"=>$data));
-        }
-    }
     }
     public function insert_referencenum(){
         $data = $this->input->post();
@@ -169,24 +179,24 @@ class Account extends MY_Controller
     }
     
     public function realcustomer_list(){
-        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-        $emp_level = $member['emp_level'];
-        if($emp_level==1)
+        // $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        // $emp_level = $member['emp_level'];
+        // if($emp_level==1)
             $customers = get_rows("customer");
-        else
-            $customers = get_rows("customer",array('employee_id'=>$this->session->userdata("member_id")));
-        if($emp_level==2)
-            $this->load->view("home");
-        else
+        // else
+            // $customers = get_rows("customer",array('employee_id'=>$this->session->userdata("member_id")));
+        // if($emp_level==2)
+            // $this->load->view("home");
+        // else
             $this->load->view("realcustomer_list",array('customers'=>$customers));
     }
     public function realcustomer_add(){
-        $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-        $emp_level = $member['emp_level'];
-        if($emp_level!=2)
+        // $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
+        // $emp_level = $member['emp_level'];
+        // if($emp_level!=2)
             $this->load->view("createrealcustomer");
-        else
-            $this->load->view("home");
+        // else
+            // $this->load->view("home");
     }
 
     public function createrealcustomer(){
@@ -221,18 +231,24 @@ class Account extends MY_Controller
         }
 
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
-        //file upload path
-        $targetDir = "assets/uploads/";
-        $targetFilePath = $targetDir . $fileName;
-        //allow certain file formats
-        $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-        $allowTypes = array('jpg','png','jpeg','gif');    
-        if(in_array(strtolower($fileType), $allowTypes)){
-            //upload file to server
-            if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
-                $insertData['photo'] = $fileName;
+        if($fileName){
+            //file upload path
+            $targetDir = "assets/uploads/";
+            $targetFilePath = $targetDir . $fileName;
+            //allow certain file formats
+            $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+            $allowTypes = array('jpg','png','jpeg','gif');    
+            if(in_array(strtolower($fileType), $allowTypes)){
+                //upload file to server
+                if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
+                    $insertData['photo'] = $fileName;
+                }
             }
+        }else{
+             echo 1231312;
+             exit;
         }
+
         $this->common_model->createData("orders",$insertData);
         redirect(site_url("account/order_list"));
          //render response data in JSON format

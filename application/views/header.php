@@ -255,15 +255,7 @@
     }
 ?>
 <?php 
-    // $user_id = $this->session->userdata("member_id");
-    // $rows=get_rows('orders',array('employee_id'=>$user_id));
-    // $balance = 0;
-    // foreach($rows as $row){
-    //     if($row['employee_id']==$user_id)
-    //         $balance += $row['itprice'];
-    // }
-    // $default_balance = get_row('balance',array('id'=>1));
-    // $balance = $default_balance['balance']-$balance;
+    
 ?>
 
 <style type="text/css">
@@ -297,7 +289,6 @@ Header Section Start
                     if($emp_level!=2){
                 ?>
                     <li><a>Ballance : $<?php echo $remain_bal;?></a></li>
-                    <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
                     <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers <span class="caret"></span></a>
@@ -317,15 +308,11 @@ Header Section Start
                             </ul>
                         </div>
                     </li>
-                    <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
                     <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
-                    <!-- <li><a >Balance : <?php echo $balance; ?>$</a></li> -->
-                    <!-- <li><a style="color: <?php if($this->session->userdata("active_status") == "Pending") echo "red"; else if($this->session->userdata("active_status") == "Under View") echo "green"; else echo "blue"; ?>">Live mode : <?php echo $this->session->userdata("active_status"); ?></a></li> -->
                     <?php
                         }
                         else{
                     ?>
-                            <li><a href="<?php echo site_url("home"); ?>">Reports</a></li>
                             <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                             <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
                             <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
@@ -374,8 +361,8 @@ Header Section Start
     ?>
     <p class="error-title">Your account is pending to live mode.</p>
     <p class="error-note">You can't do anything on this portal before accept it. Please Accept Employee Processing Terms To Continue.</p>
-    <!-- <p class="error-title"><a href="<?php echo base_url("AcceptTerms"); ?>">View Employee Processing Agreement</a></p> -->
-    <?php }
+    <?php 
+        }
     ?>
 </div>
 <?php } ?>

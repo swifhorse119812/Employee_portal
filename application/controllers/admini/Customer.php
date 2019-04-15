@@ -43,7 +43,7 @@ class Customer extends MY_Admin_Controller {
 	}
 	public function del_customer()
 	{
-		$status = 0;
+		$status = 1;
 		$members = $this->common_model->readDatas("member",array("approve_status"=>$status));
 		$this->load->view('admini/member_dellist.php', array("members"=>$members));
 	}
