@@ -37,6 +37,8 @@
         
         <link href="<?php echo base_url(); ?>assets/css/mycustom.css" rel="stylesheet">  <!--------------- Image size....-->
 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
         <style type="text/css">
             .navbar-nav li{
                 cursor: pointer;
@@ -308,7 +310,30 @@ Header Section Start
                             </ul>
                         </div>
                     </li>
-                    <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
+                    <!-- <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li> -->
+                    <li><a id="logout" class="logout" >Log Out</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-bell" style="font-size:20px;"></span></a>
+                        <div class="dropdown-menu">
+                            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-bell" style="font-size:20px;"></span></a> -->
+                            <ul>
+                                <?php
+                                    $shipping_datas = get_rows('shipping_history');
+                                    $count = sizeof($shipping_datas);
+                                    $output = '';
+                                    if($count){
+                                        foreach($shipping_datas as $shipping_data){
+                                            $output .= '<li style="color:white;">Order '.$shipping_data["order_id"].' is shipped</li>';
+                                        }
+                                    }else{
+                                        $output .= '<li style="color:white;"><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+                                    }
+                                    echo $output;
+                                ?>
+                            </ul>
+                            <!-- <ul class="dropdown-menu" id="notification"></ul> -->
+                        </div>
+                    </li>
                     <?php
                         }
                         else{
@@ -316,7 +341,7 @@ Header Section Start
                             <li><a href="<?php echo site_url("/account/dashboard"); ?>">My Profile</a></li>
                             <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
                             <li><a href="<?php echo site_url("/account/order_list"); ?>">Tracking Orders</a></li>
-                            <li><a href="<?php echo site_url("/login/logout"); ?>">Log Out</a></li>
+                            <li><a id="logout" class="logout" >Log Out</a></li>
                     <?php
                         }                        
                     ?>
@@ -324,6 +349,47 @@ Header Section Start
             </div>
         </nav>
         <!-- /main nav -->
+        <!-- logout modal-->
+        <div class="modal fade in" id="logout_modal" aria-hidden="false" style="display: none;">
+            <div class="modal-dialog" style="width: 700px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h3 class="modal-title" style="color:black;">To Administrator</h3>
+                    </div>
+                    <div class="modal-body" style="padding: 10px 0px;">
+                        <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("login/write_comment"); ?>" method="post" enctype="multipart/form-data">
+                            
+                                <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
+                                    <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left; color:black;">Write down here<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <textarea type="text"  name="logout_comment" id="logout_comment" required="required"  class="form-control col-md-12 col-xs-12">
+                                        </textarea>
+                                    </div>
+                                </div>  
+                                
+                                <input type="hidden" name="member_id" style="color:black;" id="<?php echo $member['id']; ?>" value="<?php echo $member['id']; ?>">
+                                <?php $member_name = $member['first_name']." ".$member['last_name']; ?>
+                                <input type="hidden" name="member_name" style="color:black;" id="<?php echo $member_name; ?>" value="<?php echo $member_name; ?>">
+
+                                <div class="form-group">
+                                    <div class="" style="text-align: center;">
+                                        <button type="submit" class="btn btn-info" id="submit_btn" style="">Save</button>
+                                        <button type="button" class="btn btn-warning" id="remove_btn" style=" margin-left: 20px;" data-dismiss="modal">Cancel</button>
+
+                                    </div>
+                                </div>
+                                
+                                <div class="ln_solid"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -351,6 +417,47 @@ Header Section Start
         font-weight: 500;
     }
 </style>
+<script src="<?php echo base_url('assets/client_assets/plugins/jQurey/jquery.min.js'); ?>"></script>
+<script>
+     $(document).ready(function () {
+        $("body").on("click","#logout",function(){
+             $("#logout_modal").modal();
+        })
+   
+        function load_unseen_notification(view = '')
+        {
+            $.ajax({
+                url: ajax_url + "help/notification",
+                method:"POST",
+                data:{view:view},
+                dataType:"json",
+                success:function(data)
+                {
+                    //$('#notification').html(data.notification);
+                    if(data.unseen_notification > 0)
+                    {
+                        $('.count').html(data.unseen_notification);
+                    }
+                }
+            });
+        }
+
+        load_unseen_notification();
+
+        // load new notifications
+        $(document).on('click', '.dropdown-toggle', function(){
+             $('.count').html('');
+             load_unseen_notification('yes');
+        });
+
+        setInterval(function(){
+            load_unseen_notification();;
+        }, 5000);
+
+})
+</script>
+
+
 <?php 
 
     if($this->session->userdata("show_box") == "yes"){ 

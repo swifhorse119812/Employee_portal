@@ -53,8 +53,32 @@
                     <div class="clearfix"></div>
                 </div>
                 <form id="create_balance" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("admini/balancesetting/addbalance"); ?>" method="post" enctype="multipart/form-data">
+                      <!-- <div class="form-group"> -->
+                        <!-- <div class="col-md-4">
+                        </div> -->
+                        <!-- <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload file<span class="required">*</span>
+                        </label>
+                        <div class="col-md-4">
+                          <div id="image-preview">
+                            <label for="image-upload" id="image-label">Choose Image</label>
+                            <input type="file" name="photo" id="image-upload" />
+                          </div>
+                        </div> -->
+                      <!-- </div> -->
+
                       <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Picture<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div id="image-preview">
+                                <label for="image-upload" id="image-label">Choose Image</label>
+                                <input type="file" name="photo" id="image-upload" />
+                              </div>
+                            </div>
+                          </div>
                       </div>
+
                       <div class="col-md-4">
                         <div class="page-title">
                           <div class="title_left">
@@ -185,6 +209,22 @@
 
 <script type="text/javascript" src="<?php echo base_url("assets/client_assets/js/ckeditor.js"); ?>" ></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/bootstrap-select.min.js?v=2.1.1"); ?>"></script>
+<script>
+    $(document).ready(function() {
+
+    $(".stepContainer").css("height","0px")
+    $.uploadPreview({
+      input_field: "#image-upload",   // Default: .image-upload
+      preview_box: "#image-preview",  // Default: .image-preview
+      label_field: "#image-label",    // Default: .image-label
+      label_default: "Choose File",   // Default: Choose File
+      label_selected: "Change File",  // Default: Change File
+      no_label: false                 // Default: false
+    });
+
+
+    });
+</script>
 
 
 

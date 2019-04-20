@@ -35,7 +35,7 @@
                             <table id="transaction_table"  class="display" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Order ID</th>
+                                        <th>Order Number</th>
                                         <th>Created Date</th>
                                         <th>Item Name</th>
                                         <th>Reference Number</th>
@@ -48,7 +48,7 @@
                                 $orders = get_rows("orders");
                                 foreach ($orders as $key => $order) {
                                     echo "<tr data-id='".$order['id']."'>";
-                                    echo '<td>'.$order['id'].'</td>';
+                                    echo '<td>'.$order['order_num'].'</td>';
                                     echo '<td>'.$order['date'].'</td>';
                                     echo '<td>'.$order['itname'].'</td>';
                                     echo '<td>'.$order['reference_num'].'</td>';

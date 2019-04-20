@@ -38,26 +38,21 @@
          ul .li-active{
            background: #e0e0e0;
          }
-
-         button {
-          background: transparent;
-          border: none !important;
-          font-size:0;
-        }
-  </style>
+   </style>
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
-              <div class="title_left">
+              <!-- <div class="title_left"> -->
               <div class="">
-                <h3>Oders List </h3>
-                <button class="btn btn-sm pull-right btn-default" type="submit"></button>
+                <h3> Reject Oders List </h3>
+                <!-- <a class="btn btn-round btn-danger navbar-right" id="btn_print"> Print </a> -->
+                <button class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
               </div>
             </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Orders List </h2>
+                            <h2>Reject Orders List </h2>
                         <div class="clearfix"></div>
                     </div>
 
@@ -73,11 +68,11 @@
                                             ?>
                                             
                                             <div class="row">
-                                                <div class="col-md-12 table-responsive" style="margin-top: 20px;">
-                                                    <table id="transaction_table" class="table table-striped jambo_table bulk_action" style="width:100%">
+                                                <div class="col-md-12" style="margin-top: 20px;">
+                                                    <table id="transaction_table" class="display" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th>Order ID</th>
+                                                                <th>Item ID</th>
                                                                 <th>Item Name</th>
                                                                 <th>Item Image</th>
                                                                 <th>Item Price</th>
@@ -90,42 +85,75 @@
                                                         </thead>
                                                         <tbody>
                                                     <?php
-                                                        $orders = get_rows("orders");
+                                                        //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
+                                                        $orders = get_rows("orders",array('state'=>0));
+                                                        //var_dump($orders);exit;
                                                         foreach ($orders as $key => $order) {
-                                                            if($order['state']==0) continue;
                                                             echo "<tr data-id='".$order['id']."'>";
                                                             echo '<td>'.$order['id'].'</td>';
                                                             echo '<td>'.$order['itname'].'</td>';
+                                                            //echo '<td>'.$order['photo'].'</td>';
                                                             echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "/></td>';
+                                                        
                                                             echo '<td>$'.$order['itprice'].'</td>';
                                                             echo '<td>'.$order['itsize'].'</td>';
                                                             echo '<td>'.$order['itcolor'].'</td>';
                                                             echo '<td>$'.$order['itshippingfee'].'</td>';
                                                             echo '<td>'.$order['itcustom'].'</td>';
-                                                            $status = get_rows("order_status_list",array('id'=>$order['state']));
-                                                            echo '<td>'.$status[0]["title"].'</td>';
+                                                            echo '<td>Reject</td>';
                                                             echo "</tr>";
                                                         }
                                                     ?>
                                                         </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                            <th>Item ID</th>
+                                                                <th>Item Name</th>
+                                                                <th>Item Image</th>
+                                                                <th>Item Price</th>
+                                                                <th>Item Size</th>
+                                                                <th>Item Color</th>
+                                                                <th>Sipping fee</th>
+                                                                <th>Customer</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </tfoot>
                                                     </table>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </section> <!-- /#about -->
                     </div>
                 </div>
         </div>
     </div>
-  
+ 
+
+<!--
+==================================================
+Call To Action Section Start
+================================================== -->
+<section id="call-to-action">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block">
+                    <!-- <h2 class="title wow fadeInDown" data-wow-delay=".3s" data-wow-duration="500ms">SO WHAT YOU THINK ?</h1>
+                    <p class="wow fadeInDown" data-wow-delay=".5s" data-wow-duration="500ms">All purchases with Virsympay are purchases of the Virsymcoin Cryptocurrency,<br/> we convert all purchases to the currency of your choice.</p>
+                    <a href="<?php echo site_url("contact"); ?>" class="btn btn-default btn-contact wow fadeInDown" data-wow-delay=".7s" data-wow-duration="500ms">Contact With Me</a> -->
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
 
 
-
-
-<div class="modal fade in" id="product_modal" aria-hidden="false" style="display: none;">
+<!-- <div class="modal fade in" id="product_modal" aria-hidden="false" style="display: none;">
   <div class="modal-dialog" style="width: 700px;">
     <div class="modal-content">
         <div class="modal-header">
@@ -189,7 +217,7 @@
         </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <?php 

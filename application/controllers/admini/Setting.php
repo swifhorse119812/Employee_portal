@@ -140,6 +140,20 @@ class Setting extends MY_Admin_Controller {
     public function order_list(){
         $this->load->view("admini/order_lists");
     }
+    public function order_reject_list(){
+        $this->load->view("admini/order_reject_list");
+    }
+    public function order_tenplus(){
+        $today = date("Y-m-d H:i:s");
+        //$order_datas = get_rows("orders",array('state'=>2));
+        $today = date("Y-m-d");
+        $timestamp = time();
+        $timestamp -= 24 * 3600*10;
+        $before_ten_date = date('Y-m-d', $timestamp);
+        $puchaged_datas = get_rows("balance_history",array('bal_date<'=>$before_ten_date));
+        //var_dump($puchaged_datas);exit;
+        $this->load->view("admini/order_tenplus",array("purchaged_datas"=>$puchaged_datas));
+    }
     public function shipping_list(){ 
         $this->load->view("admini/order_shipping_list");
     }

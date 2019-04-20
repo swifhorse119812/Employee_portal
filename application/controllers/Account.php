@@ -83,39 +83,63 @@ class Account extends MY_Controller
     public function update_order_state(){
         $data = $this->input->post();
         $row_datas = get_row('orders',array('id'=>$data['order_id']));
-
-        $bal_datas = get_rows('balance_history');
-        $default_balance = get_rows('balance');
-        $remain_bal =  $default_balance[0]['balance'];
-        foreach ($bal_datas as $key => $bal_data) {
-            $remain_bal -= $bal_data['balance']; 
-        }
-        if($row_datas['itprice']>$remain_bal){
-            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
-            redirect(site_url("home"));
-        }
-        else{
-            $this->db->set('state', $data['id']+1);
-            $this->db->where('id', $data['order_id']);
-            $this->db->update('orders');
-            /////////////////////////////////inserted the purchaged order's info to balance_histroy
-            $rows = get_row('orders',array('id'=>$data['order_id']));
-            
-            $insert_data['balance']=$rows['itprice'];
-            $insert_data['shipping_fee']=$rows['itshippingfee'];
-            $insert_data['customer']=$rows['itcustom'];
-            $insert_data['reference_num']=$rows['reference_num'];
-            $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
-            $insert_data['order_id']=$rows['id'];
-            if($rows['state']==2){
-                $this->common_model->createData("balance_history",$insert_data);
-            }elseif($rows['state']==4){
-                $this->common_model->createData("shipping_history",$insert_data);
-            }
-            /////////////////////////////////
+        if($data['id']==1 && $row_datas['reference_num']==0){
+            $this->session->set_userdata("warning","You must enter the reference number!");
+            $tag_id = 1;
+            // $this->load->view("order_status_list",array("tag_id"=>$tag_id));
+            //redirect(site_url("order_status_list",array("tag_id"=>$tag_id)));
             $data['names']="A";
             echo json_encode(array("data"=>$data));
+        }else{
+
+            $bal_datas = get_rows('balance_history');
+            $default_balance = get_rows('balance');
+            $remain_bal =  $default_balance[0]['balance'];
+            foreach ($bal_datas as $key => $bal_data) {
+                $remain_bal -= $bal_data['balance']; 
+            }
+            if($row_datas['itprice']>$remain_bal){
+                $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+                redirect(site_url("home"));
+            }
+            else{
+                $this->db->set('state', $data['id']+1);
+                $this->db->where('id', $data['order_id']);
+                $this->db->update('orders');
+
+                $this->session->set_userdata("success","Successfully Updated!");
+                /////////////////////////////////inserted the purchaged order's info to balance_histroy
+                $rows = get_row('orders',array('id'=>$data['order_id']));
+                
+                $insert_data['balance']=$rows['itprice'];
+                $insert_data['shipping_fee']=$rows['itshippingfee'];
+                $insert_data['customer']=$rows['itcustom'];
+                $insert_data['reference_num']=$rows['reference_num'];
+                $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+                $insert_data['order_id']=$rows['id'];
+                if($rows['state']==2){
+                    $this->common_model->createData("balance_history",$insert_data);
+                }elseif($rows['state']==4){
+                    $this->common_model->createData("shipping_history",$insert_data);
+                }
+                /////////////////////////////////
+                $data['names']="A";
+                echo json_encode(array("data"=>$data));
+            }
         }
+    }
+    public function update_order_state_reject(){
+        $data = $this->input->post();
+        $row_datas = get_row('orders',array('id'=>$data['order_id']));
+            
+        $this->db->set('state', 0);
+        $this->db->where('id', $data['order_id']);
+        $this->db->update('orders');
+
+        $this->session->set_userdata("success","Reject the Order!");
+        $data['names']="A";
+        echo json_encode(array("data"=>$data));
+
     }
     public function update_shipped_state(){
         $data = $this->input->post();
@@ -227,7 +251,7 @@ class Account extends MY_Controller
         }
         if($insertData['itprice']>$remain_bal){
             $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
-            redirect(site_url("home"));
+            redirect(site_url("account/order"));
         }
 
         $fileName = time().'_'.basename($_FILES["photo"]["name"]);
@@ -245,12 +269,11 @@ class Account extends MY_Controller
                 }
             }
         }else{
-             echo 1231312;
-             exit;
+            redirect(site_url("account/order"));
         }
 
         $this->common_model->createData("orders",$insertData);
-        redirect(site_url("account/order_list"));
+        redirect(site_url("account/order_status_list"));
          //render response data in JSON format
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

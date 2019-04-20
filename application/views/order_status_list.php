@@ -383,6 +383,24 @@
           
         })
 
+        $("body").on("click","#reject_btn",function(){
+            var order_id = $(this).closest("tr").data("id");
+            //alert(order_id)
+            var id = $("#tag_id").val();
+            if(!id) id=1;
+            $.ajax({
+                url: ajax_url + "account/update_order_state_reject",
+                data:{id:id,order_id:order_id},
+                type:"post",
+                dataType:"json",
+                success: function(res){
+                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
+                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
+                }
+            })
+          
+        })
+
         $("body").on("click","#push_cancel",function(){
             var cancel_order_id = $(this).closest("tr").data("id");
             $("#cancel_orderid").val(cancel_order_id);

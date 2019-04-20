@@ -81,7 +81,7 @@ class Help extends MY_Controller
                     <?php 
                         }
                     ?>
-                    <th>Item ID</th>
+                    <th>Order Number</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
                     <?php
@@ -102,10 +102,12 @@ class Help extends MY_Controller
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==6)
+                        if($tag_id==7)
                             echo '<th>Cancel Reason</th>';
                         else
                             echo '<th>Goto Next</th>';
+                        if($tag_id==4 && $emp_level==0)
+                            echo '<th>Reject</th>';
                     ?>
                 </tr>
             </thead>
@@ -121,7 +123,7 @@ class Help extends MY_Controller
                         if($tag_id==3)
                             echo '<td><input type="checkbox" id="chbox" name="chbox" value="'.$order['id'].'"></td>';
 
-                        echo '<td>'.$order['id'].'</td>';
+                        echo '<td>'.$order['order_num'].'</td>';
                         echo '<td>'.$order['itname'].'</td>';
                         // echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "></td>';
                         echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" width="50" height="50" onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50"></td>';
@@ -136,7 +138,7 @@ class Help extends MY_Controller
                         echo '<td>'.$order['reference_num'].'</td>';
                     
                         $current_state = get_rows("order_status_list",array('id'=>$tag_id));
-                        if($tag_id<5)
+                        if($tag_id<6)
                             $next_status = get_rows("order_status_list",array('id'=>$tag_id+1));
 
                         echo '<td>'.$current_state[0]["title"].'</td>';
@@ -167,15 +169,23 @@ class Help extends MY_Controller
                                 echo '<td></td>';
                         }
                         elseif($tag_id==4){
-                            if($emp_level==0)
+                            if($emp_level==0){
                                 echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                                echo '<td><button class="btn btn-warning pull-center" id="reject_btn" >Reject</button></td>';
+                            }
                             else
                                 echo '<td></td>';
                         }
                         elseif($tag_id==5){
+                            if($emp_level==1)
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            else
+                                echo '<td></td>';
+                        }
+                        elseif($tag_id==6){
                             echo '<td></td>';
                         }
-                        elseif($tag_id==6)
+                        elseif($tag_id==7)
                             echo '<td>'.$order["cancel_reason"].'</td>';
                         
                     }
@@ -190,7 +200,7 @@ class Help extends MY_Controller
                     <?php 
                         }
                     ?>
-                    <th>Item ID</th>
+                    <th>Order Number</th>
                     <th>Item Name</th>
                     <th>Item Image</th>
                     <?php
@@ -211,10 +221,12 @@ class Help extends MY_Controller
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==6)
+                        if($tag_id==7)
                             echo '<th>Cancel Reason</th>';
                         else
                             echo '<th>Goto Next</th>';
+                        if($tag_id==4 && $emp_level==0)
+                            echo '<th>Reject</th>';
                     ?>
                 </tr>
             </tfoot>
@@ -322,5 +334,28 @@ class Help extends MY_Controller
 
     public function thanks(){
         $this->load->view("thanks");
+    }
+
+    public function notification(){
+        //$this->load->view("thanks");
+        if(isset($_POST['view'])){
+
+            $shipping_datas = get_rows('shipping_history');
+            $count = sizeof($shipping_datas);
+            $output = '';
+            if($count){
+                foreach($shipping_datas as $shipping_data){
+                    $output .= '<li style="color:black;"><strong> Order '.$shipping_data["order_id"].' is shipped</strong></li>';
+                }
+            }else{
+                $output .= '<li style="color:black;"><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+            }
+    
+            $data = array(
+                'notification' => $output,
+                'unseen_notification'  => $count
+            );
+            echo json_encode($data);
+        }
     }
 }

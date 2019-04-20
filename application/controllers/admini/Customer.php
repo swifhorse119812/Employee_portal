@@ -47,6 +47,13 @@ class Customer extends MY_Admin_Controller {
 		$members = $this->common_model->readDatas("member",array("approve_status"=>$status));
 		$this->load->view('admini/member_dellist.php', array("members"=>$members));
 	}
+
+	public function logout_customer()
+	{
+		$today = date("Y-m-d");
+		$logout_members = $this->common_model->readDatas("logout_commit",array("commit_time>"=>$today));
+		$this->load->view('admini/member_logout.php', array("members"=>$logout_members));
+	}
  	
  	public function deletemember(){
  		$id = $this->input->post("member_id");

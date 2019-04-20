@@ -126,6 +126,7 @@
                   <li><a><i class="fa fa-users"></i> Employees <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?php echo base_url()?>admini/customer">Employee List</a></li>
+                      <li><a href="<?php echo base_url()?>admini/customer/logout_customer">Logout Employee</a></li>
                       <li><a href="<?php echo base_url()?>admini/customer/del_customer">Deleted List</a></li>
                       <li><a href="<?php echo base_url()?>admini/customer/Add">Add new Employee</a></li>
                     </ul>
@@ -133,6 +134,8 @@
                   <li><a><i class="fa fa-users"></i> Orders <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a  href="<?php echo base_url()?>admini/setting/order_list"><i class="fa fa-gear"></i> All Orders List </a>
+                      <li><a  href="<?php echo base_url()?>admini/setting/order_reject_list"><i class="fa fa-gear"></i> Reject Orders List </a>
+                      <li><a  href="<?php echo base_url()?>admini/setting/order_tenplus"><i class="fa fa-gear"></i> Purchased 10+ Days </a>
                       <li><a  href="<?php echo base_url()?>admini/setting/shipping_list"><i class="fa fa-gear"></i> All Sipping List </a>
                       <li><a  href="<?php echo base_url()?>admini/setting/statussetting"><i class="fa fa-gear"></i>Orders Status Setting </a>
                     </ul>

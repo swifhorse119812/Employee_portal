@@ -34,6 +34,17 @@ class Login extends CI_Controller
         $this->load->view("login");
     }
 
+    public function write_comment(){
+        //
+        $data = $this->input->post();
+        //$insert_data['id']=$data['member_id'];
+        $insert_data['member_name']=$data['member_name'];
+        $insert_data['commit_text']=$data['logout_comment'];
+        $insert_data['commit_time']=date("Y-m-d H:i:s");
+        $res = $this->common_model->createData("logout_commit",$insert_data);
+        redirect(site_url("login"));
+    }
+
     public function signup(){
         $data = $this->input->post();
         $data['date'] = date("Y-m-d H:i:s");
