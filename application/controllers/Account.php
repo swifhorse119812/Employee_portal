@@ -77,20 +77,13 @@ class Account extends MY_Controller
         $this->load->view("order_list");
     }
     public function order_status_list($tag_id=""){ 
-        $tag_id = 1;
+        if(!$tag_id)$tag_id = 1;
+        //if($tag_id!=1){echo $tag_id;exit;}
         $this->load->view("order_status_list",array("tag_id"=>$tag_id));
     }
     public function update_order_state(){
         $data = $this->input->post();
         $row_datas = get_row('orders',array('id'=>$data['order_id']));
-        if($data['id']==1 && $row_datas['reference_num']==0){
-            $this->session->set_userdata("warning","You must enter the reference number!");
-            $tag_id = 1;
-            // $this->load->view("order_status_list",array("tag_id"=>$tag_id));
-            //redirect(site_url("order_status_list",array("tag_id"=>$tag_id)));
-            $data['names']="A";
-            echo json_encode(array("data"=>$data));
-        }else{
 
             $bal_datas = get_rows('balance_history');
             $default_balance = get_rows('balance');
@@ -100,7 +93,7 @@ class Account extends MY_Controller
             }
             if($row_datas['itprice']>$remain_bal){
                 $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
-                redirect(site_url("home"));
+                $this->load->view("order_status_list",array("tag_id"=>$row_datas['state']));
             }
             else{
                 $this->db->set('state', $data['id']+1);
@@ -120,13 +113,23 @@ class Account extends MY_Controller
                 if($rows['state']==2){
                     $this->common_model->createData("balance_history",$insert_data);
                 }elseif($rows['state']==4){
-                    $this->common_model->createData("shipping_history",$insert_data);
+                    $shipment_num='';
+                    $shipment_num .=$this->session->userdata("member_id");
+                    $shipment_num .=date("y");
+                    $shipment_num .=date("m");
+                    $shipment_num .=date("d");
+                    $this->db->set('shipment_num', $shipment_num);
+                    $this->db->where('id', $data['order_id']);
+                    $this->db->update('orders');
+                    $shipment_data=get_row("shipping_history",array("shipment_num"=>$shipment_num));
+                    $insert_data['shipment_num']=$shipment_num;
+                    if(!$shipment_data){
+                        $this->common_model->createData("shipping_history",$insert_data);
+                    }
                 }
                 /////////////////////////////////
-                $data['names']="A";
-                echo json_encode(array("data"=>$data));
+                $this->load->view("order_status_list",array("tag_id"=>$rows['state']));
             }
-        }
     }
     public function update_order_state_reject(){
         $data = $this->input->post();
@@ -136,9 +139,12 @@ class Account extends MY_Controller
         $this->db->where('id', $data['order_id']);
         $this->db->update('orders');
 
+        $this->db->set('cancel_reason', $data['reject_reason']);
+        $this->db->where('id', $data['order_id']);
+        $this->db->update('orders');
+
         $this->session->set_userdata("success","Reject the Order!");
-        $data['names']="A";
-        echo json_encode(array("data"=>$data));
+        $this->load->view("order_status_list",array("tag_id"=>$row_datas['state']));
 
     }
     public function update_shipped_state(){
@@ -155,11 +161,11 @@ class Account extends MY_Controller
                 $remain_bal -= $bal_data['balance']; 
             }
             if($row_datas['itprice']>$remain_bal){
-                //$this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
-                redirect(site_url("home"));
+                $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+                $this->load->view("order_status_list",array("tag_id"=>$row_datas['state']));
             }
             else{
-                $this->db->set('state', 4);
+                $this->db->set('state', $row_datas['state']+1);
                 $this->db->where('id', $order_id);
                 $this->db->update('orders');
                 ///////////////////////////////inserted the purchaged order's info to balance_histroy
@@ -174,63 +180,95 @@ class Account extends MY_Controller
                 if($rows['state']==2){
                     $this->common_model->createData("balance_history",$insert_data);
                 }elseif($rows['state']==4){
-                    $this->common_model->createData("shipping_history",$insert_data);
+                    $shipment_num='';
+                    $shipment_num .=$this->session->userdata("member_id");
+                    $shipment_num .=date("y");
+                    $shipment_num .=date("m");
+                    $shipment_num .=date("d");
+                    $this->db->set('shipment_num', $shipment_num);
+                    $this->db->where('id', $order_id);
+                    $this->db->update('orders');
+                    $shipment_data=get_row("shipping_history",array("shipment_num"=>$shipment_num));
+                    $insert_data['shipment_num']=$shipment_num;
+                    if(!$shipment_data)
+                        $this->common_model->createData("shipping_history",$insert_data);
                 }
                 ///////////////////////////////
-                $return_data['names']="A";
-                $return_data['id']=4;
-                echo json_encode(array("data"=>$return_data));
+               
+                // $return_data['names']="A";
+                // $return_data['id']=4;
+                // echo json_encode(array("data"=>$return_data));
             }
         }
+        $this->load->view("order_status_list",array("tag_id"=>$rows['state']));
     }
     public function insert_referencenum(){
         $data = $this->input->post();
-        $this->db->set('reference_num', $data['reference_num']);
-		$this->db->where('id', $data['id']);
-        $this->db->update('orders');
+
+        $row_datas = get_row('orders',array('id'=>$data['order_id']));
+
+        $bal_datas = get_rows('balance_history');
+        $default_balance = get_rows('balance');
+        $remain_bal =  $default_balance[0]['balance'];
+        foreach ($bal_datas as $key => $bal_data) {
+            $remain_bal -= $bal_data['balance']; 
+        }
+        if($row_datas['itprice']>$remain_bal){
+            $this->session->set_userdata("warning","Your order balance was flow default balance, please try again");
+            $this->load->view("order_status_list",array("tag_id"=>$row_datas['state']));
+        }
+        else{
+            $this->db->set('reference_num', $data['reference_num']);
+            $this->db->where('id', $data['order_id']);
+            $this->db->update('orders');
+
+            $this->db->set('state', 2);
+            $this->db->where('id', $data['order_id']);
+            $this->db->update('orders');
+
+            $this->session->set_userdata("success","Successfully Updated!");
+            /////////////////////////////////inserted the purchaged order's info to balance_histroy
+            $rows = get_row('orders',array('id'=>$data['order_id']));
+            
+            $insert_data['balance']=$rows['itprice'];
+            $insert_data['shipping_fee']=$rows['itshippingfee'];
+            $insert_data['customer']=$rows['itcustom'];
+            $insert_data['reference_num']=$rows['reference_num'];
+            $insert_data['bal_date']=date("y-m-d ").date("h:i:s");
+            $insert_data['order_id']=$rows['id'];
+            $this->common_model->createData("balance_history",$insert_data);
+            $this->load->view("order_status_list",array("tag_id"=>$rows['state']));
+        }
+
+
         $this->session->set_userdata("success","Successfully saved order reference number");
         redirect(base_url("account/order_status_list/".$data['sel_order_id']));
     }
     public function update_order_state_cancel(){
         $data = $this->input->post();
-        $this->db->set('state',6);
+        $this->db->set('state',8);
         $this->db->set('cancel_reason',$data['cancel_reason']);
 		$this->db->where('id', $data['id']);
         $this->db->update('orders');
         $data['names']="A";
         $this->session->set_userdata("success","Successfully canceled order info");
-        redirect(base_url("account/order_status_list/"));
+        $this->load->view("order_status_list",array("tag_id"=>$rows['state']));
     }
     
     public function realcustomer_list(){
-        // $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-        // $emp_level = $member['emp_level'];
-        // if($emp_level==1)
-            $customers = get_rows("customer");
-        // else
-            // $customers = get_rows("customer",array('employee_id'=>$this->session->userdata("member_id")));
-        // if($emp_level==2)
-            // $this->load->view("home");
-        // else
-            $this->load->view("realcustomer_list",array('customers'=>$customers));
+        $customers = get_rows("customer");
+        $this->load->view("realcustomer_list",array('customers'=>$customers));
     }
     public function realcustomer_add(){
-        // $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
-        // $emp_level = $member['emp_level'];
-        // if($emp_level!=2)
-            $this->load->view("createrealcustomer");
-        // else
-            // $this->load->view("home");
+        $this->load->view("createrealcustomer");
     }
 
     public function createrealcustomer(){
-		//$insertData = array();
 		$insertData = $this->input->post();
         $insertData['en_date']=date("y-m-d ").date("h:i:s");
         $insertData['employee_id'] = $this->session->userdata("member_id");
         $this->common_model->createData("customer",$insertData);
         redirect(site_url("account/realcustomer_list"));
-         //render response data in JSON format
 	}
 
     public function createorder(){

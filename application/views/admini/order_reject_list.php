@@ -69,10 +69,11 @@
                                             
                                             <div class="row">
                                                 <div class="col-md-12" style="margin-top: 20px;">
-                                                    <table id="transaction_table" class="display" style="width:100%">
+                                                  <table id="example" class="table table-striped jambo_table bulk_action">
+                                                    <!-- <table id="transaction_table" class="display" style="width:100%"> -->
                                                         <thead>
                                                             <tr>
-                                                                <th>Item ID</th>
+                                                                <th>Order ID</th>
                                                                 <th>Item Name</th>
                                                                 <th>Item Image</th>
                                                                 <th>Item Price</th>
@@ -80,7 +81,7 @@
                                                                 <th>Item Color</th>
                                                                 <th>Sipping fee</th>
                                                                 <th>Customer</th>
-                                                                <th>Status</th>
+                                                                <th>Reaject Reason</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -100,24 +101,11 @@
                                                             echo '<td>'.$order['itcolor'].'</td>';
                                                             echo '<td>$'.$order['itshippingfee'].'</td>';
                                                             echo '<td>'.$order['itcustom'].'</td>';
-                                                            echo '<td>Reject</td>';
+                                                            echo '<td>'.$order['cancel_reason'].'</td>';
                                                             echo "</tr>";
                                                         }
                                                     ?>
                                                         </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                            <th>Item ID</th>
-                                                                <th>Item Name</th>
-                                                                <th>Item Image</th>
-                                                                <th>Item Price</th>
-                                                                <th>Item Size</th>
-                                                                <th>Item Color</th>
-                                                                <th>Sipping fee</th>
-                                                                <th>Customer</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </tfoot>
                                                     </table>
 
                                                 </div>

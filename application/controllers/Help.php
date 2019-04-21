@@ -66,22 +66,34 @@ class Help extends MY_Controller
 
     public function get_tag_table(){
         $tag_id = $this->input->post("tag_id");
-        $employee_id = $this->input->post("employee_id");
-        if($tag_id=="")$tag_id=1;
         $member = get_row("member",array("id"=>$this->session->userdata("member_id")));
         $emp_level = $member['emp_level'];
+        //$employee_id = $this->input->post("employee_id");
+        if($tag_id==""){
+            if($emp_level==2)
+                $tag_id=2;
+            else
+                $tag_id=1;
+        }
     ?>
     	<table id="ticket_table" class="display" style="width:100%">
             <thead>
                 <tr>
                     <?php 
-                        if($tag_id==3){
+                        if($tag_id==2||$tag_id==3){
                     ?>
                     <th></th>
                     <?php 
                         }
                     ?>
-                    <th>Order Number</th>
+                    <th>Order Num</th>
+                    <?php 
+                        if($tag_id>3){
+                    ?>
+                    <th>Shipment Num</th>
+                    <?php 
+                        }
+                    ?>
                     <th>Item Name</th>
                     <th>Item Image</th>
                     <?php
@@ -96,17 +108,18 @@ class Help extends MY_Controller
                     <th>ReferenceNum</th>
                     <th>Status</th>
                     <?php
-                        if($tag_id==1 && $emp_level==1){
-                            echo '<th>Edit</th>';
-                        }
+                        // if($tag_id==1 && $emp_level==1){
+                        //     echo '<th>Edit</th>';
+                        // }
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==7)
-                            echo '<th>Cancel Reason</th>';
-                        else
+                        
+                        if($tag_id<7)
                             echo '<th>Goto Next</th>';
-                        if($tag_id==4 && $emp_level==0)
+                        elseif($tag_id==8)
+                            echo '<th>Cancel Reason</th>';
+                        if($tag_id==5 && $emp_level==1)
                             echo '<th>Reject</th>';
                     ?>
                 </tr>
@@ -120,10 +133,12 @@ class Help extends MY_Controller
                         $orders = get_rows("orders",array('state'=>$tag_id));
                     foreach ($orders as $key => $order) {
                         echo "<tr data-id='".$order['id']."'>";
-                        if($tag_id==3)
+                        if($tag_id==2||$tag_id==3)
                             echo '<td><input type="checkbox" id="chbox" name="chbox" value="'.$order['id'].'"></td>';
 
                         echo '<td>'.$order['order_num'].'</td>';
+                        if($tag_id>3)
+                            echo '<td>'.$order['shipment_num'].'</td>';
                         echo '<td>'.$order['itname'].'</td>';
                         // echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "></td>';
                         echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" width="50" height="50" onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50"></td>';
@@ -138,14 +153,14 @@ class Help extends MY_Controller
                         echo '<td>'.$order['reference_num'].'</td>';
                     
                         $current_state = get_rows("order_status_list",array('id'=>$tag_id));
-                        if($tag_id<6)
+                        if($tag_id<8)
                             $next_status = get_rows("order_status_list",array('id'=>$tag_id+1));
 
                         echo '<td>'.$current_state[0]["title"].'</td>';
                     
-                        if($tag_id==1&&$emp_level==1){
-                            echo '<td><button class="btn btn-warning pull-center" id="edit_btn" >Edit</button></td>';
-                        }
+                        // if($tag_id==1&&$emp_level==1){
+                        //     echo '<td><button class="btn btn-warning pull-center" id="edit_btn" >Edit</button></td>';
+                        // }
                         if($tag_id==1&&$emp_level!=2){
                             echo '<td><button class="btn btn-warning pull-center" id="push_cancel" >Cancel</button></td>';
                         }
@@ -171,21 +186,27 @@ class Help extends MY_Controller
                         elseif($tag_id==4){
                             if($emp_level==0){
                                 echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
-                                echo '<td><button class="btn btn-warning pull-center" id="reject_btn" >Reject</button></td>';
                             }
                             else
                                 echo '<td></td>';
                         }
                         elseif($tag_id==5){
-                            if($emp_level==1)
+                            if($emp_level==1){
                                 echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
-                            else
+                                echo '<td><button class="btn btn-warning pull-center" id="reject_btn" >Reject</button></td>';
+                            }else
                                 echo '<td></td>';
                         }
                         elseif($tag_id==6){
-                            echo '<td></td>';
+                            if($emp_level==1){
+                                echo '<td><button class="btn btn-warning pull-center" id="push_btn" >'.$next_status[0]["title"].'</button></td>';
+                            }else
+                                echo '<td></td>';
                         }
-                        elseif($tag_id==7)
+                        // elseif($tag_id==7){
+                        //     echo '<td></td>';
+                        // }
+                        elseif($tag_id==8)
                             echo '<td>'.$order["cancel_reason"].'</td>';
                         
                     }
@@ -194,13 +215,20 @@ class Help extends MY_Controller
             <tfoot>
                 <tr>
                     <?php 
-                        if($tag_id==3){
+                        if($tag_id==2||$tag_id==3){
                     ?>
                     <th></th>
                     <?php 
                         }
                     ?>
-                    <th>Order Number</th>
+                    <th>Order Num</th>
+                    <?php 
+                        if($tag_id>3){
+                    ?>
+                    <th>Shipment Num</th>
+                    <?php 
+                        }
+                    ?>
                     <th>Item Name</th>
                     <th>Item Image</th>
                     <?php
@@ -215,17 +243,17 @@ class Help extends MY_Controller
                     <th>ReferenceNum</th>
                     <th>Status</th>
                     <?php
-                        if($tag_id==1 && $emp_level==1){
-                            echo '<th>Edit</th>';
-                        }
+                        // if($tag_id==1 && $emp_level==1){
+                        //     echo '<th>Edit</th>';
+                        // }
                         if($tag_id==1 && $emp_level!=2){
                             echo '<th>Cancel</th>';
                         }
-                        if($tag_id==7)
-                            echo '<th>Cancel Reason</th>';
-                        else
+                        if($tag_id<7)
                             echo '<th>Goto Next</th>';
-                        if($tag_id==4 && $emp_level==0)
+                         elseif($tag_id==8)
+                            echo '<th>Cancel Reason</th>';
+                        if($tag_id==5 && $emp_level==1)
                             echo '<th>Reject</th>';
                     ?>
                 </tr>

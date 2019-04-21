@@ -323,7 +323,7 @@ Header Section Start
                                     $output = '';
                                     if($count){
                                         foreach($shipping_datas as $shipping_data){
-                                            $output .= '<li style="color:white;">Order '.$shipping_data["order_id"].' is shipped</li>';
+                                            $output .= '<li style="color:white;">Shipment '.$shipping_data["shipment_num"].' has been shipped</li>';
                                         }
                                     }else{
                                         $output .= '<li style="color:white;"><a href="#" class="text-bold text-italic">No Noti Found</a></li>';

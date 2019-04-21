@@ -156,18 +156,11 @@
                       $tags = get_rows("order_status_list");
                       foreach ($tags as $key => $tag) {
                         $temp++;
-                        //  if($tag_id == "") $tag_id = $tag['id'];
-                          if($tag_id == "") $tag_id = 1;
-                        // if($emp_level==0)
-                        //   if($temp==2 || $temp==3 || $temp==4 || $temp==5)
-                        //     continue;
-                        // if($emp_level==1)
-                        //   if($temp==3 || $temp==4|| $temp==5)
-                        //     continue;
                         if($emp_level==2)
-                          if($temp==1 || $temp==5 || $temp==6){
+                          if($temp==1 || $temp==5 || $temp==6|| $temp==7|| $temp==8){
+                            
+                            if(!$tag_id || $tag_id ==1) $tag_id = 2;
                             continue;
-                            if($tag_id == "") $tag_id = 2;
                           }
                         
                     ?>
@@ -271,7 +264,46 @@
                         </div>
                     </div>  
                     
-                    <input type="hidden" name="id" id="sel_order_id">
+                    <input type="hidden" name="order_id" id="sel_order_id">
+
+                    <div class="form-group">
+                        <div class="" style="text-align: center;">
+                          <button type="submit" class="btn btn-info" id="submit_btn" style="">Save</button>
+                          <button type="button" class="btn btn-warning" id="remove_btn" style=" margin-left: 20px;" data-dismiss="modal">Cancel</button>
+
+                        </div>
+                    </div>
+                    
+              <div class="ln_solid"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade in" id="reject_modal" aria-hidden="false" style="display: none;">
+  <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h3 class="modal-title">Insert Reject Reason</h3>
+        </div>
+        <div class="modal-body" style="padding: 10px 0px;">
+         <!--  <img id="featureimage" src=""/> -->
+              <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/update_order_state_reject"); ?>" method="post" enctype="multipart/form-data">
+                    
+                   
+                    <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Reject Reason<span class="required">*</span>
+                        </label>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <input type="text" name="reject_reason" id="reject_reason" required="required"  class="form-control col-md-12 col-xs-12">
+                        </div>
+                    </div>  
+                    
+                    <input type="hidden" name="order_id" id="sel_reject_order_id">
 
                     <div class="form-group">
                         <div class="" style="text-align: center;">
@@ -367,38 +399,49 @@
 
         $("body").on("click","#push_btn",function(){
             var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
             var id = $("#tag_id").val();
             if(!id) id=1;
-            $.ajax({
-                url: ajax_url + "account/update_order_state",
-                data:{id:id,order_id:order_id},
-                type:"post",
-                dataType:"json",
-                success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
-                }
-            })
+            if(id!=1){
+              $.ajax({
+                  url: ajax_url + "account/update_order_state",
+                  data:{id:id,order_id:order_id},
+                  type:"post",
+                  dataType:"json",
+                  success: function(res){
+                    //console.log(ajax_url+"account/order_status_list/"+res.data.id)
+                    //document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
+                  }
+              })
+            }else{
+              selorder_id = $(this).closest("tr").data("id");
+              $("#sel_order_id").val(selorder_id);
+              $("#ticket_modal").modal();
+            }
           
         })
 
-        $("body").on("click","#reject_btn",function(){
-            var order_id = $(this).closest("tr").data("id");
-            //alert(order_id)
-            var id = $("#tag_id").val();
-            if(!id) id=1;
-            $.ajax({
-                url: ajax_url + "account/update_order_state_reject",
-                data:{id:id,order_id:order_id},
-                type:"post",
-                dataType:"json",
-                success: function(res){
-                  //console.log(ajax_url+"account/order_status_list/"+res.data.id)
-                  document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
-                }
-            })
+        // $("body").on("click","#reject_btn",function(){
+        //     var order_id = $(this).closest("tr").data("id");
+        //     //alert(order_id)
+        //     var id = $("#tag_id").val();
+        //     if(!id) id=1;
+        //     $.ajax({
+        //         url: ajax_url + "account/update_order_state_reject",
+        //         data:{id:id,order_id:order_id},
+        //         type:"post",
+        //         dataType:"json",
+        //         success: function(res){
+        //           //console.log(ajax_url+"account/order_status_list/"+res.data.id)
+        //           document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
+        //         }
+        //     })
           
+        // })
+
+        $("body").on("click","#reject_btn",function(){
+            var selorder_id = $(this).closest("tr").data("id");
+            $("#sel_reject_order_id").val(selorder_id);
+            $("#reject_modal").modal();
         })
 
         $("body").on("click","#push_cancel",function(){
@@ -407,17 +450,12 @@
             $("#cancel_modal").modal();
         })
 
-        $("body").on("click","#edit_btn",function(){
-            var selorder_id = $(this).closest("tr").data("id");
-            $("#sel_order_id").val(selorder_id);
-            $("#ticket_modal").modal();
-        })
+        // $("body").on("click","#edit_btn",function(){
+        //     var selorder_id = $(this).closest("tr").data("id");
+        //     $("#sel_order_id").val(selorder_id);
+        //     $("#ticket_modal").modal();
+        // })
 
-        // $('#push_shipped_btn').click(function(){
-        //   var getID = $('#ticket_table_view input[type="checkbox"]:checked').closest("tr").val();
-        //     alert(getID);
-        // });
-        
         $("#push_shipped_btn").on("click", function () {
           var id = $('#ticket_table_view input[type="checkbox"]:checked').map(function () {
               return $(this).val();
@@ -531,27 +569,5 @@
     })
 
 </script>
-<script>
-// Get the modal
-// var modal = document.getElementById('myModal');
-
-// // Get the image and insert it inside the modal - use its "alt" text as a caption
-// var img = document.getElementById('myImg');
-// var modalImg = document.getElementById("img01");
-// var captionText = document.getElementById("caption");
-// img.onclick = function(){ alert(123123)
-//   modal.style.display = "block";
-//   modalImg.src = this.src;
-//   captionText.innerHTML = this.alt;
-// }
-
-// // Get the <span> element that closes the modal
-// var span = document.getElementsByClassName("close")[0];
-
-// // When the user clicks on <span> (x), close the modal
-// span.onclick = function() { 
-//   modal.style.display = "none";
-// }
-// </script>
 
             

@@ -28,29 +28,55 @@ class Balancesetting extends MY_Admin_Controller {
 	public function addbalance()
 	{
 		$insert_data = $this->input->post();
-		$add_bal_str = " BALANCE ADDED $".$insert_data['balance'];
-		$default_balance = get_rows('balance');
-		$datas = get_rows('balance_history');
-		// $remain_bal =  $default_balance[0]['balance'];
-		// foreach ($datas as $key => $data) 
-		// 	$remain_bal -= $data['balance']; 
-		// echo $remain_bal;
-		// var_dump($datas);exit;
-		$insert_data['balance'] += $default_balance[0]['balance'];
-		$insert_data['id']=1;
-		$balancesetting = $this->common_model->readData("balance",array("id"=>1));
-		if($balancesetting) {
-			$this->common_model->updateData("balance",$insert_data);
-			$this->session->set_userdata("success",$add_bal_str);
-		} else {
-			$insert_data['id'] = 1;
-			 $this->common_model->createData("balance",$insert_data);
-			 $this->session->set_userdata("success",$add_bal_str);
-		}
-		$add_bal_history['add_bal']=$add_bal_str;
-		$add_bal_history['add_date']=date("y-m-d ").date("h:i:s");
-		$this->common_model->createData("add_bal_history",$add_bal_history);
-		redirect(site_url("admini/balancesetting"));
+
+		if($_FILES["photo"]["name"]){
+	        //generate unique file name
+	        $fileName = time().'_'.basename($_FILES["photo"]["name"]);
+	        //file upload path
+	        $targetDir = "assets/uploads/";
+	        $targetFilePath = $targetDir . $fileName;
+	        
+	        //allow certain file formats
+	        $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+	        $allowTypes = array('jpg','png','jpeg','gif');
+	        
+	        if(in_array(strtolower($fileType), $allowTypes)){
+	            //upload file to server
+	            if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
+					
+	                $add_bal_str = " BALANCE ADDED $".$insert_data['balance'];
+					$default_balance = get_rows('balance');
+					$datas = get_rows('balance_history');
+					$insert_data['balance'] += $default_balance[0]['balance'];
+					$insert_data['id']=1;
+					$balancesetting = $this->common_model->readData("balance",array("id"=>1));
+					if($balancesetting) {
+						$this->common_model->updateData("balance",$insert_data);
+						$this->session->set_userdata("success",$add_bal_str);
+					} else {
+						$insert_data['id'] = 1;
+						$this->common_model->createData("balance",$insert_data);
+						$this->session->set_userdata("success",$add_bal_str);
+					}
+					$add_bal_history['add_bal']=$add_bal_str;
+					$add_bal_history['photo'] = $fileName;
+					$add_bal_history['add_date']=date("y-m-d ").date("h:i:s");
+					$this->common_model->createData("add_bal_history",$add_bal_history);
+					redirect(site_url("admini/balancesetting"));
+	            }else{
+	                $error = 'err';
+	                echo $error;
+	            }
+	        }else{
+	            $error = 'type_err';
+	            echo $error;
+	        }
+	    } else {
+			$this->session->set_userdata('warning', "You must uplaod the picture!");
+            redirect(site_url("admini/balancesetting"));
+	    }
+
+		
 	}
 
 	public function Add()

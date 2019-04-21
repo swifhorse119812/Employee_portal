@@ -53,18 +53,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <form id="create_balance" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("admini/balancesetting/addbalance"); ?>" method="post" enctype="multipart/form-data">
-                      <!-- <div class="form-group"> -->
-                        <!-- <div class="col-md-4">
-                        </div> -->
-                        <!-- <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload file<span class="required">*</span>
-                        </label>
-                        <div class="col-md-4">
-                          <div id="image-preview">
-                            <label for="image-upload" id="image-label">Choose Image</label>
-                            <input type="file" name="photo" id="image-upload" />
-                          </div>
-                        </div> -->
-                      <!-- </div> -->
 
                       <div class="col-md-4">
                           <div class="form-group">
@@ -125,6 +113,7 @@
                           <tr class="headings" style="background-color:#24652e">
                             <th class="column-title">No</th>
                             <th class="column-title">Date </th>
+                            <th class="column-title">Image </th>
                             <th class="column-title">Add Balance History </th>
                             <!-- <th class="column-title">Already </th>
                             <th class="column-title">Price </th>
@@ -156,41 +145,11 @@
                             <?php echo $data['add_date']; ?>
                             </td>
                             <td>
+                              <img src="<?php echo base_url()."assets/uploads/".$data['photo']; ?>" width= 50px; height=50px  onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50" />
+                            </td>
+                            <td>
                             <?php echo $data['add_bal']; ?>
                             </td>
-                            <!-- <td>$
-                             <?php echo $balance1; ?>
-                            </td>
-                            <td>$
-                            <?php echo $data['balance']; ?>
-                            </td>
-                            <td>$
-                             <?php echo $balance; ?>
-                            </td> -->
-                            
-                            <!-- <td>
-                              <img src="<?php echo base_url()."assets/uploads/".$user['photo']; ?>" style="width: 50px; height:50px  "/>
-                             
-                            </td>
-                            <td>
-                                <?php 
-                                  if($user['roll'] == 1) echo "Super Admin";
-                                  else if($user['roll'] == 2) echo "Admin";
-                                  else echo "Inactive";
-                                ?>
-                            </td>
-                            <td>
-                              <?php echo $user['date']; ?>
-                            </td>
-                            <td >
-                            
-                              <a data-id=" <?php echo $user["id"]?> " class="btn btn-round btn-default user-edit">
-                                      <i class="fa fa-edit blue"></i> Edit
-                                     </a>
-                              <a data-id="<?php echo $user["id"]?>" class="btn btn-round btn-default user-delete">
-                      <i class="fa fa-remove red"></i> delete
-                    </a>
-                            </td> -->
                           </tr>
                         <?php } ?>
                         </tbody>
