@@ -88,9 +88,10 @@ class Help extends MY_Controller
                     ?>
                     <th>Order Num</th>
                     <?php 
-                        if($tag_id>3){
+                        if($tag_id>3&& $tag_id<8){
                     ?>
                     <th>Shipment Num</th>
+                    <th>Shipped Date</th>
                     <?php 
                         }
                     ?>
@@ -137,8 +138,10 @@ class Help extends MY_Controller
                             echo '<td><input type="checkbox" id="chbox" name="chbox" value="'.$order['id'].'"></td>';
 
                         echo '<td>'.$order['order_num'].'</td>';
-                        if($tag_id>3)
+                        if($tag_id>3&& $tag_id<8){
                             echo '<td>'.$order['shipment_num'].'</td>';
+                            echo '<td>'.$order['shipped_date'].'</td>';
+                        }
                         echo '<td>'.$order['itname'].'</td>';
                         // echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" style="width: 50px; height:50px "></td>';
                         echo '<td> <img src="'.base_url().'assets/uploads/'.$order["photo"].'" width="50" height="50" onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50"></td>';
@@ -223,9 +226,10 @@ class Help extends MY_Controller
                     ?>
                     <th>Order Num</th>
                     <?php 
-                        if($tag_id>3){
+                        if($tag_id>3 && $tag_id<8){
                     ?>
                     <th>Shipment Num</th>
+                    <th>Shipped Date</th>
                     <?php 
                         }
                     ?>

@@ -306,6 +306,7 @@ Header Section Start
                         <div class="dropdown-menu">
                             <ul>
                                 <li><a href="<?php echo site_url("/account/order_status_list"); ?>">Order State List</a></li>
+                                <li><a href="<?php echo site_url("/account/shipment"); ?>">Shipment</a></li>
                                 <li><a href="<?php echo site_url("/account/order"); ?>">Add Order</a></li>
                             </ul>
                         </div>

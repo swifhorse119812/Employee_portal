@@ -25,13 +25,10 @@
                     ?>
                     <div class="title">
                         Tracking Orders
-                        <!-- <button class="btn btn-success pull-right" id="add_product">+ Create Product</button> -->
                     </div>
                     
                     <div class="row">
                          <div class="col-md-12" style="margin-top: 20px;">
-                            <!-- <table id="transaction_table" class="display" style="width:100%"> -->
-                            <!-- <table id="" class="display table table-striped bulk_action" style="width:100%"> -->
                             <table id="transaction_table"  class="display" style="width:100%">
                                 <thead>
                                     <tr>
@@ -44,9 +41,10 @@
                                 </thead>
                                 <tbody>
                              <?php
-                                //$orders = get_rows("orders",array("user_id"=>$this->session->userdata("member_id")));
                                 $orders = get_rows("orders");
                                 foreach ($orders as $key => $order) {
+                                    if($order['state']==0)
+                                      continue;
                                     echo "<tr data-id='".$order['id']."'>";
                                     echo '<td>'.$order['order_num'].'</td>';
                                     echo '<td>'.$order['date'].'</td>';

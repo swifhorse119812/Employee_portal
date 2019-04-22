@@ -76,6 +76,15 @@ class Account extends MY_Controller
     public function order_list(){
         $this->load->view("order_list");
     }
+    public function shipment(){
+        $this->load->view("shipment");
+    }
+    // 
+    public function shipment_details($shipped_datas){
+        $shipment_data = get_row("shipping_history",array("id"=>$shipped_datas));
+        $shipped_datas = get_rows("orders",array("shipment_num"=>$shipment_data['shipment_num']));
+        $this->load->view("shipment_details",array("shipped_datas"=>$shipped_datas));
+    }
     public function order_status_list($tag_id=""){ 
         if(!$tag_id)$tag_id = 1;
         //if($tag_id!=1){echo $tag_id;exit;}
@@ -114,11 +123,15 @@ class Account extends MY_Controller
                     $this->common_model->createData("balance_history",$insert_data);
                 }elseif($rows['state']==4){
                     $shipment_num='';
-                    $shipment_num .=$this->session->userdata("member_id");
+                    //$shipment_num .=$this->session->userdata("member_id");
                     $shipment_num .=date("y");
                     $shipment_num .=date("m");
                     $shipment_num .=date("d");
+                    $shipped_date = date("y-m-d");
                     $this->db->set('shipment_num', $shipment_num);
+                    $this->db->where('id', $data['order_id']);
+                    $this->db->update('orders');
+                    $this->db->set('shipped_date', $shipped_date);
                     $this->db->where('id', $data['order_id']);
                     $this->db->update('orders');
                     $shipment_data=get_row("shipping_history",array("shipment_num"=>$shipment_num));
@@ -133,13 +146,17 @@ class Account extends MY_Controller
     }
     public function update_order_state_reject(){
         $data = $this->input->post();
+        if($data['reject_reason'])
+            $reject_reason=$data['reject_reason'];
+        else
+            $reject_reason = $data['roll'];
         $row_datas = get_row('orders',array('id'=>$data['order_id']));
             
         $this->db->set('state', 0);
         $this->db->where('id', $data['order_id']);
         $this->db->update('orders');
 
-        $this->db->set('cancel_reason', $data['reject_reason']);
+        $this->db->set('cancel_reason', $reject_reason);
         $this->db->where('id', $data['order_id']);
         $this->db->update('orders');
 
@@ -181,11 +198,15 @@ class Account extends MY_Controller
                     $this->common_model->createData("balance_history",$insert_data);
                 }elseif($rows['state']==4){
                     $shipment_num='';
-                    $shipment_num .=$this->session->userdata("member_id");
+                    //$shipment_num .=$this->session->userdata("member_id");
                     $shipment_num .=date("y");
                     $shipment_num .=date("m");
                     $shipment_num .=date("d");
+                    $shipped_date = date("y-m-d");
                     $this->db->set('shipment_num', $shipment_num);
+                    $this->db->where('id', $order_id);
+                    $this->db->update('orders');
+                    $this->db->set('shipped_date', $shipped_date);
                     $this->db->where('id', $order_id);
                     $this->db->update('orders');
                     $shipment_data=get_row("shipping_history",array("shipment_num"=>$shipment_num));
@@ -277,6 +298,8 @@ class Account extends MY_Controller
         $insertData['date']=date("y-m-d ").date("h:i:s") ;
         $insertData['reference_num']=0;
         $insertData['employee_id'] = $this->session->userdata("member_id");
+        $insertData['order_num']='';
+        $insertData['order_num'] .=$insertData['employee_id'].date("y").date("m").date("d");
 
         $user_id = $this->session->userdata("member_id");
         $rows=get_rows('orders',array('employee_id'=>$user_id));

@@ -46,7 +46,7 @@
               <div class="">
                 <h3> Reject Oders List </h3>
                 <!-- <a class="btn btn-round btn-danger navbar-right" id="btn_print"> Print </a> -->
-                <button class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
+                <button type="hidden" class="btn btn-sm pull-right btn-default" type="submit">Print Item</button>
               </div>
             </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">

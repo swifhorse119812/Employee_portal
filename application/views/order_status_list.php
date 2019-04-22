@@ -294,12 +294,25 @@
          <!--  <img id="featureimage" src=""/> -->
               <form id="create_ticket" name="create_ticket" data-parsley-validate class="form-horizontal form-label-left" action="<?php echo site_url("account/update_order_state_reject"); ?>" method="post" enctype="multipart/form-data">
                     
-                   
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Reject Reason</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label>
+                            <select class="select2_single form-control col-md-7 col-xs-12" name="roll" id="roll">
+                              <option>Item arrived too late</option>
+                              <option>Wrong Color/Size ordered</option>
+                              <option>Wrong Item ordered</option>
+                            </select>
+                          </label>
+                      </div>
+                    </div>
+                    <hr>
                     <div class="form-group" style="padding: 20px; padding-bottom: 10px;">
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Reject Reason<span class="required">*</span>
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="name" style="text-align: left;">Somthing Else Write Here.</span>
                         </label>
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                          <input type="text" name="reject_reason" id="reject_reason" required="required"  class="form-control col-md-12 col-xs-12">
+                          <input type="text" name="reject_reason" id="reject_reason" class="form-control col-md-12 col-xs-12">
                         </div>
                     </div>  
                     
@@ -408,6 +421,7 @@
                   type:"post",
                   dataType:"json",
                   success: function(res){
+                    console.log("success");
                     //console.log(ajax_url+"account/order_status_list/"+res.data.id)
                     //document.location.replace(ajax_url+"account/order_status_list/"+res.data.id);
                   }

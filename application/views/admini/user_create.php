@@ -132,7 +132,6 @@
               </div>
                         <div id="step-2">
 
-                        
                       <div class="item form-group">
                        <div class="ln_solid"></div>
                          <div class="form-group">
