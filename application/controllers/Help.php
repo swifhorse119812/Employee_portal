@@ -151,7 +151,8 @@ class Help extends MY_Controller
                             echo '<td>'.$order['itsize'].'</td>';
                             echo '<td>'.$order['itcolor'].'</td>';
                             echo '<td>$'.$order['itshippingfee'].'</td>';
-                            echo '<td>'.$order['itcustom'].'</td>';
+                            $customer = get_row('customer',array('id'=>$order['itcustom']));
+                            echo '<td>'.$customer['firstname'].' '.$customer['lastname'].'</td>';
                         }
                         echo '<td>'.$order['reference_num'].'</td>';
                     

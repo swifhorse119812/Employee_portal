@@ -36,6 +36,7 @@
                                         <th>Shipment Number</th>
                                         <th>Order Number</th>
                                         <th>Reference Number</th>
+                                        <th>Photo</th>
                                         <th>Customer</th>
                                         <th>Shipped Date</th>
                                     </tr>
@@ -49,7 +50,10 @@
                                     echo '<td>'.$shipped_data['shipment_num'].'</td>';
                                     echo '<td>'.$shipped_data['order_num'].'</td>';
                                     echo '<td>'.$shipped_data['reference_num'].'</td>';
-                                    echo '<td>'.$shipped_data['itcustom'].'</td>';
+                                    echo '<td> <img src="'.base_url().'assets/uploads/'.$shipped_data["photo"].'" width="50" height="50" onmouseover= "this.width=400;this.height=400;" onmouseout="this.width=50;this.height=50"></td>';
+                                    // echo '<td>'.$shipped_data['itcustom'].'</td>';
+                                    $customer = get_row('customer',array('id'=>$shipped_data['itcustom']));
+                                    echo '<td>'.$customer['firstname'].' '.$customer['lastname'].'</td>';
                                     echo '<td>'.$shipped_data['shipped_date'].'</td>';
                                     echo "</tr>";
                                 }

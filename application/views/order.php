@@ -92,7 +92,7 @@
                                        $fullname = $customer['firstname'];
                                        $fullname .= " "; 
                                        $fullname .= $customer['lastname'];
-                                        echo '<option value="'.$fullname.'">'.$fullname.'</option>';
+                                        echo '<option value="'.$customer['id'].'">'.$fullname.'</option>';
                                     }
                                 ?>
                               </select>

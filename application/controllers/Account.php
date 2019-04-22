@@ -299,7 +299,7 @@ class Account extends MY_Controller
         $insertData['reference_num']=0;
         $insertData['employee_id'] = $this->session->userdata("member_id");
         $insertData['order_num']='';
-        $insertData['order_num'] .=$insertData['employee_id'].date("y").date("m").date("d");
+        $insertData['order_num'] .=$insertData['itcustom'].$insertData['employee_id'].date("y").date("m").date("d");
 
         $user_id = $this->session->userdata("member_id");
         $rows=get_rows('orders',array('employee_id'=>$user_id));
